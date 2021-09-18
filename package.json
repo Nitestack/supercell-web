@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "clashofclans.js": "github:clashperk/clashofclans.js",
+    "clashofclans.js": "^1.5.2",
     "cookie-parser": "^1.4.5",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
