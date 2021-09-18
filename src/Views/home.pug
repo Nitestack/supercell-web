@@ -1,0 +1,101 @@
+- const subTitle = "Home";
+
+doctype
+html(lang='en')
+    head
+        include Includes/header
+        script(src="/JS/home.js", defer)
+    body
+        include Includes/navbar
+        .jumbotron.text-center.bg-transparent
+            #image
+            h1.display-3 NightClash
+            p.lead NightClash is a community upgrade and stats tracker!
+            model-viewer(src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" alt="A 3D model of an astronaut" ar ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate camera-controls, style="--poster-color: transparent; display: none;")
+            .container(style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
+                //- #carouselInterval.carousel.slide(data-bs-ride='carousel')
+                //-     .carousel-inner
+                //-         .carousel-item.active(data-bs-interval='10000')
+                //-             img.d-block.w-100(src='...', alt='...')
+                //-         .carousel-item(data-bs-interval='2000')
+                //-             img.d-block.w-100(src='...', alt='...')
+                //-         .carousel-item
+                //-             img.d-block.w-100(src='...', alt='...')
+                //-     button.carousel-control-prev(type='button', data-bs-target='#carouselInterval', data-bs-slide='prev')
+                //-         span.carousel-control-prev-icon(aria-hidden='true')
+                //-         span.visually-hidden Previous
+                //-     button.carousel-control-next(type='button', data-bs-target='#carouselInterval', data-bs-slide='next')
+                //-         span.carousel-control-next-icon(aria-hidden='true')
+                //-         span.visually-hidden Next
+                h1 Clash of Clans
+                .container(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697; padding: 50px;")
+                    .row 
+                        .col
+                            h3#cwlTitle CWL
+                            p.coc-description#cwlDate
+                            p#cwl
+                        .col 
+                            h3#clanGamesTitle Clan Games
+                            p.coc-description#clanGamesDate
+                            p#clanGames
+                        .col 
+                            h3#cocLeagueResetTitle League Season
+                            p.coc-description#cocLeagueResetDate
+                            p#cocLeagueReset
+                        .col
+                            h3#cocSeasonEndTitle Season Pass
+                            p.coc-description#cocSeasonEndDate
+                            p#cocSeasonEnd
+                h1.brawl-stars Brawl Stars
+                .container(style="background-color: #0F3CBB; border-radius: 7px; border: 1px solid #0E309E; padding: 50px;")
+                    .row 
+                        .col 
+                            h3.brawl-stars#bsLeagueResetTitle Trophy League
+                            p.brawl-stars#bsLeagueResetDate
+                            p.brawl-stars#bsLeagueReset
+                        .col 
+                            h3.brawl-stars#bsSeasonEndTitle Brawl Pass
+                            p.brawl-stars#bsSeasonEndDate
+                            p.brawl-stars#bsSeasonEnd
+                        .col 
+                            h3.brawl-stars#powerLeagueTitle Power League
+                            p.brawl-stars#powerLeagueDate
+                            p.brawl-stars#powerLeague
+                    .row(style="justify-content: center;")
+                        - function shortener(text) { const textArray = text.split(" "); for (const t of textArray) if (t.includes("s") && t.includes(".")) textArray.splice(textArray.indexOf(t), 1, `${t.split(".")[0]}s`); return textArray.slice(0, 2).join(" "); };
+                        each item in maps
+                            .map
+                                .timer.brawl-stars(data-end-time=item.endTime) New Event in: #{shortener(convertTime(item.endTime - Date.now(), true))}
+                                .description.brawl-stars(class=`${item.event.mode == "Showdown+" ? "showdown-plus" : item.event.mode.toLowerCase().replace(/ /g, "-")}`)
+                                    img(src=`/Images/Brawl Stars/Mode/${item.event.mode.toLowerCase().includes("showdown") ? "Showdown" : item.event.mode}.png`)
+                                    .titles 
+                                        .game-mode #{item.event.mode}
+                                        .map-name #{item.event.map}
+                                .background-image(style="background-image: url('https://cdn.brawlify.com/environment/Brawlball.png');")
+                h1 Clash Royale
+                .container(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697; padding: 50px;")
+                    .row 
+                        .col 
+                            h3#crLeagueResetTitle League Season
+                            p#crLeagueResetDate
+                            p#crLeagueReset
+                        .col
+                            h3#crSeasonEndTitle Pass Royale
+                            p#crSeasonEndDate
+                            p#crSeasonEnd 
+                h1.boom-beach Boom Beach 
+                .container(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697; padding: 50px;")
+                    .row 
+                        .col 
+                            h3.boom-beach#tribeBoostTitle Tribe Boosts
+                            p.boom-beach#tribeBoostDate
+                            p.boom-beach#tribeBoost
+                        .col 
+                            h3.boom-beach#bbSeasonEndTitle Warship Season 
+                            p.boom-beach#bbSeasonEndDate 
+                            p.boom-beach#bbSeasonEnd
+                        .col 
+                            h3.boom-beach#megaCrabTitle Mega Crab 
+                            p.boom-beach#megaCrabDate 
+                            p.boom-beach#megaCrab
+        include Includes/footer

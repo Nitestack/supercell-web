@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <input id="imageSRC" type="text"> Insert the image source
+    <input id="imageMin" type="number"> Insert beginning
+    <input id="imageMax" type="number"> Insert ending
+    <button id="submitButton"> Submit </button>
+    <script>
+        document.getElementById("submitButton").onclick = function () {
+            for (let i = parseInt(document.getElementById("imageMin").value); i <= parseInt(document.getElementById("imageMax").value); i++) {
+                fetch(document.getElementById("imageSRC").value + `${i}.png`).then(image => {
+                    image.blob().then(imageBlob => {
+                        const imageURL = URL.createObjectURL(imageBlob);
+                        const link = document.createElement('a')
+                        link.href = imageURL
+                        link.download = `${i}.png`;
+                        document.body.appendChild(link)
+                        link.click();
+                        document.body.removeChild(link)
+                    });
+                }).catch(err => console.error("Fetch Failed!", err));
+            };
+        };
+    </script>
+</body>
+</html>

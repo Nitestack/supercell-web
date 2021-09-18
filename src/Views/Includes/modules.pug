@@ -1,0 +1,434 @@
+include mixins
+include constants
+
+//- OVERVIEW MODULE
+section#overviewModule.module.container
+    .container(style="background: linear-gradient(#8A94AD, #6A7798); margin-top: 12px; padding: 12px; border-radius: 9px; border: 1px solid #7986A7;")
+        .row 
+            .col
+                h5.price-item Troops
+                div 
+                    each item in village == "home" ? [...homeTroopsArray, ...homeDarkTroopsArray] : builderTroopsArray
+                        +unitIcon(item, "Troops", "troop")
+        .row
+            if village == "home"
+                .col
+                    h5.price-item Spells
+                    div 
+                        each item in homeSpellsArray
+                            +unitIcon(item, "Spells", "spell")
+            if village == "home"
+                .col
+                    h5.price-item Siege Machines
+                    div 
+                        each item in homeSiegeMachinesArray 
+                            +unitIcon(item, "Siege Machines", "siegeMachine")
+        .row 
+            .col 
+                h5.price-item Heroes
+                div 
+                    each item in village == "home" ? homeHeroesArray : ["Battle Machine"]
+                        +unitIcon(item, "Heroes", "hero")
+            if village == "home"
+                .col 
+                    h5.price-item Pets 
+                    div
+                        each item in homePetsArray 
+                            +unitIcon(item, "Pets", "pet")
+    +displayAllAchievements()
+//- DEFENSES MODULE
+section#defensesModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Defense 
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            each item in (village == "home" ? homeDefensesArray : builderDefensesArray)
+                if itemInHall(item)
+                    - let numberArray = [];
+                    +createTableContent(item, "Defenses", getNumberArray(item), "Defenses")
+//- TRAPS MODULE
+section#trapsModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Trap
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            each item in (village == "home" ? homeTrapsArray : builderTrapsArray)
+                if itemInHall(item)
+                    - let numberArray = [];
+                    +createTableContent(item, "Traps", getNumberArray(item), "Traps")
+//- RESOURCES MODULE
+section#resourcesModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Resource
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            each item in (village == "home" ? homeResourcesArray : builderResourcesArray)
+                if itemInHall(item)
+                    - let numberArray = [];
+                    +createTableContent(item, "Resources", getNumberArray(item), "Resources")
+//- ARMY MODULE
+section#armyModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")
+                    div(align="middle") Army
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            each item in (village == "home" ? homeArmyArray : builderArmyArray)
+                if itemInHall(item)
+                    - let numberArray = [];
+                    +createTableContent(item, "Army", getNumberArray(item), "Army")
+//- WALLS MODULE
+section#wallsModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col") 
+                    div(align="middle") Wall
+                th.align-middle(scope="col") 
+                    div(align="middle") Quantity
+                th.align-middle(scope="col") 
+                    div(align="middle") Upgrade Info
+        tbody 
+            - const lowestWall = min(Object.keys(database[village == "home" ? "homeVillage" : "builderBase"].Walls));
+            - const numberArray = [];
+            - const hallItem = village == "home" ? townHall.wall : builderHall.wall;
+            - const hallItemMaxLevel = hallItem.maxLevel ? hallItem.maxLevel : player.builderHallLevel;
+            - const hallItemAmount = hallItem.amount ? hallItem.amount : hallItem;
+            - for (let i = lowestWall; i <= (village == "home" ? hallItemMaxLevel : player.builderHallLevel); i++) numberArray.push(i);
+            each item in numberArray
+                - const wallItem = (village == "home" ? home : builder).find(element => element.name == "Wall");
+                - const dataBaseItem = database[village == "home" ? "homeVillage" : "builderBase"].Walls;
+                tr
+                    td.align-middle(style="width: 130px;")
+                        .center-image
+                            img(src="/Images/Clash of Clans/" + (village == "home" ? "Home" : "Builder") + "/Defenses/Wall/" + item + ".png", style="height: 70px;")
+                        p.lead.coc-description(style="color: green; font-size: 21px;", align="center") Level #{item}
+                    td.align-middle
+                        h1.coc-description.price-item(align="middle") #{dataBaseItem[item] || 0}
+                    td.align-middle(class=(hallItemMaxLevel == parseInt(item) ? null : "total " + wallItem.type), level=item, itemName="Wall", maxLeveL=(village == "home" ? townHall.wall.maxLevel : (builderHall.wall.maxLevel ? builderHall.wall.maxLevel : player.builderHallLevel)), amount=dataBaseItem[item] || 0)
+                        .container 
+                            .row 
+                                if parseInt(item) != (village == "home" ? hallItemMaxLevel : player.builderHallLevel)
+                                    .col
+                                        div.price-item Lv. #{parseInt(item) + 1}
+                                    .col
+                                        div.price-item(align="right") #{convertPrice(wallItem.levels[parseInt(item)].calculateSeasonBoostCosts(database.builderSeasonBoost))}
+                                            if wallItem.costType == "gold"
+                                                img(src="/Images/Clash of Clans/Home/Gold.png", style="max-width: 20px;")
+                                            else if wallItem.levels[parseInt(item)].costType == "builderGold"
+                                                img(src="/Images/Clash of Clans/Builder/Builder Gold.png", style="max-width: 20px;")
+                                            else if wallItem.levels[parseInt(item)].costType == "builderGoldAndElixir" || wallItem.levels[parseInt(item)].costType == "goldAndElixir"
+                                                img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="max-width: 20px;")
+                                    .col 
+                                        div.price-item(align="right") #{convertPrice((dataBaseItem[item] || 0) * wallItem.levels[parseInt(item)].calculateSeasonBoostCosts(database.builderSeasonBoost))}
+                                            if wallItem.levels[parseInt(item)].costType == "gold"
+                                                img(src="/Images/Clash of Clans/Home/Gold.png", style="max-width: 20px;")
+                                            else if wallItem.levels[parseInt(item)].costType == "builderGold"
+                                                img(src="/Images/Clash of Clans/Builder/Builder Gold.png", style="max-width: 20px;")
+                                            else if wallItem.levels[parseInt(item)].costType == "builderGoldAndElixir" || wallItem.levels[parseInt(item)].costType == "goldAndElixir"
+                                                img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="max-width: 20px;")
+                                    .col 
+                                        if (dataBaseItem[item] || 0) != 0
+                                            div.price-item(align="right")
+                                                .btn-group
+                                                    input.coc-description.form-control(id="inputWall" + parseInt(item), type="number", min=1, max=dataBaseItem[item], value=1, style="font-size: 20px;")
+                                                    input.upgrade-button(type="image", src="/Images/Clash of Clans/Upgrade.png", onclick=`upgradeWall(${parseInt(item)}, "${village}", "${player.tag}", 1)`)
+//- HEROES MODULE
+section#heroesModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Hero
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            if village == "home"
+                each item in homeHeroesArray
+                    if itemInHall(item)
+                        - const hero = player.heroes.find(hero => hero.name.toLowerCase() == item.toLowerCase());
+                        - let numberArray = [];
+                        - if (hero) numberArray.push(hero.level); else numberArray.push(0);
+                        +createTableContent(item, "Heroes", numberArray, "Heroes")
+            else 
+                +createTableContent("Battle Machine", "Army", [player.heroes.find(hero => hero.name == "Battle Machine").level], "Heroes")
+//- PETS MODULE
+section#petsModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Pet
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            if village == "home"
+                each item in homePetsArray
+                    if itemInHall(item)
+                        - const pet = player.troops.find(pet => pet.name.toLowerCase() == item.toLowerCase());
+                        - let numberArray = [];
+                        - if (pet) numberArray.push(pet.level); else numberArray.push(0);
+                        +createTableContent(item, "Pets", numberArray, "Pets")
+//- SPELLS MODULE
+section#spellsModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Spell
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            if village == "home"
+                each item in homeSpellsArray
+                    if itemInHall(item)
+                        - const spell = player.spells.find(spell => spell.name.toLowerCase() == item.toLowerCase());
+                        - let numberArray = [];
+                        - if (spell) numberArray.push(spell.level); else numberArray.push(0);
+                        +createTableContent(item, "Spells", numberArray, "Spells")
+//- SIEGE MACHINES MODULE
+section#siegemachinesModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Siege Machine
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            if village == "home"
+                each item in homeSiegeMachinesArray
+                    if itemInHall(item)
+                        - const siegeMachine = player.troops.find(siegeMachine => siegeMachine.name.toLowerCase() == item.toLowerCase());
+                        - let numberArray = [];
+                        - if (siegeMachine) numberArray.push(siegeMachine.level); else numberArray.push(0);
+                        +createTableContent(item, "Siege Machines", numberArray, "Siege Machines")
+//- TROOPS MODULE
+section#troopsModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Troop
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody 
+            each item in (village == "home" ? homeTroopsArray : builderTroopsArray)
+                if itemInHall(item)
+                    - const troop = player.troops.find(troop => troop.name.toLowerCase() == item.toLowerCase() && troop.village == (village == "home" ? "home" : "builderBase"));
+                    - let numberArray = [];
+                    - if (troop) numberArray.push(troop.level); else numberArray.push(0);
+                    +createTableContent(item, "Troops", numberArray, "Troops")
+//- DARK TROOPS MODULE
+section#darktroopsModule.module.container
+    table.table.table-striped.table-hover
+        thead
+            tr 
+                th.align-middle(scope="col")  
+                    div(align="middle") Dark Troop
+                th.align-middle(scope="col")  
+                    div(align="middle") Upgrade Info
+                th.align-middle(scope="col")  
+                    div(align="middle") Level
+        tbody
+            if village == "home"
+                each item in homeDarkTroopsArray
+                    if itemInHall(item)
+                        - const troop = player.troops.find(troop => troop.name.toLowerCase() == item.toLowerCase());
+                        - let numberArray = [];
+                        - if (troop) numberArray.push(troop.level); else numberArray.push(0);
+                        +createTableContent(item, "Troops", numberArray, "Dark Troops")
+section#statsModule.module.container
+    - const hallLevel = village == "home" ? player.townHallLevel : player.builderHallLevel;
+    - const labLevel = (village == "home" ? townHall : builderHall)["laboratory" || "starLaboratory"]?.maxLevel || hallLevel;
+    - const petHouseLevel = village == "home" && hallLevel >= 14 ? townHall.petHouse.maxLevel : null;
+    - const wallLevel = (village == "home" ? townHall : builderHall)["wall"]?.maxLevel || hallLevel;
+    table.table.table-striped.table-hover 
+        thead 
+            tr 
+                th.align-middle(scope="col") 
+                    div(align="center") Section
+                th.align-middle(scope="col") 
+                    div(align="center") Costs 
+                th.align-middle(scope="col")
+                    div(align="center") Time
+        tbody
+            //-STRUCTURES
+            if statsTotal["totalStructuresCosts"]
+                - const structuresCostTypes = Object.keys(statsTotal["totalStructuresCosts"]);
+                tr 
+                    td.align-middle(rowspan=structuresCostTypes.length)
+                        p.lead.item-display(align="center") Structures
+                        .center-image
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (village == "home" ? "Town Hall" : "Builder Hall") + "/" + hallLevel + ".png", style="height: 70px;")
+                    td.align-middle
+                        .price-item(align="right") #{convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[0]])}
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (structuresCostTypes[0][0].toUpperCase() + structuresCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+                    td.align-middle(rowspan=structuresCostTypes.length)
+                        div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalStructuresTime"])}
+                if structuresCostTypes[1]
+                    tr 
+                        td.align-middle
+                            .price-item(align="right") #{convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[1]])}
+                                img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (structuresCostTypes[1][0].toUpperCase() + structuresCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+                if structuresCostTypes[2]
+                    tr 
+                        td.align-middle
+                            .price-item(align="right") #{convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[2]])}
+                                img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (structuresCostTypes[2][0].toUpperCase() + structuresCostTypes[2].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+            //-LABORATORY
+            if ((village == "home" && hallLevel >= 3) || village == "builder") && statsTotal["totalLaboratoryCosts"]
+                - const labCostTypes = Object.keys(statsTotal["totalLaboratoryCosts"]);
+                tr
+                    td.align-middle(rowspan=labCostTypes.length)
+                        p.lead.item-display(align="center") #{village == "builder" ? "Star" : ""} Laboratory
+                        .center-image
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/Army/" + (village == "home" ? "Laboratory" : "Star Laboratory") + "/" + labLevel + ".png", style="height: 70px;")
+                    td.align-middle
+                        .price-item(align="right") #{convertNumber(statsTotal["totalLaboratoryCosts"][labCostTypes[0]])}
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (labCostTypes[0][0].toUpperCase() + labCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+                    td.align-middle(rowspan=labCostTypes.length)
+                        div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalLaboratoryTime"])}
+                if labCostTypes[1]
+                    tr 
+                        td.align-middle
+                            .price-item(align="right") #{convertNumber(statsTotal["totalLaboratoryCosts"][labCostTypes[1]])}
+                                img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (labCostTypes[1][0].toUpperCase() + labCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+            //-HEROES
+            if ((village == "home" && hallLevel >= 7) || (village == "builder" && hallLevel >= 5)) && statsTotal["totalHeroCosts"]
+                - const heroCostTypes = Object.keys(statsTotal["totalHeroCosts"]);
+                tr
+                    td.align-middle(rowspan=heroCostTypes.length)
+                        p.lead.item-display(align="center") Hero#{village == "home" && hallLevel >= 9 ? "es" : ""}
+                        .center-image
+                            img(src="/Images/Clash of Clans/Hero.png", style="height: 50px;")
+                    td.align-middle
+                        .price-item(align="right") #{convertNumber(statsTotal["totalHeroCosts"][heroCostTypes[0]])}
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (heroCostTypes[0][0].toUpperCase() + heroCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+                    td.align-middle(rowspan=heroCostTypes.length)
+                        div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalHeroTime"])}
+                if heroCostTypes[1]
+                    tr 
+                        td.align-middle
+                            .price-item(align="right") #{convertNumber(statsTotal["totalHeroCosts"][heroCostTypes[1]])}
+                                img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (heroCostTypes[1][0].toUpperCase() + heroCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+            //-PETS
+            if village == "home" && hallLevel >= 14 && statsTotal["totalPetsCosts"]
+                - const petCostTypes = Object.keys(statsTotal["totalPetsCosts"]);
+                tr 
+                    td.align-middle
+                        p.lead.item-display(align="center") Pet House
+                        .center-image
+                            img(src="/Images/Clash of Clans/Home/Army/Pet House/" + petHouseLevel + ".png", style="height: 70px;")
+                    td.align-middle
+                        .price-item(align="right") #{convertNumber(statsTotal["totalPetsCosts"][petCostTypes[0]])}
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (petCostTypes[0][0].toUpperCase() + petCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+                    td.align-middle
+                        div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalPetsTime"])}
+            //-WALLS
+            if statsTotal["totalWallCosts"]
+                - const wallCostTypes = Object.keys(statsTotal["totalWallCosts"])
+                tr 
+                    td.align-middle(rowspan=wallCostTypes.length)
+                        p.lead.item-display(align="center") Walls
+                        .center-image
+                            img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/Defenses/Wall/" + wallLevel + ".png", style="height: 70px;")
+                    td.align-middle
+                        .price-item(align="right") #{convertNumber(statsTotal["totalWallCosts"][wallCostTypes[0]])}
+                            if wallCostTypes[0].includes("And")
+                                img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
+                            else
+                                img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (wallCostTypes[0][0].toUpperCase() + wallCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+                    td.align-middle(rowspan=wallCostTypes.length)
+                        div(align="center", style="color: white;") None
+                if wallCostTypes[1]
+                    tr 
+                        td.align-middle
+                            .price-item(align="right") #{convertNumber(statsTotal["totalWallCosts"][wallCostTypes[1]])}
+                                if wallCostTypes[1].includes("And")
+                                    img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
+                                else
+                                    img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (wallCostTypes[1][0].toUpperCase() + wallCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+    table.table.table-striped.table-hover 
+        thead 
+            tr 
+                th.align-middle(scope="col")
+                    div(align="center") Resource Type 
+                th.align-middle(scope="col")
+                    div(align="center") Total 
+        tbody 
+            each item in (Object.keys(statsTotal))
+                if !item.includes("total")
+                    tr 
+                        td.align-middle
+                            .item-display(align="center") #{(item[0].toUpperCase() + item.slice(1).replace(/([A-Z]+)/g, ' $1').trim()).replace(/And/g, "and")}
+                            .center-image    
+                                if item.includes("And")
+                                    img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 70px;", align="middle")
+                                else
+                                    img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + item[0].toUpperCase() + item.slice(1).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 70px;")
+                        td.align-middle 
+                            .price-item(align="center") #{convertNumber(statsTotal[item])}
+                                if item.includes("And")
+                                    img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
+                                else
+                                    img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (item[0].toUpperCase() + item.slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
+    table.table.table-striped.table-hover 
+        thead 
+            tr 
+                th.align-middle(scope="col")
+                    div(align="center") Type 
+                th.align-middle(scope="col")
+                    div(align="center") Total
+        tbody 
+            each item in (Object.keys(statsTotal.totalTimeSections))
+                tr 
+                    td.align-middle 
+                        p.lead.item-display(align="center") #{item.toLowerCase() == "pethouse" ? "Pet House" : item[0].toUpperCase() + item.slice(1)}
+                        .center-image
+                            if item.toLowerCase() == "builder"
+                                img(src="/Images/Clash of Clans/" + (village == "home" ? "Home/Defenses/Builder's Hut/1.png" : "Master Builder's Hut.png"), style="height: 70px;", align="middle")
+                            else if item.toLowerCase() == "laboratory"
+                                img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/Army/" + (village == "home" ? "Laboratory" : "Star Laboratory") + "/" + labLevel + ".png", style="height: 70px;", align="middle")
+                            else if item.toLowerCase() == "pethouse"
+                                img(src="/Images/Clash of Clans/Home/Army/Pet House/" + petHouseLevel + ".png", style="height: 70px;", align="middle")
+                    td.align-middle 
+                        .price-item(align="center") #{convertStatsTime(statsTotal.totalTimeSections[item])}
+section#builderModule.module.container
+//- LABORATORY MODULE
+section#laboratoryModule.module.container 
+//- PET HOUSE MODULE
+section#pethouseModule.module.container

@@ -1,0 +1,18 @@
+doctype
+html(lang='en')
+    head
+        include Includes/header
+    body
+        .jumbotron.text-center.bg-transparent
+            #image
+            h1.display-3
+                div.lds-ellipsis
+                    div 
+                    div
+                    div 
+                    div
+            form(method="POST", action=action)
+                button.btn.btn-success(id="submitButton", type="submit", name=name, value=value) Redirect
+        include Includes/footer
+        script.
+            document.getElementById("submitButton").click();

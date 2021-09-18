@@ -1,0 +1,33 @@
+table.table.table-striped.table-hover 
+    thead 
+        tr 
+            th.align-middle(scope="col") 
+                div(align="center") Resource 
+            th.align-middle(scope="col") 
+                div(align="center") Total Time
+    tbody 
+        if resourceTypes.length == 0
+            tr
+                td.align-middle(rowspan=1)
+                    div.price-item Time 
+                td.align-middle(rowspan=1)
+                    div.price-item Completed
+        else
+            if resourceTypes[0]
+                tr
+                    td.align-middle
+                        div.price-item(align="right") #{convertNumber(totals[resourceTypes[0]])}
+                            if resourceTypes[0].includes("And")
+                                img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
+                            else
+                                img(src="/Images/Clash of Clans/" + (village[0].toUpperCase() + village.slice(1)) + "/" + (resourceTypes[0][0].toUpperCase() + resourceTypes[0].slice(1).replace(/([A-Z])/g, ' $1').trim()) + ".png", style="height: 20px;")
+                    td.align-middle(rowspan=resourceTypes.length)
+                        div.price-item(align="center") #{parseInt(time.charAt(0)) == 0 ? "None" : time}
+            each item in resourceTypes.slice(1)
+                tr
+                    td.align-middle
+                        div.price-item(align="right") #{convertNumber(totals[item])}
+                            if resourceTypes[0].includes("And")
+                                img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
+                            else
+                                img(src="/Images/Clash of Clans/" + (village[0].toUpperCase() + village.slice(1)) + "/" + (item[0].toUpperCase() + item.slice(1).replace(/([A-Z])/g, ' $1').trim()) + ".png", style="height: 20px;")
