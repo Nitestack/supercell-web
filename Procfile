@@ -1,1 +1,1 @@
-web: tsc & ts-node-dev --respawn --transpile-only --poll ./src/index.ts & heroku config:set NPM_CONFIG_PRODUCTION=false
+web: npm start
