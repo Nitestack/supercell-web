@@ -10,8 +10,7 @@ html(lang='en')
         .jumbotron.text-center.bg-transparent
             #image
             h1.display-3 NightClash
-            p.lead NightClash is a community upgrade and stats tracker!
-            model-viewer(src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" alt="A 3D model of an astronaut" ar ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate camera-controls, style="--poster-color: transparent; display: none;")
+            p.coc-description.lead(style="font-size: 28px;") NightClash is a community upgrade and stats tracker!
             .container(style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
                 //- #carouselInterval.carousel.slide(data-bs-ride='carousel')
                 //-     .carousel-inner
@@ -77,11 +76,11 @@ html(lang='en')
                     .row 
                         .col 
                             h3#crLeagueResetTitle League Season
-                            p#crLeagueResetDate
+                            p.cr-description#crLeagueResetDate
                             p#crLeagueReset
                         .col
                             h3#crSeasonEndTitle Pass Royale
-                            p#crSeasonEndDate
+                            p.cr-description#crSeasonEndDate
                             p#crSeasonEnd 
                 h1.boom-beach Boom Beach 
                 .container(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697; padding: 50px;")

@@ -27,7 +27,6 @@ router.get("/", async (req, res) => {
         }
     }> = response.data;
     const newEvents = [];
-    console.log(events);
     for (const element of events) if (parseDateTime(element.startTime).getTime() <= Date.now()) newEvents.push({
         ...element,
         event: {
