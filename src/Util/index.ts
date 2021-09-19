@@ -2,7 +2,7 @@ import ms from "ms";
 import humanizer from "humanize-duration";
 import prettyMS from "pretty-ms";
 import { townHall } from "../Database/Clash of Clans/Home/townHall";
-import { builderHall } from "../Database/Builder/builderHall";
+import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 
 export default class Util {
     /**
