@@ -1,4 +1,5 @@
 - const subTitle = player.name + " " + (village == "home" ? "Home Village" : "Builder Base") + " " + "Overview";
+- const upgradeTracker = "Clash of Clans";
 
 doctype
 html(lang='en')
@@ -15,7 +16,8 @@ html(lang='en')
         script(src="https://visjs.github.io/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js")
         link(href="https://visjs.github.io/vis-timeline/styles/vis-timeline-graph2d.min.css", rel="stylesheet", type="text/css")
     body
-        include ../../Includes/navbar 
+        include ../../Includes/navbar
+        include ../../Includes/upgradeTracker
         - const homeORBuilderBuilder = database[village == "home" ? "homeVillageBuilder" : "builderBaseBuilder"];
         - const homeORBuilderLab = database[(village + "Lab")];
         button#update(style="display: none;", value=`${homeORBuilderBuilder && homeORBuilderBuilder.length >= 1 ? true : (homeORBuilderLab && homeORBuilderLab.length >= 1 ? true : false)}`)

@@ -1,4 +1,5 @@
 - const subTitle = player.name + " - Overview";
+- const upgradeTracker = "Clash of Clans";
 
 doctype
 html(lang='en')
@@ -6,9 +7,7 @@ html(lang='en')
         include ../../Includes/header
     body
         include ../../Includes/navbar
-        .jumbotron.text-center.bg-transparent
-            h1.display-3 Upgrade Tracker
-            p.lead Use the Upgrade Tracker to manage your upgrades, make calender notes and more!
+        include ../../Includes/upgradeTracker
         .d-flex.justify-content-center
             .container 
                 .row 

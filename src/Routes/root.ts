@@ -64,4 +64,8 @@ router.post("/displayError", (req, res) => {
     return res.send(compileFunction());
 });
 
+router.get("/discord", (req, res) => res.redirect(""));
+router.get("/twitter", (req, res) => res.redirect(""));
+router.get("/facebook", (req, res) => res.redirect(""));
+
 export default router;

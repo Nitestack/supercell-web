@@ -26,8 +26,9 @@ app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
+//Static files
 app.use(express.static(join(__dirname, "Public")));
-app.locals.basedir = join(__dirname, "Public");
+//Using all routes
 app.use(rootRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests);
 app.all('*', (req, res) => res.render("Errors/404"));
 const port = process.env.PORT || 3000;

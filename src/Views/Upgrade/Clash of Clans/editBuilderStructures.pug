@@ -1,3 +1,6 @@
+- const subTitle = player.name + " Edit Home Village Structures";
+- const upgradeTracker = "Clash of Clans";
+
 doctype
 html(lang='en')
     head
@@ -12,9 +15,7 @@ html(lang='en')
             }
     body
         include ../../Includes/navbar
-        .jumbotron.text-center.bg-transparent
-            h1.display-3 Upgrade Tracker
-            p.lead Use the Upgrade Tracker to manage your upgrades, make calender notes and more!
+        include ../../Includes/upgradeTracker
         .d-flex.justify-content-center
             if player
                 form(method="POST", action="/upgrade-tracker/clashofclans/builder/structures/set")
