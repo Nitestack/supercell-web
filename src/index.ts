@@ -1,3 +1,13 @@
+import childProcess from "child_process";
+var oldSpawn = childProcess.spawn;
+function mySpawn() {
+    console.log('spawn called');
+    console.log(arguments);
+    var result = oldSpawn.apply(this, arguments);
+    return result;
+}
+childProcess.spawn = mySpawn;
+
 //https://coc.guide/
 //https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki
 import { set, connect, connection } from "mongoose";
