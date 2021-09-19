@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { API } from "../";
-import PlayerSchemaObject, { Builder, Laboratory, PetHouse } from "../Database/Models";
+import PlayerSchemaObject, { Builder, Laboratory, PetHouse } from "../Database/Models/index";
 import { compileFile } from "pug";
 import { join } from "path";
 import Util from "../Util";
-import { home } from "../Database/home";
-import { builder } from "../Database/builder";
-import { townHall } from "../Database/Home/townHall";
-import { builderHall } from "../Database/Builder/builderHall";
+import { home } from "../Database/Clash of Clans/home";
+import { builder } from "../Database/Clash of Clans/builder";
+import { townHall } from "../Database/Clash of Clans/Home/townHall";
+import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 import { getTotalCostsAndTimes, updateLevels } from "./clashOfClansUpgrade";
 
 const router = Router();

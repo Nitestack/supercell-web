@@ -1,6 +1,5 @@
 import { model, Schema, SchemaTypes, Document } from "mongoose";
-import { Player } from "../../API/index";
-import Util from "../../Util";
+import { Player } from "clashofclans.js";
 
 export interface PlayerSchema extends Document {
     playerTag: string;

@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { API } from "..";
 import { Player } from "clashofclans.js";
-import { townHall } from "../Database/Home/townHall";
-import { builderHall } from "../Database/Builder/builderHall";
-import PlayerSchemaObject, { PlayerSchema } from "../Database/Models";
-import { home } from "../Database/home";
-import { builder } from "../Database/builder";
+import { townHall } from "../Database/Clash of Clans/Home/townHall";
+import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
+import PlayerSchemaObject, { PlayerSchema } from "../Database/Models/index";
+import { home } from "../Database/Clash of Clans/home";
+import { builder } from "../Database/Clash of Clans/builder";
 import Util from "../Util";
-import Base from "../Database/Base";
-import { homeDefensesArray, homeTrapsArray, homeArmyArray, homeResourcesArray, builderArmyArray, builderDefensesArray, builderResourcesArray, builderTrapsArray, builderTroopsArray, homeTroopsArray, homeDarkTroopsArray, homeHeroesArray, homePetsArray, homeSiegeMachinesArray, homeSpellsArray } from "../Database/constants";
+import Base from "../Database/Clash of Clans/Base";
+import { homeDefensesArray, homeTrapsArray, homeArmyArray, homeResourcesArray, builderArmyArray, builderDefensesArray, builderResourcesArray, builderTrapsArray, builderTroopsArray, homeTroopsArray, homeDarkTroopsArray, homeHeroesArray, homePetsArray, homeSiegeMachinesArray, homeSpellsArray } from "../Database/Clash of Clans/constants";
 
 const router = Router();
 
