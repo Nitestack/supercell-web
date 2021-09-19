@@ -1,1 +1,1 @@
-web: npm start
+web: tsc & ts-node-dev --respawn --transpile-only --poll ./src/index.ts
