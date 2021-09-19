@@ -8,24 +8,25 @@ html(lang='en')
     body
         include Includes/navbar
         .jumbotron.text-center.bg-transparent
-            #image
             h1.display-3 NightClash
             p.coc-description.lead(style="font-size: 28px;") NightClash is a community upgrade and stats tracker!
             .container(style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
                 #carouselInterval.carousel.slide(data-bs-ride='carousel')
                     .carousel-inner
-                        .carousel-item.active(data-bs-interval='10000')
-                            img.d-block.w-100(src='...', alt='...')
-                        .carousel-item(data-bs-interval='2000')
-                            img.d-block.w-100(src='...', alt='...')
-                        .carousel-item
-                            img.d-block.w-100(src='...', alt='...')
+                        .carousel-item.active(data-bs-interval='5000')
+                            .center-image
+                                img(src='/Images/Clash of Clans.png', alt="Clash of Clans", style="border-radius: 9px;")
+                        each item in ["Boom Beach", "Clash Royale", "Brawl Stars"]
+                            .carousel-item(data-bs-interval='5000')
+                                .center-image    
+                                    img(src='/Images/' + item + '.png', alt=item, style="border-radius: 9px;")
                     button.carousel-control-prev(type='button', data-bs-target='#carouselInterval', data-bs-slide='prev')
                         span.carousel-control-prev-icon(aria-hidden='true')
                         span.visually-hidden Previous
                     button.carousel-control-next(type='button', data-bs-target='#carouselInterval', data-bs-slide='next')
                         span.carousel-control-next-icon(aria-hidden='true')
                         span.visually-hidden Next
+            .container(style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
                 h1 Clash of Clans
                 .container(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697; padding: 50px;")
                     .row 

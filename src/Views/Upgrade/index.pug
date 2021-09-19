@@ -8,17 +8,16 @@ html(lang='en')
     body
         include ../Includes/navbar
         .jumbotron.text-center.bg-transparent
-            img.img-fluid(src='/Images/index.png', size=256, id="image")
             h1.display-3 Upgrade Tracker
             p.coc-description.lead(style="font-size: 28px;") Use the Upgrade Tracker to manage your upgrades, make calender notes and more!
         .container    
             .d-flex.justify-content-center 
                 p.center-image
                     a(href="/upgrade-tracker/clashofclans")
-                        button.btn.btn-success(style="background-image: url('/Images/Clash of Clans Background.jpg'); background-size: cover;")
-                            img(src="/Images/Clash of Clans Logo.png", style="height: 250px;")
+                        button.btn
+                            img(src="/Images/Clash of Clans.png", style="height: 250px; border-radius: 9px;")
                 p.center-image
                     a(href="/upgrade-tracker/boombeach")
-                        button.btn.btn-success(style="background-image: url('/Images/Boom Beach Background.jpg'); background-size: cover;")
-                            img(src="/Images/Boom Beach Logo.png", style="height: 250px;")
+                        button.btn
+                            img(src="/Images/Boom Beach.png", style="height: 250px; border-radius: 9px;")
         include ../Includes/footer
