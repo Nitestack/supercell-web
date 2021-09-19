@@ -118,6 +118,25 @@ body {
   text-shadow: none;
   color: black;
 }
+.bs {
+  font-family: "Lilita One", cursive;
+}
+h1.bs {
+  font-size: 60px;
+}
+h3.bs {
+  font-size: 35px;
+}
+p.bs {
+  font-size: 20px;
+  -webkit-text-stroke: 0;
+}
+.bb {
+  font-family: "BadaBoom BB";
+}
+p.bb {
+  font-size: 24px;
+}
 
 /*CUSTOM CSS*/
 .lead {
@@ -125,29 +144,6 @@ body {
 }
 .no-display-flex {
   display: block;
-}
-
-/*Brawl Stars*/
-.brawl-stars {
-  font-family: "Lilita One", cursive;
-}
-h1.brawl-stars {
-  font-size: 60px;
-}
-h3.brawl-stars {
-  font-size: 35px;
-}
-p.brawl-stars {
-  font-size: 20px;
-  -webkit-text-stroke: 0;
-}
-
-/*Boom Beach*/
-.boom-beach {
-  font-family: "BadaBoom BB";
-}
-p.boom-beach {
-  font-size: 24px;
 }
 
 table.table.table-striped.table-hover {
