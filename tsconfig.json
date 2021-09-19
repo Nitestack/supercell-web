@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
-    "outDir": "src/Dist/JS"
+    "outDir": "src/Public/JS"
   },
   "include": ["src/TS"],
   "exclude": ["node_modules"]
