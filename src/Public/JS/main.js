@@ -2,6 +2,7 @@ if (getCookie('sound') == 'false')
     $('#sound').css('display', 'none');
 else
     $('#noSound').css('display', 'none');
+const loadingScreen = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
 function setCookie(name, value, durationInDays, path) {
     const date = new Date();
     date.setTime(date.getTime() + (durationInDays * 24 * 60 * 60 * 1000));

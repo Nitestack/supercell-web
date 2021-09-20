@@ -334,7 +334,6 @@ $(".editUpgrade").on("click", function () {
 });
 $(".finishUpgrade").on("click", function () {
 });
-const loadingScreen = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
 function startBuilderUpgrade(buildingID, buildingName, id, currentLevel, playerTag) {
     const buttonParent = $(`button.builder-button[data-id=${buildingID.replace(/'/g, "\\'").replace(/ /g, "\\ ")}]`)[0].parentElement;
     const { innerHTML } = buttonParent;

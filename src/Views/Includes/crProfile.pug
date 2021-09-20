@@ -1,0 +1,47 @@
+.container(style="background-color: #61687B; border: 1px solid #42454B; border-radius: 7px; color: white; padding: 5px;")
+    .row(style="padding: 5px;")
+        h4(align="center") Player Profile
+    .row(style="border-top-left-radius: 7px; border-top-right-radius: 7px; border: 1px #2D3849 solid; background: linear-gradient(#01183B, #A8CBEC); margin-right: auto; margin-left: auto; margin-bottom: 2px; padding-bottom: 30px; padding-top: 30px;")
+        .col
+            .container
+                .row 
+                    .col
+                        p.lead(align="left")
+                            .flexible-inline
+                                span.lead(style="color: white; padding-top: 10px;")  #{player.name}
+                                span.coc-description(style="color: #CCCCCC; font-size: 25px; padding-top: 10px;") #{player.tag} 
+                                button.btn.bg-transparent(type="button", id="shareButton", value=player.tag) #[i.fas.fa-share]
+                            .flexible-inline
+                                if player.expLevel < 13
+                                    .xp-cr #{player.expLevel}
+                                else 
+                                    .xp-cr-max #{player.expLevel}
+                                p.lead(style="color: #FFFF65; margin: 0; padding-top: 10px;") 🏆#{player.trophies} 
+                    .col
+                        p.lead
+                            .center-image
+                                if player.leagueStatistics
+                                    img(src="/Images/Clash Royale/Leagues/" + player.leagueStatistics.name + ".png", style="width: 130px;", title=player.leagueStatistics.name)
+                                    p.lead(align="center", style="color: white; font-size: 15px;") #{player.leagueStatistics.name}
+                                else 
+                                    img(src="/Images/Clash Royale/Arenas/" + player.arena.name + ".png", style="width: 130px;", title=player.arena.name)
+                                    p.lead(align="center", style="color: white; font-size: 15px;") #{player.arena.name}
+            .row(style="border: 1px solid #A7DEFA; background: linear-gradient(#14386C, #2F537F 5%, #13376B 40%); margin-right: 5px; margin-left: 5px; border-radius: 5px;")
+                .container 
+                    .row(style="vertical-align: middle;")
+                        if player.clan
+                            img(src="https://cdn.statsroyale.com/images/badges/" + player.clan.badgeId + ".png", style="height: 58px; width: auto; flex: unset;")
+                        .col(align="left", style="padding: 7px;")
+                            p.lead(align="left", style="padding: 0; margin: 0; font-size: 18px;") #{player.clan ? player.clan.name : "No Clan"}
+                            p.lead.cr-description(align="left", style="color: #71BEFE; padding: 0; margin: 0; font-size: 15px;") #{player.clan ? player.role[0].toUpperCase() + player.role.slice(1).replace() : "Join a Clan for rewards and fun!"}
+    .row(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686;")
+        h4(align="center") Battle Deck
+    .row(style="background-color: #E3EEF2; padding-right: 5px; margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #939CA8; padding: calc(var(--bs-gutter-x)/ 2);")
+        .col(style="padding: calc(var(--bs-gutter-x)/ 2);") 
+            .container 
+                .row(style="background-color: #D0D9E0; padding: calc(var(--bs-gutter-x)/ 2); margin-bottom: 25px;")
+                    div something
+                .row
+                    .flexible-inline 
+                        img(src="/Images/Clash of Clans/Home/Elixir.png", style="height: 30px;")
+                        span Average Elixir cost: 

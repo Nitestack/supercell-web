@@ -5,7 +5,7 @@ document.getElementById("playerSearchForm").onsubmit = function(ev) {
     //@ts-ignore
     if (!document.getElementById("playerTag").value) return;
     $("#loadingScreen").show();
-    document.getElementById("loadingScreen").innerHTML = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
+    document.getElementById("loadingScreen").innerHTML = loadingScreen;
     $.ajax({
         method: "POST",
         url: "/upgrade-tracker/clashofclans/searchForPlayer",

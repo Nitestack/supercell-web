@@ -9,18 +9,60 @@ import { builder } from "../Database/Clash of Clans/builder";
 import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 import { getTotalCostsAndTimes, updateLevels } from "./clashOfClansUpgrade";
+import { Token, ClashRoyale } from "supercell-apis";
 
 const router = Router();
 
 //Update them for ajax
 router.post("/upgrade-tracker/clashofclans/searchForPlayerByClan", async (req, res) => {
     try {
-
     } catch {
 
     };
 });
 //--------------------------------------------------------
+
+//CLASH ROYALE
+
+function getLeague(trophies: number) {
+    let leagueName: string;
+    if (trophies >= 8000) leagueName = "Ultimate Champion";
+    else if (trophies >= 7600) leagueName = "Royal Champion";
+    else if (trophies >= 7300) leagueName = "Grand Champion";
+    else if (trophies >= 7000) leagueName = "Champion";
+    else if (trophies >= 6600) leagueName = "Master III";
+    else if (trophies >= 6300) leagueName = "Master II";
+    else if (trophies >= 6000) leagueName = "Master I";
+    else if (trophies >= 5600) leagueName = "Challenger III";
+    else if (trophies >= 5300) leagueName = "Challenger II";
+    else leagueName = "Challenger I";
+    return leagueName;
+};
+
+router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
+    try {
+        const token = await new Token("clashroyale", "night.clash.tracker@gmail.com", process.env.PASSWORD).init();
+        const client = new ClashRoyale(token);
+        const { playerTag } = req.body;
+        const player: CRProfile = await client.player(playerTag);
+        console.log(player);
+        const compileFunction = compileFile("./src/Views/Includes/crProfile.pug");
+        if (player) {
+            if (player.leagueStatistics) {
+                player.leagueStatistics.name = getLeague(player.trophies);
+            };
+            res.send({
+                player: player,
+                htmlCode: compileFunction({
+                    player: player
+                })
+            });
+        };
+    } catch (error) {
+        res.status(400).send("Invalid player tag! Please try again!");
+        console.log(error);
+    };
+});
 
 //CLASH OF CLANS
 
@@ -53,7 +95,7 @@ router.post("/upgrade-tracker/clashofclans/getBuilders", async (req, res) => {
             builders: builder.sort(sortBuilder),
             boostDuration: req.body.freeBoost ? getClockTowerDuration(playerSchema.builderBase["ClockTower1"]) : null
         });
-    } catch (err) { 
+    } catch (err) {
         console.log(err);
     };
 });
@@ -93,7 +135,7 @@ router.post("/upgrade-tracker/clashofclans/getLab", async (req, res) => {
             playerTag: playerTag
         });
         return res.send(playerSchema[(village) + "Lab"] || []);
-    } catch (err) { 
+    } catch (err) {
         console.log(err);
     };
 });
@@ -339,8 +381,8 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
     try {
         const { playerTag, village } = req.body;
         let playerSchema = await PlayerSchemaObject.findOne({
-            playerTag: playerTag      
-        }); 
+            playerTag: playerTag
+        });
         const upgradeDone = await updateLevels(playerSchema, village);
         const builder = playerSchema[village == "home" ? "homeVillageBuilder" : "builderBaseBuilder"] || [];
         if (playerSchema.otto.unlocked && playerSchema.otto.currentVillage == village && playerSchema.otto.builder[0]) builder.push(...playerSchema.otto.builder);

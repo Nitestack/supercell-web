@@ -2,8 +2,9 @@
     .col(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697;")
         p.lead(align="center")
             .xp #{player.expLevel}
-            span.lead(style="color: white;")  #{player.name}
-                span.coc-description(style="color: #CCCCCC; font-size: 25px;") #{player.tag} 
+            .flexible-inline
+                span.lead(style="color: white; padding-top: 10px;")  #{player.name}
+                span.coc-description(style="color: #CCCCCC; font-size: 25px; padding-top: 10px;") #{player.tag} 
                 button.btn.bg-transparent(type="button", id="shareButton", value=player.tag) #[i.fas.fa-share]
         if player.labels 
             for label of player.labels
@@ -63,10 +64,10 @@
         if player.clan
             .center-image
                 img(src=player.clan.badgeUrls.medium, title=player.clan.name)
-            p.lead(align="center")
-                span.lead(style="color: white;")  #{player.clan.name}
-                    span.coc-description(style="color: #CCCCCC; font-size: 25px;") #{player.clan.tag}
-                p.coc-description.lead(style="color: white; font-size: 25px;", align="center") #{player.role.replace(/coLeader/g, "Co-leader").replace(/leader/g, "Leader").replace(/admin/g, "Elder").replace(/member/g, "Member")}
+            .flexible-inline
+                span.lead(style="color: white; padding-top: 10px;")  #{player.clan.name}
+                span.coc-description(style="color: #CCCCCC; font-size: 25px; padding-top: 10px;") #{player.clan.tag}
+            p.coc-description.lead(style="color: white; font-size: 25px;", align="center") #{player.role.replace(/coLeader/g, "Co-leader").replace(/leader/g, "Leader").replace(/admin/g, "Elder").replace(/member/g, "Member")}
         else 
             .center-image
                 img(src="/Images/Clash of Clans/Home/no-clan.png", title="No Clan")

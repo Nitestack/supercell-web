@@ -4,6 +4,7 @@ doctype
 html(lang='en')
     head
         include ../Includes/header
+        script(src="/JS/Clash Royale/stats.js", defer)
     body
         include ../Includes/navbar
         .jumbotron.text-center.bg-transparent
@@ -36,7 +37,20 @@ html(lang='en')
                                         img(src="/Images/Clash Royale.png", style="height: 250px; border-radius: 9px;")
                             #crCollapse.accordion-collapse.collapse(aria-labelledby='crHeader', data-bs-parent='#statsModal')
                                 .accordion-body#crBody(style="background: linear-gradient(#8993AD, #6B7798); border-radius: 9px; margin: 1px;")
-                                    p.cr-description.price-item Any content here
+                                    p.lead#error(style="color: red;")
+                                    p.cr-description.lead Please enter a player tag to search a profile!
+                                    form(id="playerSearchForm")
+                                        .input-group.mb-3
+                                            span.input-group-text #
+                                            input.cr-description.form-control(name="playerTag", id="playerTag", type="text", placeholder="Player Tag", minlength=8, maxlength=10, style="font-size: 25px;")
+                                            button.btn.btn-success(type="submit") #[i.fas.fa-search]
+                                    p#loadingScreen(align="center")
+                                    #hidingDiv
+                                        .container(id="playerContainer")
+                                        p
+                                        p.cr-description.lead If this is your account, please click the button below. If not, feel free to use the input field above again! 
+                                        form(method="POST", action="/upgrade-tracker/clashofclans/managePlayer")
+                                            button.btn.btn-success#player(name="player", type="submit") Proceed
                         li.list-group-item.accordion-item(style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614;")
                             h2#bbHeader.accordion-header
                                 .accordion-button.collapsed.no-display-flex#bbOpenModal(type='button', data-bs-toggle='collapse', data-bs-target='#bbCollapse', aria-expanded='true', style="padding: 0; background: transparent;", aria-controls='bbCollapse')

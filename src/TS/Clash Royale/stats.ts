@@ -1,27 +1,25 @@
 $("#hidingDiv").hide();
-document.getElementById("playerSearchForm").onsubmit = function (ev) {
+
+document.getElementById("playerSearchForm").onsubmit = function(ev) {
     ev.preventDefault();
     //@ts-ignore
-    if (!document.getElementById("playerTag").value)
-        return;
+    if (!document.getElementById("playerTag").value) return;
     $("#loadingScreen").show();
     document.getElementById("loadingScreen").innerHTML = loadingScreen;
     $.ajax({
         method: "POST",
-        url: "/upgrade-tracker/clashofclans/searchForPlayer",
+        url: "/stats-tracker/clashroyale/searchForPlayer",
         data: {
             //@ts-ignore
             playerTag: document.getElementById("playerTag").value
         },
-        success: function (object) {
+        success: function(object) {
             $("#loadingScreen").hide();
             $("#hidingDiv").show();
-            const { homeVillage, builderBase, player } = object;
-            //@ts-ignore
-            document.getElementById("player").value = JSON.stringify(player);
-            document.getElementById("playerContainer").innerHTML = `${homeVillage}\n${builderBase}`;
+            const { player, htmlCode } = object;
+            document.getElementById("playerContainer").innerHTML = htmlCode;
         },
-        error: function (err) {
+        error: function(err) {
             $("#loadingScreen").hide();
             document.getElementById("error").textContent = err.responseText;
         }
@@ -29,4 +27,3 @@ document.getElementById("playerSearchForm").onsubmit = function (ev) {
     //@ts-ignore
     document.getElementById("playerSearchForm").reset();
 };
-//# sourceMappingURL=index.js.map
