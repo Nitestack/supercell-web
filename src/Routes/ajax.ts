@@ -10,6 +10,8 @@ import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 import { getTotalCostsAndTimes, updateLevels } from "./clashOfClansUpgrade";
 import { Token, ClashRoyale } from "supercell-apis";
+import { CRProfile, CRCard } from "../API";
+import crElixirCosts from "../Database/Clash Royale/elixirCost";
 
 const router = Router();
 
@@ -39,6 +41,12 @@ function getLeague(trophies: number) {
     return leagueName;
 };
 
+function getAverageElixirCost(deck: Array<CRCard>) {
+    let totalCosts: number = 0;
+    for (const card of deck) totalCosts += crElixirCosts.find(el => el.name.toLowerCase() == card.name.toLowerCase()).elixirCost;
+    return Util.round(totalCosts / deck.length, 1);
+};
+
 router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
     try {
         const token = await new Token("clashroyale", "night.clash.tracker@gmail.com", process.env.PASSWORD).init();
@@ -51,6 +59,7 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
             if (player.leagueStatistics) {
                 player.leagueStatistics.name = getLeague(player.trophies);
             };
+            player.currentDeckAverageElixirCost = getAverageElixirCost(player.currentDeck);
             res.send({
                 player: player,
                 htmlCode: compileFunction({

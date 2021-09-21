@@ -1,4 +1,4 @@
-interface CRProfile {
+export interface CRProfile {
     tag: string,
     name: string,
     expLevel: number,
@@ -45,10 +45,12 @@ interface CRProfile {
     }>,
     cards: Array<CRCard>,
     currentDeck: Array<CRCard>,
+    //Added by function
+    currentDeckAverageElixirCost: number;
     currentFavouriteCard: CRCard,
 };
 
-interface CRCard {
+export interface CRCard {
     name: string,
     id: number,
     level: number,

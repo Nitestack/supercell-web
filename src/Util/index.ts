@@ -5,6 +5,10 @@ import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 
 export default class Util {
+    public static round(number: number, decimalPlaces: number) {
+        const factorOfTen = Math.pow(10, decimalPlaces);
+        return Math.round(number * factorOfTen) / factorOfTen;
+    };
     /**
      * Shorts the time
      * @info Edit in ../TS/Upgrade/mainIndex.ts too
