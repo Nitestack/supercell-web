@@ -49,6 +49,8 @@ export interface CRProfile {
     currentDeckAverageElixirCost: number,
     //Added by function
     currentDeckLink: string,
+    //Added by function
+    currentDeckMobileLink: string,
     currentFavouriteCard: CRCard
 };
 

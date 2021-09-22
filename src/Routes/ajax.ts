@@ -64,6 +64,7 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
             const cardIDsArray: Array<number> = [];
             for (const card of player.currentDeck) cardIDsArray.push(card.id);
             player.currentDeckLink = createDeckLink(cardIDsArray);
+            player.currentDeckMobileLink = createDeckLink(cardIDsArray, true);
             
             res.send({
                 player: player,
