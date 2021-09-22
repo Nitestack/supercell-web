@@ -45,14 +45,14 @@
                             each card, i in player.currentDeck
                                 if i < 4
                                     a.col(style="padding: 0;", data-cardid=card.id)
-                                        button.btn
+                                        button.btn(style="padding: 0;")
                                             img(src=card.iconUrls.medium)
                                             .cr-unit-icon-level lvl.#{card.level}
                         .row
                             each card, i in player.currentDeck
                                 if i >= 4
                                     a.col(style="padding: 0;", data-cardid=card.id)
-                                        button.btn
+                                        button.btn(style="padding: 0;")
                                             img(src=card.iconUrls.medium)
                                             .cr-unit-icon-level lvl.#{card.level}
                 .row
