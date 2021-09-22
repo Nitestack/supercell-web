@@ -46,8 +46,10 @@ export interface CRProfile {
     cards: Array<CRCard>,
     currentDeck: Array<CRCard>,
     //Added by function
-    currentDeckAverageElixirCost: number;
-    currentFavouriteCard: CRCard,
+    currentDeckAverageElixirCost: number,
+    //Added by function
+    currentDeckLink: string,
+    currentFavouriteCard: CRCard
 };
 
 export interface CRCard {

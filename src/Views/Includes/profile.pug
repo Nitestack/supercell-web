@@ -93,13 +93,17 @@
             p.coc-description.lead(style="color: white; font-size: 25px;") Versus Battle Wins: 
                 p.coc-description.lead(style="color: white; font-size: 20px;") #{player.versusBattleWins}
 script.
-    document.getElementById("shareButton").onclick = function(ev) {
-        const playerTag = document.getElementById("shareButton").value;
+    document.getElementById("shareButton").onclick = function() {
+        /* Get the text */
+        const copyText = document.getElementById("shareButton").value;
 
-        const inputElement = document.createElement("input");
-        inputElement.setAttribute("value", playerTag);
-        document.body.appendChild(inputElement);
-        inputElement.select();
-        document.execCommand("copy");
-        inputElement.parentNode.removeChild(inputElement);
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText);
+
+        /* Alert the copied text */
+        alert("Copied the text: " + copyText);
     };

@@ -12,6 +12,7 @@ import { getTotalCostsAndTimes, updateLevels } from "./clashOfClansUpgrade";
 import { Token, ClashRoyale } from "supercell-apis";
 import { CRProfile, CRCard } from "../API";
 import crElixirCosts from "../Database/Clash Royale/elixirCost";
+import { createDeckLink } from "../Database/Clash Royale/links";
 
 const router = Router();
 
@@ -60,6 +61,10 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
                 player.leagueStatistics.name = getLeague(player.trophies);
             };
             player.currentDeckAverageElixirCost = getAverageElixirCost(player.currentDeck);
+            const cardIDsArray: Array<number> = [];
+            for (const card of player.currentDeck) cardIDsArray.push(card.id);
+            player.currentDeckLink = createDeckLink(cardIDsArray);
+            
             res.send({
                 player: player,
                 htmlCode: compileFunction({

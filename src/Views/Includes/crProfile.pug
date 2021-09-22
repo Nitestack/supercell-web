@@ -44,16 +44,40 @@
                         .row
                             each card, i in player.currentDeck
                                 if i < 4
-                                    .col(style="padding: 0;")
-                                        img(src=card.iconUrls.medium)
-                                        .cr-unit-icon-level lvl.#{card.level}
+                                    a.col(style="padding: 0;", data-cardid=card.id)
+                                        button.btn
+                                            img(src=card.iconUrls.medium)
+                                            .cr-unit-icon-level lvl.#{card.level}
                         .row
                             each card, i in player.currentDeck
                                 if i >= 4
-                                    .col(style="padding: 0;")
-                                        img(src=card.iconUrls.medium)
-                                        .cr-unit-icon-level lvl.#{card.level}
+                                    a.col(style="padding: 0;", data-cardid=card.id)
+                                        button.btn
+                                            img(src=card.iconUrls.medium)
+                                            .cr-unit-icon-level lvl.#{card.level}
                 .row
                     .flexible-inline 
-                        img(src="/Images/Clash of Clans/Home/Elixir.png", style="height: 30px;")
-                        span(style="padding: 5px;") Average Elixir cost: #{player.currentDeckAverageElixirCost}
+                        img(src="/Images/Clash of Clans/Home/Elixir.png", style="height: 40px;")
+                        span(style="padding: 11px;") Average Elixir cost: #{player.currentDeckAverageElixirCost}
+                        .tooltip
+                            button.btn.bg-transparent#copyDeckButton(style="width: 36px; height: 40px; background-image: url('/Images/Clash Royale/Copy.png'); background-repeat: no-repeat; background-size: cover; cursor: pointer;", data-link=player.currentDeckLink)
+
+script.
+    document.getElementById("copyDeckButton").onclick = function() {
+        /* Get the text */
+        const copyText = document.getElementById("copyDeckButton").getAttribute("data-link");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText);
+
+        /* Alert the copied text */
+        alert("Copied the text: " + copyText);
+    };
+
+    if (isMobileOrTablet()) $("button[data-cardid]").each(function() {
+        (this as HTMLAnchorElement).href = "clashroyale://card?id=" + this.getAttribute("data-cardid");
+    });
