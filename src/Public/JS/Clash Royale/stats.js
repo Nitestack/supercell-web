@@ -29,7 +29,7 @@ document.getElementById("playerSearchForm").onsubmit = function (ev) {
 };
 function copyDeckLink() {
     if (isMobileOrTablet()) {
-        window.open(this.getAttribute("data-mobile-link"));
+        window.open(document.getElementById("copyDeckButton").getAttribute("data-mobile-link"));
     }
     else {
         /* Copy the text inside the text field */
