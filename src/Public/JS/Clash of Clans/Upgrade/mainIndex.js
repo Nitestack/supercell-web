@@ -449,18 +449,6 @@ function upgradeWall(currentLevel, village, playerTag) {
     });
 }
 ;
-$('li.nav-item.categories a').on('click', function () {
-    $('li.nav-item.categories a').removeClass('active');
-    setModule($(this).attr('id'));
-});
-function setModule(name) {
-    name = name.toLowerCase();
-    $('.module').hide();
-    $(`#${name}Module`).show();
-    $(`#${name}`).addClass('active');
-    location.hash = "#" + name;
-}
-;
 const hash = location.hash?.replace(/#/g, "");
 if (hash)
     setModule(hash);

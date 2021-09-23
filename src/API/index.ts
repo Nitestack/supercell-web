@@ -21,12 +21,11 @@ export interface CRProfile {
     clanCardsCollected: number,
     clan: { tag: string, name: string, badgeId: number },
     arena: { id: number, name: string },
-    leagueStatistics: {
-        //Added by function
-        name: string,
-        currentSeason: { rank: number, trophies: number, bestTrophies: number },
-        previousSeason: { id: string, rank: number, trophies: number, bestTrophies: number },
-        bestSeason: { id: string, rank: number, trophies: number }
+    leagueStatistics?: {
+        //Added by function ("name" of each season)
+        currentSeason: { rank?: number, trophies: number, bestTrophies: number, name: string, bestName: string },
+        previousSeason: { id: string, rank?: number, trophies: number, bestTrophies: number, name: string },
+        bestSeason: { id: string, rank?: number, trophies: number, name: string }
     },
     badges: Array<{
         name: string,

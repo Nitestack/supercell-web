@@ -146,16 +146,7 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
     //Clash Royale
     else if (element == "crLeagueReset" || element == "crSeasonEnd") {
         active = true;
-        const thisMonthLastMonday = getFirstMonday(date.getUTCMonth(), date.getUTCFullYear());
-        if (Date.now() > thisMonthLastMonday.getTime()) {
-            date.setUTCDate(getFirstMonday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0)).getUTCDate());
-            date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
-            if (date.getUTCMonth() == 11)
-                date.setUTCFullYear(date.getUTCFullYear() + 1);
-        }
-        else
-            date.setUTCDate(thisMonthLastMonday.getUTCDate());
-        date.setUTCHours(8);
+        date = getClashRoyaleSeasonEnd();
     }
     //Boom Beach
     else if (element == "tribeBoost") {
@@ -251,51 +242,6 @@ function getLastSunday(month, year) {
         date.setUTCDate(date.getUTCDate() - 1);
     } while (date.getUTCDay() !== 0);
     return date;
-}
-;
-function getFirstMonday(month, year) {
-    const date = new Date();
-    date.setUTCMilliseconds(0);
-    date.setUTCSeconds(0);
-    date.setUTCMinutes(0);
-    //Clash Royale League Reset
-    date.setUTCHours(8);
-    date.setUTCDate(1); // Roll to the first day of ...
-    date.setUTCMonth(month == 11 ? 0 : month); // ... the next month.
-    do { // Roll the days forwards until Monday.
-        date.setUTCDate(date.getUTCDate() + 1);
-    } while (date.getUTCDay() !== 1);
-    return date;
-}
-;
-function createCountdown(element, countDownDate, active) {
-    const title = document.getElementById(element.id + "Title").textContent;
-    document.getElementById(element.id + "Date").textContent = `${countDownDate.toLocaleDateString(undefined, { month: "long", weekday: "long", day: "numeric", year: "numeric" })} ${countDownDate.getHours()}:00`;
-    displayCountdown();
-    // Update the count down every 1 second
-    const interval = setInterval(displayCountdown, 1000);
-    function displayCountdown() {
-        // Find the distance between now and the count down date
-        const distance = countDownDate.getTime() - Date.now();
-        // Time calculations for days, hours, minutes and seconds
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        // Display the result in the element with
-        element.innerHTML = `${days != 0 ? `${days}d ` : ""}${hours != 0 ? `${hours}h ` : ""}${minutes != 0 ? `${minutes}m` : ""}`;
-        //Active
-        if (active)
-            document.getElementById(element.id + "Title").innerHTML = `${title} <span style="color: green;"> (Active) </span>`;
-        else
-            document.getElementById(element.id + "Title").textContent = title;
-        // If the count down is finished, write some text
-        if (distance < 0) {
-            clearInterval(interval);
-            location.reload();
-        }
-        ;
-    }
-    ;
 }
 ;
 //# sourceMappingURL=home.js.map

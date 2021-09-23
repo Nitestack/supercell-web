@@ -38,7 +38,8 @@ function getLeague(trophies: number) {
     else if (trophies >= 6000) leagueName = "Master I";
     else if (trophies >= 5600) leagueName = "Challenger III";
     else if (trophies >= 5300) leagueName = "Challenger II";
-    else leagueName = "Challenger I";
+    else if (trophies >= 5000) leagueName = "Challenger I";
+    else leagueName = "No League";
     return leagueName;
 };
 
@@ -58,7 +59,10 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
         const compileFunction = compileFile("./src/Views/Includes/crProfile.pug");
         if (player) {
             if (player.leagueStatistics) {
-                player.leagueStatistics.name = getLeague(player.trophies);
+                player.leagueStatistics.currentSeason.name = getLeague(player.leagueStatistics.currentSeason.trophies);
+                player.leagueStatistics.currentSeason.bestName = getLeague(player.leagueStatistics.currentSeason.bestTrophies);
+                player.leagueStatistics.bestSeason.name = getLeague(player.leagueStatistics.bestSeason.trophies);
+                player.leagueStatistics.previousSeason.name = getLeague(player.leagueStatistics.previousSeason.bestTrophies);
             };
             player.currentDeckAverageElixirCost = getAverageElixirCost(player.currentDeck);
             const cardIDsArray: Array<number> = [];

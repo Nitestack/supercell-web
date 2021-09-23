@@ -18,6 +18,10 @@ document.getElementById("playerSearchForm").onsubmit = function (ev) {
             $("#hidingDiv").show();
             const { player, htmlCode } = object;
             document.getElementById("playerContainer").innerHTML = htmlCode;
+            addModuleEventListener();
+            if (player.leagueStatistics)
+                createCountdown(document.getElementById("crSeasonTimer"), getClashRoyaleSeasonEnd(), false, true);
+            setModule("profile");
         },
         error: function (err) {
             $("#loadingScreen").hide();
@@ -28,14 +32,10 @@ document.getElementById("playerSearchForm").onsubmit = function (ev) {
     document.getElementById("playerSearchForm").reset();
 };
 function copyDeckLink() {
-    if (isMobileOrTablet()) {
+    if (isMobileOrTablet())
         window.open(document.getElementById("copyDeckButton").getAttribute("data-mobile-link"));
-    }
-    else {
-        /* Copy the text inside the text field */
-        navigator.clipboard.writeText(document.getElementById("copyDeckButton").getAttribute("data-link"));
-    }
-    ;
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(document.getElementById("copyDeckButton").getAttribute("data-link"));
 }
 ;
 //# sourceMappingURL=stats.js.map

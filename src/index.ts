@@ -45,7 +45,7 @@ app.listen(port, async () => {
         email: "night.clash.tracker@gmail.com",
         password: process.env.PASSWORD
     });
-    console.log(`The dashboard is live on http://localhost:${port} !`)
+    console.log(`The dashboard is live on http://localhost:${port}!`);
 });
 
 export { API };
