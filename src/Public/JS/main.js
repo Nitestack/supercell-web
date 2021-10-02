@@ -162,6 +162,7 @@ function openLink(link) {
 ;
 function createCountdown(element, countDownDate, active, noTitle) {
     document.getElementById(element.id + (noTitle ? "" : "Date")).textContent = `${countDownDate.toLocaleDateString(undefined, { month: "long", weekday: "long", day: "numeric", year: "numeric" })} ${countDownDate.getHours()}:00`;
+    const title = !noTitle ? document.getElementById(element.id + "Title").textContent : null;
     displayCountdown();
     // Update the count down every 1 second
     const interval = setInterval(displayCountdown, 1000);
@@ -176,7 +177,6 @@ function createCountdown(element, countDownDate, active, noTitle) {
         element.innerHTML = `${days != 0 ? `${days}d ` : ""}${hours != 0 ? `${hours}h ` : ""}${minutes != 0 ? `${minutes}m` : ""}`;
         //Active
         if (!noTitle) {
-            const title = document.getElementById(element.id + "Title").textContent;
             if (active)
                 document.getElementById(element.id + "Title").innerHTML = `${title} <span style="color: green;"> (Active) </span>`;
             else
@@ -224,6 +224,42 @@ function getFirstMonday(month, year) {
         date.setUTCDate(date.getUTCDate() + 1);
     } while (date.getUTCDay() !== 1);
     return date;
+}
+;
+function findGETParameterValue(parameterName) {
+    let result;
+    let tmp = [];
+    location.search.substr(1).split("&").forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === parameterName)
+            result = decodeURIComponent(tmp[1]);
+    });
+    console.log(result);
+    return result;
+}
+;
+function validateToken() {
+    let isLoggedIn = false;
+    if (localStorage.getItem("token"))
+        isLoggedIn = true;
+    if (isLoggedIn) {
+        $.ajax({
+            method: "POST",
+            url: "/verifyToken",
+            data: {
+                token: localStorage.getItem("token")
+            },
+            success: function ({ token, errorMessage }) {
+                if (token)
+                    localStorage.setItem("token", token);
+            },
+            error: function () {
+                setErrorPage(503);
+            }
+        });
+    }
+    ;
+    return isLoggedIn;
 }
 ;
 //# sourceMappingURL=main.js.map

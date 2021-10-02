@@ -2,9 +2,9 @@
 const village = document.getElementById("village").value;
 /*turns the music on, when the user first clicks on the body*/
 let alreadyClicked = false;
-
 (document.getElementById("backgroundMusic") as HTMLAudioElement).volume = 0.05;
 
+//adds scrollbar function on navbar
 document.getElementById("scrollBar").scrollTop = 0;
 let lastScrollTop = 0;
 document.getElementById("scrollBar").onscroll = function (ev) {
@@ -16,12 +16,14 @@ document.getElementById("scrollBar").onscroll = function (ev) {
     this.scrollTop = lastScrollTop;
 };
 
+//on user action it should start background music
 document.body.onclick = function () {
     if (alreadyClicked) return;
     alreadyClicked = true;
     (document.getElementById("backgroundMusic") as HTMLAudioElement).play();
 };
 
+//BOOST PANEL
 function setBoostModal(title: string, description: string, imageSrc: string, additionalDescription?: string) {
     const applyBoostButton = document.getElementById("applyBoostButton") as HTMLButtonElement;
     if (additionalDescription) {
@@ -264,6 +266,7 @@ function setBoostTable(builders: Array<any>, amount: number, boost: number, free
     });
 };
 
+//Update upgrade timers
 //@ts-ignore
 if (document.getElementById("update").value == "true" ? true : false) {
     let updateInterval: NodeJS.Timer;
@@ -313,6 +316,7 @@ if (document.getElementById("update").value == "true" ? true : false) {
     };
 };
 
+//editing upgrade information
 $(".editUpgrade").on("click", function () {
     const element = this;
     const id = element.getAttribute("data-id");
@@ -321,7 +325,24 @@ $(".editUpgrade").on("click", function () {
     console.log(id, remainingTime, gemCosts)
 });
 
+//requesting finish upgrade screen
 $(".finishUpgrade").on("click", function () {
+    $.ajax({
+        method: "POST",
+        url: "/upgrade-tracker/finishUpgrade",
+        data: {
+            id: this.getAttribute("data-id"),
+            name: this.getAttribute("data-name"),
+            tag: this.getAttribute("data-tag"),
+            village: village
+        },
+        success: function() {
+             
+        },
+        error: function () {
+            setErrorPage(503);
+        }
+    });
 });
 
 function startBuilderUpgrade(buildingID: string, buildingName: string, id: number, currentLevel: number, playerTag: string) {
@@ -438,6 +459,7 @@ else {
     setModule("overview");
     location.hash = "#overview";
 };
+addModuleEventListener();
 
 $(function () {
     // don't cache ajax or content won't be fresh

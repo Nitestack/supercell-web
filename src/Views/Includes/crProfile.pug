@@ -113,7 +113,7 @@
                                         p.price-item.lead(align="center") 🏆 #{player.leagueStatistics.bestSeason.trophies}
         .row(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686;")
             h4(align="center") Stats Royale
-        .row(style="background-color: #E3EEF2; margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #939CA8; padding: calc(var(--bs-gutter-x)/ 2);")
+        .row(style="border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; background-color: #E3EEF2; margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #939CA8; padding: calc(var(--bs-gutter-x)/ 2);")
             .container(style="padding: 0;")
                 .row(style="margin-bottom: 20px;")
                     .col
@@ -178,7 +178,20 @@
                                 p.cr-description.lead(style="font-size: 15px; color: #0540D2; margin: 1px;") Tournament Wins
                                 p.price-item.lead(style="background-color: #B3C5D3; margin: 1px; padding: 10px; border-radius: 5px;") #{player.challengeCardsWon}
     section#cardsModule.module.container
+        div(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")
+            h4 Card Collection 
+            p.lead(style="color: #FC99FC") Found: #{player.cards.length}/103
+            div(style="display: grid; grid-template-columns: repeat(4, 1fr);")
+                each card in player.cards
+                    div.cr-card-container
+                        a(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
+                            button.btn.bg-transparent(style="padding: 0;")
+                                img.cr-card-image(src=card.iconUrls.medium)
+                                span.card-level(class="cr-text-" + (card.maxLevel == 13 ? "common" : (card.maxLevel == 11 ? "rare" : (card.maxLevel == 8 ? "epic" : "legendary")))) Level #{card.level + (13 - card.maxLevel)}
+                                
     section#upcomingchestsModule.module.container
+        .container(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")
+            h4 Upcoming Chests
 style.
     li.nav-item.categories {
         background-color: #657d96;

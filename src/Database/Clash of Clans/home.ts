@@ -256,6 +256,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 14500000,
         upgradeDuration: "16d"
+    }, {
+        costs: 17500000,
+        upgradeDuration: "18d"
     }]
 }), new HomeDefense({
     name: "Air Defense",
@@ -463,6 +466,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 17000000,
         upgradeDuration: "17d"
+    }, {
+        costs: 18500000,
+        upgradeDuration: "19d"
     }]
 }), new HomeDefense({
     name: "Inferno Tower",
@@ -2492,6 +2498,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 14000000,
         upgradeDuration: "15d 12h"
+    }, {
+        costs: 17500000,
+        upgradeDuration: "17d"
     }]
 }), new HomeOffense({
     name: "Electro Dragon",
@@ -2528,6 +2537,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 15000000,
         upgradeDuration: "16d"
+    }, {
+        costs: 18000000,
+        upgradeDuration: "18d"
     }]
 }), new HomeOffense({
     name: "Dragon Rider",
@@ -2615,6 +2627,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 280000,
         upgradeDuration: "16d"
+    }, {
+        costs: 320000,
+        upgradeDuration: "17d"
     }]
 }), new HomeOffense({
     name: "Valkyrie",
@@ -2684,6 +2699,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 270000,
         upgradeDuration: "16d"
+    }, {
+        costs: 320000,
+        upgradeDuration: "17d"
     }]
 }), new HomeOffense({
     name: "Witch",
@@ -2750,6 +2768,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 280000,
         upgradeDuration: "16d"
+    }, {
+        costs: 320000,
+        upgradeDuration: "17d 12h"
     }]
 }), new HomeOffense({
     name: "Ice Golem",

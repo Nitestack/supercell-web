@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { API } from "../";
-import PlayerSchemaObject, { Builder, Laboratory, PetHouse } from "../Database/Models/index";
+import { API } from "..";
+import PlayerSchemaObject, { Builder, Laboratory, PetHouse } from "../Database/Models/clashofclans";
 import { compileFile } from "pug";
 import { join } from "path";
 import Util from "../Util";
@@ -73,7 +73,8 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
             res.send({
                 player: player,
                 htmlCode: compileFunction({
-                    player: player
+                    player: player,
+                    chests: (await client.playersUpcomingChests(playerTag)).items
                 })
             });
         };
@@ -448,6 +449,29 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
         return res.send(sendObject);
     } catch (err) {
         console.log(err);
+    };
+});
+
+/**
+ * Requests the database for structure data and will finish
+ */
+router.post("/upgrade-tracker/finishUpgrade", async (req, res) => {
+    const { tag, village, name, id } = req.body;
+    const player = await PlayerSchemaObject.findOne({
+        playerTag: tag
+    });
+    //If an player exists in database
+    if (player) {
+        //Gets the builders of the village
+        let builder = village == "home" ? player.homeVillageBuilder : player.builderBaseBuilder;
+        //If the player has otto unlocked and if the builder is in the village
+        if (player.otto.unlocked && player.otto.currentVillage == village) builder = [...builder, ...player.otto.builder];
+        //Searches for the upgrade
+        const building = builder.find(building => building.name.toLowerCase() == name.toLowerCase() && building.id == id);
+        //If a building exists
+        if (building) return res.send({
+            building: building
+        });
     };
 });
 

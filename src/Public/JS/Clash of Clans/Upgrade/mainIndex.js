@@ -3,6 +3,7 @@ const village = document.getElementById("village").value;
 /*turns the music on, when the user first clicks on the body*/
 let alreadyClicked = false;
 document.getElementById("backgroundMusic").volume = 0.05;
+//adds scrollbar function on navbar
 document.getElementById("scrollBar").scrollTop = 0;
 let lastScrollTop = 0;
 document.getElementById("scrollBar").onscroll = function (ev) {
@@ -15,12 +16,14 @@ document.getElementById("scrollBar").onscroll = function (ev) {
     //@ts-ignore
     this.scrollTop = lastScrollTop;
 };
+//on user action it should start background music
 document.body.onclick = function () {
     if (alreadyClicked)
         return;
     alreadyClicked = true;
     document.getElementById("backgroundMusic").play();
 };
+//BOOST PANEL
 function setBoostModal(title, description, imageSrc, additionalDescription) {
     const applyBoostButton = document.getElementById("applyBoostButton");
     if (additionalDescription) {
@@ -272,6 +275,7 @@ function setBoostTable(builders, amount, boost, freeBoost) {
     });
 }
 ;
+//Update upgrade timers
 //@ts-ignore
 if (document.getElementById("update").value == "true" ? true : false) {
     let updateInterval;
@@ -325,6 +329,7 @@ if (document.getElementById("update").value == "true" ? true : false) {
     ;
 }
 ;
+//editing upgrade information
 $(".editUpgrade").on("click", function () {
     const element = this;
     const id = element.getAttribute("data-id");
@@ -332,7 +337,23 @@ $(".editUpgrade").on("click", function () {
     const gemCosts = parseInt(document.getElementById("gemCount" + id).textContent) || 0;
     console.log(id, remainingTime, gemCosts);
 });
+//requesting finish upgrade screen
 $(".finishUpgrade").on("click", function () {
+    $.ajax({
+        method: "POST",
+        url: "/upgrade-tracker/finishUpgrade",
+        data: {
+            id: this.getAttribute("data-id"),
+            name: this.getAttribute("data-name"),
+            tag: this.getAttribute("data-tag"),
+            village: village
+        },
+        success: function () {
+        },
+        error: function () {
+            setErrorPage(503);
+        }
+    });
 });
 function startBuilderUpgrade(buildingID, buildingName, id, currentLevel, playerTag) {
     const buttonParent = $(`button.builder-button[data-id=${buildingID.replace(/'/g, "\\'").replace(/ /g, "\\ ")}]`)[0].parentElement;
@@ -457,6 +478,7 @@ else {
     location.hash = "#overview";
 }
 ;
+addModuleEventListener();
 $(function () {
     // don't cache ajax or content won't be fresh
     $.ajaxSetup({

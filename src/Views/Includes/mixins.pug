@@ -224,7 +224,7 @@ mixin createTableContent(name, path, levels, moduleName)
                                             img(src="/Images/Clash of Clans/Home/Gem.png", style="height: 20px;")
                             .col
                                 button.btn.btn-warning.editUpgrade(type="button", data-id=convertNameToID(builder.name) + builder._id) #[i.fas.fa-tools]
-                                button.btn.btn-success.finishUpgrade(type="button") #[i.fas.fa-check]
+                                button.btn.btn-success.finishUpgrade(type="button", data-name=builder.name, data-id=builder.id, data-tag=player.tag) #[i.fas.fa-check]
                         else
                             if !(village == "builder" && name == "Army Camp")
                             .col(style="text-align: center;")

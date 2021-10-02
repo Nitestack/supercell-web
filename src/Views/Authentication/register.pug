@@ -1,0 +1,37 @@
+- const subTitle = "Register";
+
+doctype
+html(lang='en')
+    head
+        include ../Includes/header
+        script.
+            if (isLoggedIn) window.open("/account");
+    body
+        include ../Includes/navbar
+        .jumbotron.text-center.bg-transparent
+            h1.display-3 #{websiteName} - Register
+            p.coc-description.lead(style="font-size: 28px;") Create an account to save your data!
+            form(action="/auth/signup", style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
+                .container
+                    .row(style="margin-bottom: 20px;")
+                        .col
+                            p
+                                label.lead(for="username") Username 
+                                input.cr-description.form-control(type="text", placeholder="Username", name="username", required)
+                            p
+                                label.lead(for="email") E-Mail
+                                input.cr-description.form-control(type="email", placeholder="E-Mail", name="email", required)
+                            p
+                                label.lead(for="password") Password 
+                                input.cr-description.form-control(type="password", placeholder="Password", name="password", required)
+                            p
+                                label.lead(for="confirmpassword") Confirm Password 
+                                input.cr-description.form-control(type="password", placeholder="Confirm Password", name="confirmpassword", required)
+                            button.btn.btn-success(type="submit") Register 
+                    .row 
+                        .col
+                            span Have an account already? 
+                            a(href="/login")
+                                button.btn.btn-success(type="button") Login
+
+        include ../Includes/footer

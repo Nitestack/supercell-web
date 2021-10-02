@@ -169,14 +169,7 @@ section.module.container {
 
 /*Clash Royale*/
 .cr-text-legendary {
-  background-image: -webkit-linear-gradient(
-    left,
-    #d68ab0 0%,
-    #d8ce5d 25%,
-    #6bd85d 50%,
-    #5db9d8 75%,
-    #d85dcb 100%
-  );
+  background-image: linear-gradient(left, #D68AB0 0%, #D8CE5D 25%, #6BD85D 50%, #5DB9D8 75%, #D85DCB 100%);
   background-size: 1000% 1000%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -193,17 +186,17 @@ section.module.container {
   text-shadow: none;
 }
 .cr-text-epic {
-  color: #B300B3;
+  color: #FE99FE;
   white-space: nowrap;
   text-shadow: none;
 }
 .cr-text-rare {
-  color: #FFA31A;
+  color: #FFCD6A;
   white-space: nowrap;
   text-shadow: none;
 }
 .cr-text-common {
-  color: #888888;
+  color: #97CCFE;
   white-space: nowrap;
   text-shadow: none;
 }
@@ -230,6 +223,21 @@ section.module.container {
   100% {
     background-position: 0% 50%;
   }
+}
+
+.card-level {
+  position: absolute;
+  bottom: 7%;
+  left: 0%;
+  width: 100%;
+  text-align: center;
+  padding: 6px;
+}
+
+img.cr-card-image.notfound {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  cursor: pointer;
 }
 
 /* XP SHOWCASE */
@@ -417,45 +425,6 @@ a.nav-link.navbar-link-custom {
   transition: 0.4s;
   padding: 50px;
   color: black;
-}
-
-/*Tooltip*/
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 140px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -75px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
 }
 
 /* FOOTER */
@@ -857,40 +826,41 @@ h5.modal-title {
 
 /*Map Colors*/
 .map .description.brawl-ball {
-  background-color: #8ca0df;
+  background-color: #8CA0DF;
 }
 .map .description.gem-grab {
-  background-color: #9b3df3;
+  background-color: #9B3Df3;
 }
 .map .description.duo-showdown,
 .map .description.solo-showdown {
-  background-color: #81d621;
+  background-color: #81D621;
 }
 .map .description.showdown-plus {
-  background: linear-gradient(#f2cc2a, #e29312);
+  background: linear-gradient(#F2CC2A, #E29312);
 }
 .map .description.knockout {
-  background-color: #f7831c;
+  background-color: #F7831C;
 }
 .map .description.hot-zone {
-  background-color: #e33c50;
+  background-color: #E33C50;
 }
 .map .description.basket-brawl {
-  background-color: #238bfe;
+  background-color: #238BFE;
 }
 .map .description.bounty {
-  background-color: #01cfff;
+  background-color: #01CFFF;
 }
 .map .description.siege {
-  background-color: #f04f32;
+  background-color: #F04F32;
 }
 .map .description.heist {
-  background-color: #d55cd3;
+  background-color: #D55CD3;
 }
 .map .description.big-game,
 .map .description.boss-fight,
 .map .description.robo-rumble {
-  background-color: #dc2422;
+  background-color: #DC2422;
 }
-.map .description .super-city-chaos {
+.map .description.super-city-rampage {
+  background-color: #DB19A0;
 }

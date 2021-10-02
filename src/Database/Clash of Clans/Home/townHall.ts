@@ -2375,7 +2375,7 @@ export const townHall = [{
     },
     mortar: { 
         amount: 4,
-        maxLevel: 13 
+        maxLevel: 14
     },
     airDefense: { 
         amount: 4,
@@ -2399,7 +2399,7 @@ export const townHall = [{
     },
     x_Bow: { 
         amount: 4,
-        maxLevel: 8 
+        maxLevel: 9
     },
     infernoTower: { 
         amount: 3,
@@ -2501,7 +2501,7 @@ export const townHall = [{
     },
     miner: {
         amount: 1,
-        maxLevel: 7
+        maxLevel: 8
     },
     electroDragon: {
         amount: 1,
@@ -2509,7 +2509,7 @@ export const townHall = [{
     },
     yeti: {
         amount: 1,
-        maxLevel: 3
+        maxLevel: 4
     },
     dragonRider: {
         amount: 1,
@@ -2521,7 +2521,7 @@ export const townHall = [{
     },
     hogRider: {
         amount: 1,
-        maxLevel: 10
+        maxLevel: 11
     },
     valkyrie: {
         amount: 1,
@@ -2529,7 +2529,7 @@ export const townHall = [{
     },
     golem: {
         amount: 1,
-        maxLevel: 10
+        maxLevel: 11
     },
     witch: {
         amount: 1,
@@ -2541,7 +2541,7 @@ export const townHall = [{
     },
     bowler: {
         amount: 1,
-        maxLevel: 5
+        maxLevel: 6
     },
     iceGolem: {
         amount: 1,

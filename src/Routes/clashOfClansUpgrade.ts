@@ -3,7 +3,7 @@ import { API } from "..";
 import { Player } from "clashofclans.js";
 import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
-import PlayerSchemaObject, { PlayerSchema } from "../Database/Models/index";
+import PlayerSchemaObject, { PlayerSchema } from "../Database/Models/clashofclans";
 import { home } from "../Database/Clash of Clans/home";
 import { builder } from "../Database/Clash of Clans/builder";
 import Util from "../Util";
@@ -47,6 +47,10 @@ export interface BuilderBase {
     statsTotal: object;
 };
 
+/**
+ * Checks for an hash and adds it if it is not included
+ * @param {string} tag The player tag 
+ */
 function checkForHash(tag: string) {
     return tag.includes("#") ? tag.toUpperCase() : `#${tag.toUpperCase()}`;
 };
@@ -62,9 +66,11 @@ router.get("/upgrade-tracker/clashofclans", (req, res) => res.render("Upgrade/Cl
  * Switch village
  */
 router.get("/upgrade-tracker/clashofclans/:playerTag", async (req, res) => {
+    //Searches for a player in the database
     const playerSchema = await PlayerSchemaObject.findOne({
         playerTag: checkForHash(req.params.playerTag)
     });
+    //If the player doesn't exists
     if (!playerSchema) return res.redirect("/upgrade-tracker/clashofclans");
     return res.render("Upgrade/Clash of Clans/switchVillage", {
         player: playerSchema.player
@@ -76,9 +82,11 @@ router.get("/upgrade-tracker/clashofclans/:playerTag", async (req, res) => {
  */
 router.get("/upgrade-tracker/clashofclans/:playerTag/home", async (req, res) => {
     try {
+        //Searches for a player in the database
         const playerSchema = await PlayerSchemaObject.findOne({
             playerTag: checkForHash(req.params.playerTag)
         });
+        //If a player exists in the database
         if (playerSchema) {
             const { player } = playerSchema;
             await updateLevels(playerSchema, "home");
