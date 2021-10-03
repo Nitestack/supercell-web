@@ -1,18 +1,30 @@
-import { model, Schema, SchemaTypes, Document } from "mongoose";
+import { model, Schema, SchemaTypes, Document, SchemaType } from "mongoose";
 
 interface User extends Document {
     username: string;
     email: string;
     password: string;
-    roles: Array<any>;
+    roles: Array<string>;
+    clashOfClansVillages?: Array<string>;
 };
 
 export default model<User>("user", new Schema({
-    username: SchemaTypes.String,
-    email: SchemaTypes.String,
-    password: SchemaTypes.String,
+    username: {
+        type: SchemaTypes.String,
+        required: true
+    },
+    email: {
+        type: SchemaTypes.String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: SchemaTypes.String,
+        required: true,
+    },
     roles: [{
         type: Schema.Types.ObjectId,
         ref: "Role"
-    }]
+    }],
+    clashOfClansVillages: [SchemaTypes.String]
 }));

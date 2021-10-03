@@ -216,24 +216,3 @@ function findGETParameterValue(parameterName: string) {
     console.log(result);
     return result;
 };
-
-function validateToken() {
-    let isLoggedIn = false;
-    if (localStorage.getItem("token")) isLoggedIn = true;
-    if (isLoggedIn) {
-        $.ajax({
-            method: "POST",
-            url: "/verifyToken",
-            data: {
-                token: localStorage.getItem("token")
-            },
-            success: function ({ token, errorMessage }) {
-                if (token) localStorage.setItem("token", token);
-            },
-            error: function () {
-                setErrorPage(503);
-            }
-        });
-    };
-    return isLoggedIn;
-};

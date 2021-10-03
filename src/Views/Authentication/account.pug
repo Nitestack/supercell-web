@@ -1,0 +1,14 @@
+- const subTitle = "Account";
+
+doctype
+html(lang='en')
+    head
+        include ../Includes/header 
+        script(src="/JS/login.js", defer)
+    body
+        include ../Includes/navbar
+        .jumbotron.text-center.bg-transparent
+            h1.display-3 #{websiteName} - Account
+            p.coc-description.lead(style="font-size: 28px;") See your data and your saved villages!
+            
+        include ../Includes/footer

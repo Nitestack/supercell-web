@@ -4,30 +4,34 @@ doctype
 html(lang='en')
     head
         include ../Includes/header
-        script.
-            if (isLoggedIn) window.open("/account");
+        script(src="/JS/register.js", defer)
     body
         include ../Includes/navbar
         .jumbotron.text-center.bg-transparent
             h1.display-3 #{websiteName} - Register
             p.coc-description.lead(style="font-size: 28px;") Create an account to save your data!
-            form(action="/auth/signup", style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
+            form#registerForm(action="/auth/signup", method="POST", style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
                 .container
                     .row(style="margin-bottom: 20px;")
-                        .col
+                        .col 
+                            p.cr-description#internalIssue(style="color: red;") 
                             p
-                                label.lead(for="username") Username 
+                                label.lead(for="username") Username
+                                p.cr-description#usernameIssue(style="color: red;") 
                                 input.cr-description.form-control(type="text", placeholder="Username", name="username", required)
                             p
                                 label.lead(for="email") E-Mail
+                                p.cr-description#emailIssue(style="color: red;") 
                                 input.cr-description.form-control(type="email", placeholder="E-Mail", name="email", required)
                             p
-                                label.lead(for="password") Password 
-                                input.cr-description.form-control(type="password", placeholder="Password", name="password", required)
+                                label.lead(for="password") Password
+                                p.cr-description#passwordIssue(style="color: red;")
+                                input#password.cr-description.form-control(type="password", placeholder="Password", name="password", required)
                             p
-                                label.lead(for="confirmpassword") Confirm Password 
-                                input.cr-description.form-control(type="password", placeholder="Confirm Password", name="confirmpassword", required)
-                            button.btn.btn-success(type="submit") Register 
+                                label.lead(for="confirmpassword") Confirm Password
+                                p.cr-description#confirmPasswordIssue(style="color: red;")
+                                input#confirmPassword.cr-description.form-control(type="password", placeholder="Confirm Password", name="confirmpassword", required)
+                            button#submitButton.btn.btn-success(type="button") Register 
                     .row 
                         .col
                             span Have an account already? 

@@ -1,57 +1,173 @@
-import { Router } from "express";
-import { checkDuplicateUsernameOrEmail, checkRolesExisted } from "../Middleware/verifySignUp";
-import { signup } from "../Controller/auth";
-import { adminBoard, allAccess, userBoard, moderatorBoard } from "../Controller/user";
-import { verifyToken, isAdmin, isModerator } from "../Middleware/authJwt";
+import { Router, Request, Response } from "express";
 import Database from "../Database/Models/User/index";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const router = Router();
 
-router.get("/login", (req, res) => res.render("Authentication/login"));
-router.get("/register", (req, res) => res.render("Authentication/register"));
+router.get("/login", (req, res) => {
+    verifyToken(req, res, true);
+    //@ts-ignore
+    if (req.userID) return res.redirect("/account");
+    res.render("Authentication/login");
+});
+router.get("/register", (req, res) => {
+    //@ts-ignore
+    if (req.userID) return res.redirect("/account");
+    res.render("Authentication/register");
+});
 router.get("/forgot-password", (req, res) => res.render("Authentication/forgotPassword"));
-router.get("/account", (req, res) => res.render("Authentication/account"));
+router.get("/account", (req, res) => res.render("Authentication/account", {
+    
+}));
 
-router.post("/auth/signup", [checkDuplicateUsernameOrEmail, checkRolesExisted], signup);
+router.post("/auth/signup", (req, res) => {
+    try {
+        //Check for Email validaty
+        Database.User.findOne({
+            username: req.body.username
+        }).exec((err, user) => {
+            if (err) {
+                console.log(err);
+                return res.redirect("/register?error=internal");
+            } else if (user) return res.redirect("/register?error=user");
+            Database.User.findOne({
+                email: req.body.email
+            }).exec((err, user) => {
+                if (err) {
+                    console.log(err);
+                    return res.redirect("/register?error=user");
+                } else if (user) return res.redirect("/register?error=email");
+            });
+        });
+        //Check for role validaty
+        if (req.body.roles) for (let i = 0; i < req.body.roles.length; i++) if (!Database.ROLES.includes(req.body.roles[i])) {
+            console.log(`Failed! Role ${req.body.roles[i]} does not exist!`);
+            return res.redirect("/register?error=internal");
+        };
+        const user = new Database.User({
+            username: req.body.username,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8)
+        });
+        //Sign up
+        user.save((err, user) => {
+            if (err) {
+                console.log(err);
+                return res.redirect("/register?error=internal");
+            } else {
+                if (req.body.roles) Database.Role.find({ name: { $in: req.body.roles } }, (err, roles) => {
+                    if (err) {
+                        console.log(err);
+                        return res.redirect("/register?error=internal");
+                    } else {
+                        user.roles = roles.map(role => role._id);
+                        user.save(err => {
+                            if (err) {
+                                console.log(err);
+                                return res.redirect("/register?error=internal");
+                            };
+                        });
+                    };
+                });
+                else {
+                    Database.Role.findOne({ name: "user" }, {}, {}, (err, role) => {
+                        if (err) {
+                            console.log(err);
+                            return res.redirect("/register?error=internal");
+                        } else {
+                            user.roles = [role._id];
+                            user.save(err => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.redirect("/register?error=internal");
+                                };
+                            });
+                        };
+                    });
+                };
+                res.cookie("x-access-token", generateToken({ id: user.id }), {
+                    path: "/",
+                    sameSite: true,
+                    maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
+                    httpOnly: true // The cookie only accessible by the web server
+                });
+                return res.redirect("/account");
+            };
+        });
+    } catch (err) {
+        console.log(err);
+    };
+});
 
-router.post("/auth/signin", (req, res) => {
+router.post("/auth/signin", async (req, res) => {
     Database.User.findOne({
         username: req.body.username
-    }).populate("roles", "-__v").exec((err, user) => {
+    }).exec((err, user) => {
         if (err) {
-            res.status(500).send({ message: err });
-            return;
+            console.log(err);
+            return res.redirect("/login?error=internal");
         } else if (!user) return res.redirect("/login?error=user");
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) return res.redirect("/login?error=password");
-        const token = jwt.sign({ id: user.id }, process.env.SECRET, {
-            expiresIn: 86400 // 24 hours
-        });
-        const authorities: Array<string> = [];
-        for (let i = 0; i < user.roles.length; i++) authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-        console.log({
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            roles: authorities,
-            accessToken: token
+        res.cookie("x-access-token", generateToken({ id: user.id }), {
+            path: "/",
+            sameSite: true,
+            maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
+            httpOnly: true // The cookie only accessible by the web server
         });
         return res.redirect("/account");
     });
 });
 
-router.post("/verifyUser", (req, res) => {
-    const { token } = req.body;
-});
+function generateToken(payload: string | object | Buffer, expireTime?: number) {
+    return jwt.sign(payload, process.env.SECRET, {
+        expiresIn: expireTime || 86400 // 24 hours
+    });
+};
 
-router.get("/api/test/all", allAccess);
+export function verifyToken(req: Request, res: Response, noRedirection?: boolean) {
+    const token = req.cookies['x-access-token'];
+    if (token) {
+        jwt.verify(token as string, process.env.SECRET, (err, decoded) => {
+            if (err) {
+                if (err.message.toLowerCase().includes("expired")) {
+                    //@ts-ignore
+                    return res.cookie("x-access-token", generateToken({ id: req.userID }), {
+                        path: "/",
+                        sameSite: true,
+                        maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
+                        httpOnly: true // The cookie only accessible by the web server
+                    });
+                } else {
+                    console.log(err);
+                    if (!noRedirection) return res.redirect("/login?error=internal");
+                };
+            } //@ts-ignore
+            else req.userID = decoded.id;
+            console.log(decoded);
+        });
+    } else if (!noRedirection) return res.redirect('/login');
+};
 
-router.get("/api/test/user", [verifyToken], userBoard);
-
-router.get("/api/test/mod", [verifyToken, isModerator], moderatorBoard);
-
-router.get("/api/test/admin", [verifyToken, isAdmin], adminBoard);
+export function isAdmin(req: Request, res: Response) {
+    //@ts-ignore
+    Database.User.findById(req.userID).exec((err, user) => {
+        if (err) {
+            console.log(err);
+            return res.render("Errors/404");
+        } else {
+            Database.Role.find({ _id: { $in: user.roles } }, (err, roles) => {
+                if (err) {
+                    console.log(err);
+                    return res.render("Errors/404");;
+                } else {
+                    for (let i = 0; i < roles.length; i++) if (roles[i].name == "admin") return;
+                    return res.render("Errors/404");
+                };
+            });
+        };
+    });
+};
 
 export default router;
