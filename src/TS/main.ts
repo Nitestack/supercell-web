@@ -102,12 +102,10 @@ window.onscroll = function () {
         document.getElementById("navbar").style.height = "70px";
         document.getElementById("logo").style.fontSize = "25px";
         document.getElementById("logo").style.padding = "22px";
-        $("#inGameEventTimeLine").hide("fast");
     } else {
         document.getElementById("navbar").style.height = "130px";
         document.getElementById("logo").style.fontSize = "35px";
         document.getElementById("logo").style.padding = "50px";
-        $("#inGameEventTimeLine").show("slow");
     };
 };
 

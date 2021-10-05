@@ -5,10 +5,13 @@ import rootRouter from "./Routes/root";
 import clashofclansUpgradeTrackerRouter from "./Routes/clashOfClansUpgrade";
 import statsTrackerRouter from "./Routes/stats";
 import ajaxRequests from "./Routes/ajax";
-import tools from "./Routes/tools";
+import toolsRouter from "./Routes/tools";
+import adminRouter from "./Routes/admin";
 //User
 import authRouter from "./Routes/user";
 import Database from "./Database/Models/User/index";
+//Middleware
+import Middleware from "./Middleware/index";
 //Other modules
 import dotenv from "dotenv";
 import { set, connect, connection } from "mongoose";
@@ -57,29 +60,27 @@ connection.on("open", () => {
 const app = express();
 
 //view engine
-app.set('views', join(__dirname, "Views"));
 app.set('view engine', 'pug');
+app.set('views', join(__dirname, "Views"));
 
-//Create a port
+//Static files
+app.use(express.static(join(__dirname, "Public")));
+
+//Define the port number
 const port = process.env.PORT || 3000;
 
 app.use(cors({
     origin: `http://localhost:${port}`
 }));
-
 //Parse requests of content-type application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 //Parse requests of content-type application/json
 app.use(bodyParser.json());
-
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 
-//Static files
-app.use(express.static(join(__dirname, "Public")));
-
 //Using all routes
-app.use(rootRouter, authRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests, tools);
+app.use(Middleware.validateToken, rootRouter, adminRouter, authRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests, toolsRouter);
 
 //App
 app.use((req, res, next) => {

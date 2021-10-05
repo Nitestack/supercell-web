@@ -1,23 +1,27 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import Database from "../Database/Models/User/index";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import Middleware from "../Middleware/index";
 
 const router = Router();
 
 router.get("/login", (req, res) => {
-    verifyToken(req, res, true);
-    //@ts-ignore
-    if (req.userID) return res.redirect("/account");
+    if (res.locals.userID) return res.redirect("/account");
     res.render("Authentication/login");
 });
+router.get('/logout', (req, res) => {
+    res.clearCookie("x-access-token");
+    res.redirect('/');
+});
 router.get("/register", (req, res) => {
-    //@ts-ignore
-    if (req.userID) return res.redirect("/account");
+    if (res.locals.userID) return res.redirect("/account");
     res.render("Authentication/register");
 });
-router.get("/forgot-password", (req, res) => res.render("Authentication/forgotPassword"));
-router.get("/account", (req, res) => res.render("Authentication/account", {
+router.get("/forgot-password", (req, res) => {
+    if (res.locals.userID) return res.redirect("/account");
+    res.render("Authentication/forgotPassword");
+});
+router.get("/account", Middleware.redirectToLoginPage, (req, res) => res.render("Authentication/account", {
     
 }));
 
@@ -86,7 +90,7 @@ router.post("/auth/signup", (req, res) => {
                         };
                     });
                 };
-                res.cookie("x-access-token", generateToken({ id: user.id }), {
+                res.cookie("x-access-token", Middleware.generateToken({ id: user.id }), {
                     path: "/",
                     sameSite: true,
                     maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
@@ -110,7 +114,7 @@ router.post("/auth/signin", async (req, res) => {
         } else if (!user) return res.redirect("/login?error=user");
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) return res.redirect("/login?error=password");
-        res.cookie("x-access-token", generateToken({ id: user.id }), {
+        res.cookie("x-access-token", Middleware.generateToken({ id: user.id }), {
             path: "/",
             sameSite: true,
             maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
@@ -119,55 +123,5 @@ router.post("/auth/signin", async (req, res) => {
         return res.redirect("/account");
     });
 });
-
-function generateToken(payload: string | object | Buffer, expireTime?: number) {
-    return jwt.sign(payload, process.env.SECRET, {
-        expiresIn: expireTime || 86400 // 24 hours
-    });
-};
-
-export function verifyToken(req: Request, res: Response, noRedirection?: boolean) {
-    const token = req.cookies['x-access-token'];
-    if (token) {
-        jwt.verify(token as string, process.env.SECRET, (err, decoded) => {
-            if (err) {
-                if (err.message.toLowerCase().includes("expired")) {
-                    //@ts-ignore
-                    return res.cookie("x-access-token", generateToken({ id: req.userID }), {
-                        path: "/",
-                        sameSite: true,
-                        maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
-                        httpOnly: true // The cookie only accessible by the web server
-                    });
-                } else {
-                    console.log(err);
-                    if (!noRedirection) return res.redirect("/login?error=internal");
-                };
-            } //@ts-ignore
-            else req.userID = decoded.id;
-            console.log(decoded);
-        });
-    } else if (!noRedirection) return res.redirect('/login');
-};
-
-export function isAdmin(req: Request, res: Response) {
-    //@ts-ignore
-    Database.User.findById(req.userID).exec((err, user) => {
-        if (err) {
-            console.log(err);
-            return res.render("Errors/404");
-        } else {
-            Database.Role.find({ _id: { $in: user.roles } }, (err, roles) => {
-                if (err) {
-                    console.log(err);
-                    return res.render("Errors/404");;
-                } else {
-                    for (let i = 0; i < roles.length; i++) if (roles[i].name == "admin") return;
-                    return res.render("Errors/404");
-                };
-            });
-        };
-    });
-};
 
 export default router;

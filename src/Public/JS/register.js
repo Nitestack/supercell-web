@@ -1,5 +1,3 @@
-if (validateToken())
-    window.open("/account");
 //@ts-ignore
 const error = findGETParameterValue("error");
 if (error && error.toLowerCase() == "user")

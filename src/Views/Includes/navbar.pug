@@ -1,17 +1,34 @@
-#navbar
-  a#logo(href="/") #{websiteName}
-  .flexible-inline(style="align-items: center;")
+mixin navbarItems() 
     a.coc-description.nav-link.navbar-link-custom(type="button", href='/upgrade-tracker') #[i.fas.fa-code] Upgrade Tracker
     a.coc-description.nav-link.navbar-link-custom(type="button", href='/stats-tracker') #[i.fas.fa-code] Stats Tracker
     a.coc-description.nav-link.navbar-link-custom(type="button", href="/tools") #[i.fas.fa-tools] Tools
-    if user 
-        a.coc-description.nav-link.navbar-link-custom(type="button", href='/account') #[i.fas.fa-code] My Account
+    if userID
+        .nav-item.dropdown
+            a#navbarAccount.coc-description.nav-link.navbar-link-custom.dropdown-toggle(role='button', data-bs-toggle='dropdown', aria-expanded='false')
+            .dropdown-menu.dropdown-menu-dark.position-absolute(aria-labelledby='navbarAccount')
+                a.dropdown-item.coc-description(type="button", href='/account') #[i.fas.fa-cogs.text-muted] My Account
+                a.dropdown-item.coc-description(type="button", href='/logout') #[i.fas.fa-userID-slash.text-muted] Logout
     else 
         a.coc-description.nav-link.navbar-link-custom(type="button", href='/login') #[i.fas.fa-code] Login
     button.btn.btn-success.cookie-button#sound(type="button", style="height: 50px; width: 50px;", data-sound="false")
         img(src="/Images/sound.png")
     button.btn.btn-success.cookie-button#noSound(type="button", style="height: 50px; width: 50px;", data-sound="true")
         img(src="/Images/no-sound.png")
+
+#navbar
+    a#logo(href="/") #{websiteName}
+    .header-right#desktopScreen 
+        +navbarItems()
+    .header-right#mobileScreen
+        button.navbar-toggler.bg-dark(type="button", data-bs-toggle="offcanvas", data-bs-target="#offcanvasNavbar", aria-controls="offcanvasNavbar")
+            span.navbar-toggler-icon
+        .offcanvas.offcanvas-end#offcanvasNavbar(tabindex="-1", aria-labelledby="offcanvasNavbarLabel", style="background-color: #5E5451; width: unset;")
+            .offcanvas-header
+                h5#offcanvasNavbarLabel.offcanvas-title(align="center") #{websiteName}
+                button.btn-close.text-reset(type="button", data-bs-dismiss="offcanvas" aria-label="Close")
+            .offcanvas-body
+                ul.navbar-nav.justify-content-end.flex-grow-1.pe-3
+                    +navbarItems()
 button#errorModalButton(type="button", data-bs-toggle="modal", data-bs-target="#errorModal", style="display: none;")
 .modal.fade#errorModal(tabindex="-1", aria-labelledby="errorModalTitle", aria-model="true", role="dialog")
     .modal-dialog.modal-dialog-centered 

@@ -1,3 +1,19 @@
+:root {
+  /*Brawl Stars Map Colors*/
+  --bs-basket-brawl: #238BFE;
+  --bs-super-city-rampage: #DB19A0;
+  --bs-boss-robo-big: #DC2422;
+  --bs-gem-grab: #9B3Df3;
+  --bs-brawl-ball: #8CA0DF;
+  --bs-heist: #D55CD3;
+  --bs-hot-zone: #E33C50;
+  --bs-siege: #F04F32;
+  --bs-bounty: #01CFFF;
+  --bs-knockout: #F7831C;
+  --bs-showdown-plus: linear-gradient(#F2CC2A, #E29312);
+  --bs-showdown: #81D621;
+}
+
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700,900");
 @font-face {
   font-family: "Supercell-Magic";
@@ -402,14 +418,41 @@ footer {
 }
 
 a.nav-link.navbar-link-custom {
-  padding-top: 0;
-  padding-bottom: 0;
   font-size: 20px;
+  float: left;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+a.nav-link.navbar-link-custom:hover {
+  background-color: #DDD;
+  color: black;
+}
+
+.header-right {
+  margin-left: auto; 
+  margin-right: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+/*Normal*/
+
+/*Large screens*/
+@media screen and (max-width: 1200px) {
+
+}
+/*Small screens*/
+@media screen and (max-width: 600px) {
+  
 }
 
 #navbar {
   overflow: hidden;
-  background-color: #5e5451;
+  background-color: #5E5451;
   height: 130px;
   transition: 0.4s;
   position: sticky;
@@ -439,7 +482,7 @@ a.nav-link.navbar-link-custom {
 }
 
 .footer {
-  background-color: #24262b;
+  background-color: #24262B;
   padding: 30px;
   color: white;
 }
@@ -452,13 +495,13 @@ a.nav-link.navbar-link-custom {
   -webkit-appearance: none;
   width: 100%;
   height: 20%;
-  background-color: #71ba30;
+  background-color: #71BA30;
   outline: none;
   opacity: 0.7;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
   border-radius: 12px;
-  box-shadow: 0px 1px 10px 1px #40712a;
+  box-shadow: 0px 1px 10px 1px #40712A;
 }
 
 .slider:hover {
@@ -677,8 +720,8 @@ li.nav-item.categories[type="button"] {
 /*MODAL*/
 .modal-content {
   border-radius: 10px;
-  border: 10px solid #5e5451;
-  background-color: #5e5451;
+  border: 10px solid #5E5451;
+  background-color: #5E5451;
 }
 
 .modal-body {
@@ -697,7 +740,7 @@ li.nav-item.categories[type="button"] {
 }
 
 .modal-header {
-  background: linear-gradient(#99928e, #7a726f 25%, #5e5451 50%);
+  background: linear-gradient(#99928E, #7A726F 25%, #5E5451 50%);
   border-bottom: none;
   justify-content: center;
   border: none;
@@ -788,7 +831,7 @@ h5.modal-title {
 }
 
 .map .description {
-  border-bottom: 2px solid #0a0a0a;
+  border-bottom: 2px solid #0A0A0A;
   border-radius: 0;
   display: flex !important;
 }
@@ -826,41 +869,41 @@ h5.modal-title {
 
 /*Map Colors*/
 .map .description.brawl-ball {
-  background-color: #8CA0DF;
+  background-color: var(--bs-brawl-ball);
 }
 .map .description.gem-grab {
-  background-color: #9B3Df3;
+  background-color: var(--bs-gem-grab);
 }
 .map .description.duo-showdown,
 .map .description.solo-showdown {
-  background-color: #81D621;
+  background-color: var(--bs-showdown);
 }
 .map .description.showdown-plus {
-  background: linear-gradient(#F2CC2A, #E29312);
+  background: var(--bs-showdown-plus);
 }
 .map .description.knockout {
-  background-color: #F7831C;
+  background-color: var(--bs-knockout);
 }
 .map .description.hot-zone {
-  background-color: #E33C50;
+  background-color: var(--bs-hot-zone);
 }
 .map .description.basket-brawl {
-  background-color: #238BFE;
+  background-color: var(--bs-basket-brawl);
 }
 .map .description.bounty {
-  background-color: #01CFFF;
+  background-color: var(--bs-bounty);
 }
 .map .description.siege {
-  background-color: #F04F32;
+  background-color: var(--bs-siege);
 }
 .map .description.heist {
-  background-color: #D55CD3;
+  background-color: var(--bs-heist);
 }
 .map .description.big-game,
 .map .description.boss-fight,
 .map .description.robo-rumble {
-  background-color: #DC2422;
+  background-color: var(--bs-boss-robo-big);
 }
 .map .description.super-city-rampage {
-  background-color: #DB19A0;
+  background-color: var(--bs-super-city-rampage);
 }

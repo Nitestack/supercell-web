@@ -111,13 +111,11 @@ window.onscroll = function () {
         document.getElementById("navbar").style.height = "70px";
         document.getElementById("logo").style.fontSize = "25px";
         document.getElementById("logo").style.padding = "22px";
-        $("#inGameEventTimeLine").hide("fast");
     }
     else {
         document.getElementById("navbar").style.height = "130px";
         document.getElementById("logo").style.fontSize = "35px";
         document.getElementById("logo").style.padding = "50px";
-        $("#inGameEventTimeLine").show("slow");
     }
     ;
 };
@@ -236,30 +234,6 @@ function findGETParameterValue(parameterName) {
     });
     console.log(result);
     return result;
-}
-;
-function validateToken() {
-    let isLoggedIn = false;
-    if (localStorage.getItem("token"))
-        isLoggedIn = true;
-    if (isLoggedIn) {
-        $.ajax({
-            method: "POST",
-            url: "/verifyToken",
-            data: {
-                token: localStorage.getItem("token")
-            },
-            success: function ({ token, errorMessage }) {
-                if (token)
-                    localStorage.setItem("token", token);
-            },
-            error: function () {
-                setErrorPage(503);
-            }
-        });
-    }
-    ;
-    return isLoggedIn;
 }
 ;
 //# sourceMappingURL=main.js.map
