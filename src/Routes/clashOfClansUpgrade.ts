@@ -8,17 +8,15 @@ import { home } from "../Database/Clash of Clans/home";
 import { builder } from "../Database/Clash of Clans/builder";
 import Util from "../Util";
 import Base from "../Database/Clash of Clans/Base";
-import { homeDefensesArray, homeTrapsArray, homeArmyArray, homeResourcesArray, builderArmyArray, builderDefensesArray, builderResourcesArray, builderTrapsArray, builderTroopsArray, homeTroopsArray, homeDarkTroopsArray, homeHeroesArray, homePetsArray, homeSiegeMachinesArray, homeSpellsArray } from "../Database/Clash of Clans/constants";
+import ClashOfClansConstants from "../Database/Clash of Clans/constants";
 
 const router = Router();
 
 export interface HomeVillage {
     player: Player;
     village: "home";
-    townHall: object;
     maxTownHall: object;
     database: PlayerSchema;
-    home: Array<Base>;
     convertPrice: (number: number) => string;
     convertTime: (timeInSeconds: number, language?: string) => string;
     convertStatsTime: (timeInSeconds: number) => string;
@@ -32,10 +30,8 @@ export interface HomeVillage {
 export interface BuilderBase {
     player: Player;
     village: "builder";
-    builderHall: object;
     maxBuilderHall: object;
     database: PlayerSchema;
-    builder: Array<Base>;
     maxedBuilderHallLevel: 9,
     convertPrice: (number: number) => string;
     convertTime: (timeInSeconds: number, language?: string) => string;
@@ -93,10 +89,8 @@ router.get("/upgrade-tracker/clashofclans/:playerTag/home", async (req, res) => 
             res.render("Upgrade/Clash of Clans/index", {
                 player: player,
                 village: "home",
-                townHall: townHall[player.townHallLevel - 1],
                 maxTownHall: townHall[townHall.length - 1],
                 database: playerSchema,
-                home: home,
                 convertPrice: Util.convertNumber,
                 convertTime: (timeInSeconds: number, language?: string) => {
                     return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
@@ -133,10 +127,8 @@ router.get("/upgrade-tracker/clashofclans/:playerTag/builder", async (req, res) 
             res.render("Upgrade/Clash of Clans/index", {
                 player: player,
                 village: "builder",
-                builderHall: builderHall[player.builderHallLevel - 1],
                 maxBuilderHall: builderHall[builderHall.length - 1],
                 database: playerSchema,
-                builder: builder,
                 convertPrice: Util.convertNumber,
                 convertTime: (timeInSeconds: number) => {
                     return Util.convertMilliseconds(timeInSeconds * 1000, true);
@@ -230,8 +222,6 @@ router.post("/upgrade-tracker/clashofclans/home/new", async (req, res) => {
     const player: Player = JSON.parse(req.body.player);
     res.render("Upgrade/Clash of Clans/editHomeStructures", {
         player: player,
-        townHall: townHall[player.townHallLevel - 1],
-        allTownHalls: townHall.slice(0, player.townHallLevel),
         village: "home"
     });
 });
@@ -243,8 +233,6 @@ router.post("/upgrade-tracker/clashofclans/builder/new", async (req, res) => {
     const player: Player = JSON.parse(req.body.player);
     res.render("Upgrade/Clash of Clans/editBuilderStructures", {
         player: player,
-        builderHall: builderHall[player.builderHallLevel - 1],
-        allBuilderHalls: builderHall,
         village: "builder"
     });
 });
@@ -277,13 +265,13 @@ router.post("/upgrade-tracker/clashofclans/home/structures/set", async (req, res
         }, {
             upsert: true
         });
-        if (player.builderHallLevel && !playerSchema?.builderBase) {
+        /*if (player.builderHallLevel && !playerSchema?.builderBase) {*/
             res.render("redirect", {
                 action: "/upgrade-tracker/clashofclans/builder/new",
                 name: "player",
                 value: player
             });
-        } else res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home");
+        /*} else res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home");*/
     } catch (err) {
         console.log(err);
     };
@@ -500,7 +488,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
     if (playerSchema.otto.unlocked && playerSchema.otto.currentVillage == village && playerSchema.otto.builder[0]) {
         const building = playerSchema.otto.builder[0];
         if (Date.now() >= building.start.getTime() + building.durationInMilliseconds) {
-            if ([...homeHeroesArray, "Battle Machine"].includes(building.name)) {
+            if ([...ClashOfClansConstants.homeHeroesArray, "Battle Machine"].includes(building.name)) {
                 const hero = player.heroes.find(unit => unit.name.toLowerCase() == building.name.toLowerCase());
                 if (hero) player.heroes.splice(player.heroes.indexOf(hero), 1, {
                     ...hero,
@@ -512,7 +500,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
         };
     };
     for (const building of builder) if (Date.now() >= building.start.getTime() + building.durationInMilliseconds) {
-        if ([...homeHeroesArray, "Battle Machine"].includes(building.name)) {
+        if ([...ClashOfClansConstants.homeHeroesArray, "Battle Machine"].includes(building.name)) {
             const hero = player.heroes.find(unit => unit.name.toLowerCase() == building.name.toLowerCase());
             if (hero) player.heroes.splice(player.heroes.indexOf(hero), 1, {
                 ...hero,
@@ -582,7 +570,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
  * @param {"home" | "builder"} village The village
  */
 export function getTotalCostsAndTimes(playerSchema: PlayerSchema, village: "home" | "builder") {
-    const structures = village == "home" ? [...homeDefensesArray, ...homeTrapsArray, ...homeArmyArray, ...homeResourcesArray] : [...builderDefensesArray, ...builderTrapsArray, ...builderArmyArray, ...builderResourcesArray];
+    const structures = village == "home" ? [...ClashOfClansConstants.homeDefensesArray, ...ClashOfClansConstants.homeTrapsArray, ...ClashOfClansConstants.homeArmyArray, ...ClashOfClansConstants.homeResourcesArray] : [...ClashOfClansConstants.builderDefensesArray, ...ClashOfClansConstants.builderTrapsArray, ...ClashOfClansConstants.builderArmyArray, ...ClashOfClansConstants.builderResourcesArray];
     const base = playerSchema[village == "home" ? "homeVillage" : "builderBase"];
     const totalCosts = {};
     const sectionCosts = {};
@@ -674,7 +662,7 @@ export function getTotalCostsAndTimes(playerSchema: PlayerSchema, village: "home
     };
     //Troops and Spells
     if ((village == "home" && playerSchema?.player.townHallLevel >= 3) || village != "home") {
-        const laboratory = village == "home" ? [...homeTroopsArray, ...homeDarkTroopsArray, ...homeSpellsArray, ...homeSiegeMachinesArray] : builderTroopsArray;
+        const laboratory = village == "home" ? [...ClashOfClansConstants.homeTroopsArray, ...ClashOfClansConstants.homeDarkTroopsArray, ...ClashOfClansConstants.homeSpellsArray, ...ClashOfClansConstants.homeSiegeMachinesArray] : ClashOfClansConstants.builderTroopsArray;
         sectionCosts["totalLaboratoryCosts"] = {};
         const playerLaboratory = [...playerSchema.player.troops, ...playerSchema.player.spells];
         for (const unitName of laboratory) {
@@ -710,7 +698,7 @@ export function getTotalCostsAndTimes(playerSchema: PlayerSchema, village: "home
     };
     //HEROES
     if ((village == "home" && playerSchema?.player.townHallLevel >= 7) || (village == "builder" && playerSchema?.player.builderHallLevel >= 5)) {
-        const heroes = village == "home" ? homeHeroesArray : ["Battle Machine"];
+        const heroes = village == "home" ? ClashOfClansConstants.homeHeroesArray : ["Battle Machine"];
         sectionCosts["totalHeroCosts"] = {};
         for (const heroName of heroes) {
             const hallItem = Util.getHallItem(heroName, village == "home" ? playerSchema?.player.townHallLevel : playerSchema?.player.builderHallLevel, village);
@@ -746,7 +734,7 @@ export function getTotalCostsAndTimes(playerSchema: PlayerSchema, village: "home
     //PETS
     if (village == "home" && playerSchema?.player.townHallLevel >= 14) {
         sectionCosts["totalPetsCosts"] = {};
-        const pets = homePetsArray;
+        const pets = ClashOfClansConstants.homePetsArray;
         for (const petName of pets) {
             const hallItem = Util.getHallItem(petName, village == "home" ? playerSchema?.player.townHallLevel : playerSchema?.player.builderHallLevel, village);
             if (!hallItem) continue;

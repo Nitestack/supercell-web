@@ -23,14 +23,16 @@ html(lang='en')
                             button.btn.btn-primary(onclick="displayAllUsers();") Display all
                             button.btn.btn-success Create one
                             button.btn.btn-danger Delete one
-                            pre
-                                code(data-language="javascript")
+                        pre#userDisplayPre(style="display: none;")
+                            code#userDisplay(class="language-json")
                 .row 
                     h3 Clash of Clans Village Board
                     .col
                         .flexible-inline 
-                            button.btn.btn-primary Display all
-                            button.btn.btn-success Create one
+                            button.btn.btn-primary(onclick="displayAllCoCVillages();") Display all
+                            button.btn.btn-success(onclick="") Create one
                             button.btn.btn-danger Delete one
+                        pre#cocVillagesDisplayPre(style="display: none;")
+                            code#cocVillagesDisplay(class="language-json")
             
         include ../Includes/footer

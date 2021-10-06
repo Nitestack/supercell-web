@@ -2,6 +2,9 @@ import { Router } from "express";
 import Database from "../Database/Models/User/index";
 import Middleware from "../Middleware/index";
 import prism from "prismjs";
+import loadLanguages from "prismjs/components/";
+import PlayerSchema from "../Database/Models/clashofclans";
+loadLanguages("json");
 
 const router = Router();
 
@@ -15,7 +18,20 @@ router.get("/admin", Middleware.redirectToLoginPage, Middleware.isAdmin, async (
 
 router.post("/admin/getEveryUser", Middleware.redirectToLoginPage, Middleware.isAdmin, async (req, res) => {
     try {
-        console.log(prism.highlight(JSON.stringify(await Database.User.find()), prism.languages.json, "json"))
+        const users = await Database.User.find().exec();
+        const html = prism.highlight(JSON.stringify(users, null, 2), prism.languages.json, 'json');
+        return res.send(html);
+    } catch (err) {
+        console.log(err);
+        return res.redirect("/admin");
+    };
+});
+
+router.post("/admin/getEveryClashOfClansVillage", Middleware.redirectToLoginPage, Middleware.isAdmin, async (req, res) => {
+    try {
+        const villages = await PlayerSchema.find().exec();
+        const html = prism.highlight(JSON.stringify(villages, null, 2), prism.languages.json, 'json');
+        return res.send(html);
     } catch (err) {
         console.log(err);
         return res.redirect("/admin");

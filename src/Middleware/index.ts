@@ -1,6 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, Express } from "express";
 import jwt from "jsonwebtoken";
 import Database from "../Database/Models/User/index";
+import ClashOfClansConstants from "../Database/Clash of Clans/constants";
+import { home } from "../Database/Clash of Clans/home";
+import { builder } from "../Database/Clash of Clans/builder";
+import { townHall } from "../Database/Clash of Clans/Home/townHall";
+import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 
 export default class Middleware {
     public static generateToken(payload: string | object | Buffer, expireTime?: number) {
@@ -9,7 +14,7 @@ export default class Middleware {
         });
     };
     public static redirectToLoginPage(req: Request, res: Response, next: NextFunction) {
-        if (!res.locals.userID) return res.redirect("/login");
+        if (!res.locals.user) return res.redirect("/login");
         next();
     };
     public static validateToken(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +24,7 @@ export default class Middleware {
                 if (err) {
                     if (err.message.toLowerCase().includes("expired")) {
                         //@ts-ignore
-                        res.cookie("x-access-token", this.generateToken({ id: decoded.id }), {
+                        res.cookie("x-access-token", this.generateToken({ id: decoded.id, username: decoded.username }), {
                             path: "/",
                             sameSite: true,
                             httpOnly: true // The cookie only accessible by the web server
@@ -28,14 +33,19 @@ export default class Middleware {
                         console.log(err);
                     };
                 } //@ts-ignore
-                else res.locals.userID = decoded.id;
+                else {
+                    res.locals.user = {
+                        id: decoded.id,
+                        username: decoded.username
+                    };
+                };
             });
         };
         next();
     };
     public static isAdmin(req: Request, res: Response, next: NextFunction) {
         //@ts-ignore
-        Database.User.findById(res.locals.userID.id).exec((err, user) => {
+        Database.User.findById(res.locals.user.id).exec((err, user) => {
             if (err) {
                 console.log(err);
                 return res.render("Errors/404");
@@ -59,5 +69,12 @@ export default class Middleware {
         } catch (err) {
             console.log(err);
         };
+    };
+    public static async applyClashOfClansConstants(app: Express) {
+        for (const propertyName of Object.keys(ClashOfClansConstants)) app.locals[propertyName] = ClashOfClansConstants[propertyName];
+        app.locals.home = home;
+        app.locals.builder = builder;
+        app.locals.townHall = townHall;
+        app.locals.builderHall = builderHall;
     };
 };

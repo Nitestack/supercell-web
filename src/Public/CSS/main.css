@@ -93,6 +93,15 @@ table {
   border-spacing: 0;
 }
 
+pre {
+  max-height: 450px;
+  max-width: 850px;
+}
+
+code {
+  -webkit-text-stroke: 0;
+}
+
 *,
 *:before,
 *:after {
@@ -266,7 +275,7 @@ img.cr-card-image.notfound {
   color: white;
   text-align: center;
   -webkit-text-stroke: 0;
-  font-weight: normal;
+  font-weight: bold;
 }
 .xp {
   background-image: url("../Images/Clash of Clans/xp.png");
@@ -417,8 +426,7 @@ footer {
   color: white;
 }
 
-a.nav-link.navbar-link-custom {
-  font-size: 20px;
+.nav-link.navbar-link-custom {
   float: left;
   text-align: center;
   padding: 12px;
@@ -437,6 +445,41 @@ a.nav-link.navbar-link-custom:hover {
   margin-right: 0;
   display: inline-flex;
   align-items: center;
+}
+
+.navbar-dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.navbar-dropdown .dropbtn {
+  font-size: 18px;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: inherit;
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.navbar-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.navbar-dropdown-content a {
+  float: none;
+  color: black;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.navbar-dropdown:hover .navbar-dropdown-content {
+  display: block;
 }
 
 /*Normal*/

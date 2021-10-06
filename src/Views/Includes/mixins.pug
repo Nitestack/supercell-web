@@ -7,15 +7,15 @@
 
 mixin unitIcon(name, path, type)
     - const hall = village == "home" ? townHall : builderHall;
-    - const photoPath = `/Images/Clash of Clans/${village[0].toUpperCase() + village.slice(1)}/${path}/${name}${type == "pet" ? "_Icon" : ""}.png`;
+    - const imagePath = `/Images/Clash of Clans/${village[0].toUpperCase() + village.slice(1)}/${path}/${name}${type == "pet" ? "_Icon" : ""}.png`;
     - const unitElement = player[(type == "troop" || type == "pet" || type == "siegeMachine" ? "troops" : (type == "hero" ? "heroes" : "spells"))].find(element => element.name.toLowerCase() == name.toLowerCase() && element.village.toLowerCase().includes(village.toLowerCase()));
     - let lvl = 0;
     - let maxLvl = 0;
     - if (unitElement) { lvl = unitElement.level; maxLvl = unitElement.maxLevel; };
     if lvl == 0
-        .unit-icon.locked(style="background-image: url('" + photoPath + "');", title=`${name} Level 0 (Max for TH: ${hall[convertName(name)] ? hall[convertName(name)].maxLevel : 0})`)
+        .unit-icon.locked(style="background-image: url('" + imagePath + "');", title=`${name} Level 0 (Max for TH: ${hall[convertName(name)] ? hall[convertName(name)].maxLevel : 0})`)
     else 
-        .unit-icon(style="background-image: url('" + photoPath + "');", title=`${name} Level ${lvl} (Max for TH: ${hall[convertName(name)].maxLevel})`)
+        .unit-icon(style="background-image: url('" + imagePath + "');", title=`${name} Level ${lvl} (Max for TH: ${hall[convertName(name)].maxLevel})`)
             if lvl == 1 && ![...homeHeroesArray, "Battle Machine"].includes(name)
             else
                 if lvl == maxLvl 
@@ -61,12 +61,12 @@ mixin displayAllAchievements()
         each achievementElement in achievements
             +achievement(achievementElement)
 
-mixin createSlider(name, min, max, photoPath)
+mixin createSlider(name, min, max, imagePath)
     .slideGroup(id=name + "slideGroup")
         .container 
             .row
                 .col-3
-                    img.slider-image(id="photo" + name, src=photoPath)
+                    img.slider-image(id="photo" + name, src=imagePath)
                 .col-6
                     input.slider(type="range", min=min, max=max, id=name, name=name, value=min)
                 .col-3
@@ -77,24 +77,25 @@ mixin createGlobalSlider(name, max)
         span.coc-description.input-group-text(style="font-size: 20px;") Set all Lv. 
         input.coc-description.form-control(id="global" + name, type="number", min=0, max=max, style="font-size: 20px;")
 
-mixin createMultipleSlidersHome(name, photoPath, townHall)
-    if townHall[convertName(name)]
+mixin createMultipleSlidersHome(name, imagePath)
+    if userTownHall[convertName(name)]
         p.lead #{name}
-        +createGlobalSlider(convertNameToID(name), townHall[convertName(name)].maxLevel)
+        +createGlobalSlider(convertNameToID(name), userTownHall[convertName(name)].maxLevel)
         - let i = 1;
-        each _ in Array(townHall[convertName(name)].amount)
-            +createSlider(convertNameToID(name) + i++, 0, townHall[convertName(name)].maxLevel, photoPath)
+        each _ in Array(userTownHall[convertName(name)].amount)
+            +createSlider(convertNameToID(name) + i++, 0, userTownHall[convertName(name)].maxLevel, imagePath)
 
-mixin createMultipleSlidersBuilder(name, photoPath, builderHall, builderHallLevel)
-    if builderHall[convertName(name)]
+mixin createMultipleSlidersBuilder(name, imagePath)
+    - let maxLevel = name == "Spring Trap" ? userBuilderHall[convertName(name)].maxLevel : player.builderHallLevel;
+    if userBuilderHall[convertName(name)]
         p.lead #{name}
-        +createGlobalSlider(convertNameToID(name), builderHallLevel)
+        +createGlobalSlider(convertNameToID(name), maxLevel)
         - let i = 1;
-        each _ in Array(builderHall[convertName(name)])
-            +createSlider(convertNameToID(name) + i++, 0, builderHallLevel, photoPath)
+        each _ in Array(name == "Spring Trap" ? userBuilderHall[convertName(name)].amount : userBuilderHall[convertName(name)])
+            +createSlider(convertNameToID(name) + i++, 0, maxLevel, imagePath)
 
 mixin createTableContent(name, path, levels, moduleName)
-    - const photoPath = "/Images/Clash of Clans/" + (village == "home" ? "Home" : "Builder") + "/" + path + "/" + name;
+    - const imagePath = "/Images/Clash of Clans/" + (village == "home" ? "Home" : "Builder") + "/" + path + "/" + name;
     - const hallItem = (village == "home" ? townHall : builderHall)[convertName(name)];
     - const maxedHallItem = (village == "home" ? maxTownHall : maxBuilderHall)[convertName(name)];
     - const element = (village == "home" ? home : builder).find(element => element.name == name);
@@ -109,32 +110,32 @@ mixin createTableContent(name, path, levels, moduleName)
                 if homeHeroesArray.includes(name)
                     if ["Barbarian King", "Archer Queen"].includes(name)
                         if hallItemMaxLevel >= 41
-                            img(src=photoPath + "/41.png", style="height: 70px;")
+                            img(src=imagePath + "/41.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 20
-                            img(src=photoPath + "/20.png", style="height: 70px;")
+                            img(src=imagePath + "/20.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 10
-                            img(src=photoPath + "/10.png", style="height: 70px;")
+                            img(src=imagePath + "/10.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 1
-                            img(src=photoPath + "/1.png", style="height: 70px;")
+                            img(src=imagePath + "/1.png", style="height: 70px;")
                     else if name == "Battle Machine"
                         if (hallItemMaxLevel >= 30)
-                            img(src=photoPath + "/30.png", style="height: 70px;")
+                            img(src=imagePath + "/30.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 26
-                            img(src=photoPath + "/26.png", style="height: 70px;")
+                            img(src=imagePath + "/26.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 20
-                            img(src=photoPath + "/20.png", style="height: 70px;")
+                            img(src=imagePath + "/20.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 10
-                            img(src=photoPath + "/10.png", style="height: 70px;")
+                            img(src=imagePath + "/10.png", style="height: 70px;")
                         else if hallItemMaxLevel >= 1
-                            img(src=photoPath + "/1.png", style="height: 70px;")
+                            img(src=imagePath + "/1.png", style="height: 70px;")
                     else
-                        img(src=photoPath + "/" + 1 + ".png", style="height: 70px;")
+                        img(src=imagePath + "/" + 1 + ".png", style="height: 70px;")
                 else if homePetsArray.includes(name) || homeSpellsArray.includes(name)
-                    img(src=photoPath + ".png", style="height: 70px;" + (homeSpellsArray.includes(name) ? " border: #3e4251 1px solid; border-radius: 10px;" : ""))
+                    img(src=imagePath + ".png", style="height: 70px;" + (homeSpellsArray.includes(name) ? " border: #3e4251 1px solid; border-radius: 10px;" : ""))
                 else if village == "builder" && name == "Army Camp"
-                    img(src=photoPath + "/1.png", style="height: 70px;")
+                    img(src=imagePath + "/1.png", style="height: 70px;")
                 else 
-                    img(src=photoPath + "/" + hallItemMaxLevel + ".png", style="height: 70px;")
+                    img(src=imagePath + "/" + hallItemMaxLevel + ".png", style="height: 70px;")
         td.align-middle(rowspan=hallItemAmount + 1)
             .container
                 - const level = min(levels);
@@ -183,24 +184,24 @@ mixin createTableContent(name, path, levels, moduleName)
                             if homeHeroesArray.includes(name)
                                 if ["Barbarian King", "Archer Queen"].includes(name)
                                     if lvl == 0
-                                        img(src=photoPath + "/0.png", style="height: 30px;")
+                                        img(src=imagePath + "/0.png", style="height: 30px;")
                                     else if lvl >= 41
-                                        img(src=photoPath + "/41.png", style="height: 30px;")
+                                        img(src=imagePath + "/41.png", style="height: 30px;")
                                     else if lvl >= 20
-                                        img(src=photoPath + "/20.png", style="height: 30px;")
+                                        img(src=imagePath + "/20.png", style="height: 30px;")
                                     else if lvl >= 10
-                                        img(src=photoPath + "/10.png", style="height: 30px;")
+                                        img(src=imagePath + "/10.png", style="height: 30px;")
                                     else if lvl >= 1
-                                        img(src=photoPath + "/1.png", style="height: 30px;")
+                                        img(src=imagePath + "/1.png", style="height: 30px;")
                                 else
                                     if lvl == 0
-                                        img(src=photoPath + "/0.png", style="height: 30px;")
+                                        img(src=imagePath + "/0.png", style="height: 30px;")
                                     else 
-                                        img(src=photoPath + "/1.png", style="height: 30px;")
+                                        img(src=imagePath + "/1.png", style="height: 30px;")
                             else if homePetsArray.includes(name) || homeSpellsArray.includes(name)
-                                img(src=photoPath + ".png", style="height: 30px;" + (homeSpellsArray.includes(name) ? " border: #3e4251 1px solid; border-radius: 5px;" : ""))
+                                img(src=imagePath + ".png", style="height: 30px;" + (homeSpellsArray.includes(name) ? " border: #3e4251 1px solid; border-radius: 5px;" : ""))
                             else
-                                img(src=photoPath + "/" + lvl + ".png", style="height: 30px;")
+                                img(src=imagePath + "/" + lvl + ".png", style="height: 30px;")
                         if builder
                             - function numberToOrdinal(number) { switch (parseInt(number.toString().charAt(number.toString().length - 1))) { case 1: return number.toString().replace(/.$/, "1st"); case 2: return number.toString().replace(/.$/, "2nd"); case 3: return number.toString().replace(/.$/, "3rd"); default: return number.toString().replace(/.$/, `${number.toString().charAt(number.toString().length - 1)}th`); }; };
                             - function getDay(number) { const dayArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; return dayArray[number]; };

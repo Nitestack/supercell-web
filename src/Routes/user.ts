@@ -6,7 +6,7 @@ import Middleware from "../Middleware/index";
 const router = Router();
 
 router.get("/login", (req, res) => {
-    if (res.locals.userID) return res.redirect("/account");
+    if (res.locals.user) return res.redirect("/account");
     res.render("Authentication/login");
 });
 router.get('/logout', (req, res) => {
@@ -14,11 +14,11 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 router.get("/register", (req, res) => {
-    if (res.locals.userID) return res.redirect("/account");
+    if (res.locals.user) return res.redirect("/account");
     res.render("Authentication/register");
 });
 router.get("/forgot-password", (req, res) => {
-    if (res.locals.userID) return res.redirect("/account");
+    if (res.locals.user) return res.redirect("/account");
     res.render("Authentication/forgotPassword");
 });
 router.get("/account", Middleware.redirectToLoginPage, (req, res) => res.render("Authentication/account", {
@@ -90,7 +90,7 @@ router.post("/auth/signup", (req, res) => {
                         };
                     });
                 };
-                res.cookie("x-access-token", Middleware.generateToken({ id: user.id }), {
+                res.cookie("x-access-token", Middleware.generateToken({ id: user.id, username: user.username }), {
                     path: "/",
                     sameSite: true,
                     maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
@@ -114,7 +114,7 @@ router.post("/auth/signin", async (req, res) => {
         } else if (!user) return res.redirect("/login?error=user");
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) return res.redirect("/login?error=password");
-        res.cookie("x-access-token", Middleware.generateToken({ id: user.id }), {
+        res.cookie("x-access-token", Middleware.generateToken({ id: user.id, username: user.username }), {
             path: "/",
             sameSite: true,
             maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours

@@ -59,7 +59,7 @@ connection.on("open", () => {
 //Create an app
 const app = express();
 
-//view engine
+//View engine
 app.set('view engine', 'pug');
 app.set('views', join(__dirname, "Views"));
 
@@ -79,14 +79,18 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 
-//Using all routes
-app.use(Middleware.validateToken, rootRouter, adminRouter, authRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests, toolsRouter);
+//Using middleware
+app.use(Middleware.validateToken);
+
+//Applying routes
+app.use(rootRouter, adminRouter, authRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests, toolsRouter);
 
 //App
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
-});
 app.all('*', (req, res) => res.render("Errors/404"));
+
+//Setting local variables
+app.locals.websiteName = "NightClash";
+Middleware.applyClashOfClansConstants(app);
 
 app.listen(port, async () => {
     await connect(process.env.MONGODB_URL, {
@@ -101,7 +105,7 @@ app.listen(port, async () => {
         email: "night.clash.tracker@gmail.com",
         password: process.env.PASSWORD
     });
-    console.log(`The dashboard is live on http://localhost:${port}!`);
+    console.log(`The server is live on http://localhost:${port}!`);
 });
 
 export { API };

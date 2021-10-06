@@ -2,12 +2,13 @@ mixin navbarItems()
     a.coc-description.nav-link.navbar-link-custom(type="button", href='/upgrade-tracker') #[i.fas.fa-code] Upgrade Tracker
     a.coc-description.nav-link.navbar-link-custom(type="button", href='/stats-tracker') #[i.fas.fa-code] Stats Tracker
     a.coc-description.nav-link.navbar-link-custom(type="button", href="/tools") #[i.fas.fa-tools] Tools
-    if userID
-        .nav-item.dropdown
-            a#navbarAccount.coc-description.nav-link.navbar-link-custom.dropdown-toggle(role='button', data-bs-toggle='dropdown', aria-expanded='false')
-            .dropdown-menu.dropdown-menu-dark.position-absolute(aria-labelledby='navbarAccount')
-                a.dropdown-item.coc-description(type="button", href='/account') #[i.fas.fa-cogs.text-muted] My Account
-                a.dropdown-item.coc-description(type="button", href='/logout') #[i.fas.fa-userID-slash.text-muted] Logout
+    if user
+        .navbar-dropdown
+            a.dropbtn.coc-description.nav-link.navbar-link-custom #[i.fas.fa-user-circle] #{user.username}
+                i.fa.fa-caret-down
+            .navbar-dropdown-content 
+                a.coc-description.nav-link.navbar-link-custom(type="button", href='/account') #[i.fas.fa-cogs.text-muted] My Account
+                a.coc-description.nav-link.navbar-link-custom(type="button", href='/logout') #[i.fas.fa-user-slash.text-muted] Logout
     else 
         a.coc-description.nav-link.navbar-link-custom(type="button", href='/login') #[i.fas.fa-code] Login
     button.btn.btn-success.cookie-button#sound(type="button", style="height: 50px; width: 50px;", data-sound="false")

@@ -1,5 +1,7 @@
 - const subTitle = player.name + " Edit Home Village Structures";
 - const upgradeTracker = "Clash of Clans";
+- const allTownHalls =  townHall.slice(0, player.townHallLevel);
+- const userTownHall = townHall[player.townHallLevel - 1];
 
 doctype
 html(lang='en')
@@ -8,7 +10,7 @@ html(lang='en')
         script(src="/JS/Clash of Clans/Upgrade/editHomeStructures.js", defer)
         style.
             .col {
-                background: linear-gradient(#8993AD, #6B7798); border-radius: 7px; border: 4px solid #697697;
+                background: linear-gradient(#8993AD, #6B7798);
                 border-radius: 7px; 
                 border: 4px solid #697697;
                 padding-top: 6px;
@@ -26,7 +28,7 @@ html(lang='en')
                                 p.lead Options
                                 .input-group.mb-3
                                     span.coc-description.input-group-text(style="font-size: 20px;") Set all TH
-                                    input.coc-description.form-control(type="number", min=1, max=allTownHalls.length, id="maxSlider", style="font-size: 20px;")
+                                    input.coc-description.form-control#maxSlider(type="number", min=1, max=allTownHalls.length, style="font-size: 20px;")
                                     span.coc-description.input-group-text(style="font-size: 20px;") maxed 
                                     button.btn.btn-success(type="button", id="maxButton")
                                         i.fas.fa-check
@@ -38,147 +40,147 @@ html(lang='en')
                                 p.coc-description.lead(style="font-size: 20px;") Be sure that you set the correct amount of builders you have for upgrade plans etc.
                             .col
                                 if player.townHallLevel >= 14
-                                    if townHall[convertName("Builders Hut")]
+                                    if userTownHall[convertName("Builders Hut")]
                                         p.lead Builders Hut
-                                        +createGlobalSlider(convertNameToID("Builders Hut"), townHall[convertName("Builders Hut")].maxLevel)
+                                        +createGlobalSlider(convertNameToID("Builders Hut"), userTownHall[convertName("Builders Hut")].maxLevel)
                                         - let i = 1;
-                                        each _ in Array(townHall[convertName("Builders Hut")].amount)
-                                            +createSlider(convertNameToID("Builders Hut") + i++, 1, townHall[convertName("Builders Hut")].maxLevel, "/Images/Clash of Clans/Home/Defenses/Builder's Hut/1.png")
+                                        each _ in Array(userTownHall[convertName("Builders Hut")].amount)
+                                            +createSlider(convertNameToID("Builders Hut") + i++, 1, userTownHall[convertName("Builders Hut")].maxLevel, "/Images/Clash of Clans/Home/Defenses/Builder's Hut/1.png")
                         h1 Defenses 
                         .row.mb-3
                             .col
-                                if townHall.cannon
+                                if userTownHall.cannon
                                 p.lead Cannon
-                                +createGlobalSlider("Cannon", townHall.cannon.maxLevel)
-                                +createSlider("Cannon1", 1, townHall.cannon.maxLevel, "/Images/Clash of Clans/Home/Defenses/Cannon/1.png")
+                                +createGlobalSlider("Cannon", userTownHall.cannon.maxLevel)
+                                +createSlider("Cannon1", 1, userTownHall.cannon.maxLevel, "/Images/Clash of Clans/Home/Defenses/Cannon/1.png")
                                 - let i = 2;
-                                each _ in Array(townHall.cannon.amount - 1)
-                                    +createSlider("Cannon" + i++, 0, townHall.cannon.maxLevel, "/Images/Clash of Clans/Home/Defenses/Cannon/0.png")
+                                each _ in Array(userTownHall.cannon.amount - 1)
+                                    +createSlider("Cannon" + i++, 0, userTownHall.cannon.maxLevel, "/Images/Clash of Clans/Home/Defenses/Cannon/0.png")
                             .col
-                                +createMultipleSlidersHome("Archer Tower", "/Images/Clash of Clans/Home/Defenses/Archer Tower/0.png", townHall)
+                                +createMultipleSlidersHome("Archer Tower", "/Images/Clash of Clans/Home/Defenses/Archer Tower/0.png")
                             .col
-                                +createMultipleSlidersHome("Mortar", "/Images/Clash of Clans/Home/Defenses/Mortar/0.png", townHall)
-                        if townHall.airDefense
+                                +createMultipleSlidersHome("Mortar", "/Images/Clash of Clans/Home/Defenses/Mortar/0.png")
+                        if userTownHall.airDefense
                             .row.mb-3
                                 .col
-                                    +createMultipleSlidersHome("Air Defense", "/Images/Clash of Clans/Home/Defenses/Air Defense/0.png", townHall)
+                                    +createMultipleSlidersHome("Air Defense", "/Images/Clash of Clans/Home/Defenses/Air Defense/0.png")
                                 .col
-                                    +createMultipleSlidersHome("Wizard Tower", "/Images/Clash of Clans/Home/Defenses/Wizard Tower/0.png", townHall)
+                                    +createMultipleSlidersHome("Wizard Tower", "/Images/Clash of Clans/Home/Defenses/Wizard Tower/0.png")
                                 .col
-                                    +createMultipleSlidersHome("Air Sweeper", "/Images/Clash of Clans/Home/Defenses/Air Sweeper/0.png", townHall)
-                        if townHall.hiddenTesla   
+                                    +createMultipleSlidersHome("Air Sweeper", "/Images/Clash of Clans/Home/Defenses/Air Sweeper/0.png")
+                        if userTownHall.hiddenTesla   
                             .row.mb-3
                                 .col
-                                    +createMultipleSlidersHome("Hidden Tesla", "/Images/Clash of Clans/Home/Defenses/Hidden Tesla/0.png", townHall)
+                                    +createMultipleSlidersHome("Hidden Tesla", "/Images/Clash of Clans/Home/Defenses/Hidden Tesla/0.png")
                                 .col 
-                                    +createMultipleSlidersHome("Bomb Tower", "/Images/Clash of Clans/Home/Defenses/Bomb Tower/0.png", townHall) 
+                                    +createMultipleSlidersHome("Bomb Tower", "/Images/Clash of Clans/Home/Defenses/Bomb Tower/0.png") 
                                 .col
-                                    +createMultipleSlidersHome("X-Bow", "/Images/Clash of Clans/Home/Defenses/X-Bow/0.png", townHall)
-                        if townHall.infernoTower  
+                                    +createMultipleSlidersHome("X-Bow", "/Images/Clash of Clans/Home/Defenses/X-Bow/0.png")
+                        if userTownHall.infernoTower  
                             .row.mb-3
                                 .col
-                                    +createMultipleSlidersHome("Inferno Tower", "/Images/Clash of Clans/Home/Defenses/Inferno Tower/0.png", townHall)
+                                    +createMultipleSlidersHome("Inferno Tower", "/Images/Clash of Clans/Home/Defenses/Inferno Tower/0.png")
                                 .col
-                                    +createMultipleSlidersHome("Eagle Artillery", "/Images/Clash of Clans/Home/Defenses/Eagle Artillery/0.png", townHall)
+                                    +createMultipleSlidersHome("Eagle Artillery", "/Images/Clash of Clans/Home/Defenses/Eagle Artillery/0.png")
                                 .col
-                                    +createMultipleSlidersHome("Scattershot", "/Images/Clash of Clans/Home/Defenses/Scattershot/0.png", townHall)
-                        if townHall.bomb
+                                    +createMultipleSlidersHome("Scattershot", "/Images/Clash of Clans/Home/Defenses/Scattershot/0.png")
+                        if userTownHall.bomb
                             h1 Traps 
                             .row.mb-3 
                                 .col 
-                                    +createMultipleSlidersHome("Bomb", "/Images/Clash of Clans/Home/Traps/Bomb/0.png", townHall)
+                                    +createMultipleSlidersHome("Bomb", "/Images/Clash of Clans/Home/Traps/Bomb/0.png")
                                 .col 
-                                    +createMultipleSlidersHome("Spring Trap", "/Images/Clash of Clans/Home/Traps/Spring Trap/0.png", townHall)
+                                    +createMultipleSlidersHome("Spring Trap", "/Images/Clash of Clans/Home/Traps/Spring Trap/0.png")
                                 .col 
-                                    +createMultipleSlidersHome("Air Bomb", "/Images/Clash of Clans/Home/Traps/Air Bomb/0.png", townHall)
-                            if townHall.giantBomb
+                                    +createMultipleSlidersHome("Air Bomb", "/Images/Clash of Clans/Home/Traps/Air Bomb/0.png")
+                            if userTownHall.giantBomb
                                 .row.mb-3 
                                     .col
-                                        +createMultipleSlidersHome("Giant Bomb", "/Images/Clash of Clans/Home/Traps/Giant Bomb/0.png", townHall)
+                                        +createMultipleSlidersHome("Giant Bomb", "/Images/Clash of Clans/Home/Traps/Giant Bomb/0.png")
                                     .col 
-                                        +createMultipleSlidersHome("Seeking Air Mine", "/Images/Clash of Clans/Home/Traps/Seeking Air Mine/0.png", townHall)
+                                        +createMultipleSlidersHome("Seeking Air Mine", "/Images/Clash of Clans/Home/Traps/Seeking Air Mine/0.png")
                                     .col 
-                                        +createMultipleSlidersHome("Skeleton Trap", "/Images/Clash of Clans/Home/Traps/Skeleton Trap/0.png", townHall)
-                            if townHall.tornadoTrap
+                                        +createMultipleSlidersHome("Skeleton Trap", "/Images/Clash of Clans/Home/Traps/Skeleton Trap/0.png")
+                            if userTownHall.tornadoTrap
                                 .row.mb-3 
                                     .col 
-                                        +createMultipleSlidersHome("Tornado Trap", "/Images/Clash of Clans/Home/Traps/Tornado Trap/0.png", townHall)
+                                        +createMultipleSlidersHome("Tornado Trap", "/Images/Clash of Clans/Home/Traps/Tornado Trap/0.png")
                                     .col 
                                     .col
                         h1 Ressources
                         .row.mb-3
                             .col 
-                                if townHall.elixirCollector
+                                if userTownHall.elixirCollector
                                     p.lead Elixir Collector 
-                                    +createGlobalSlider("ElixirCollector", townHall.elixirCollector.maxLevel)
-                                    +createSlider("ElixirCollector1", 1, townHall.elixirCollector.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Collector/1.png")
+                                    +createGlobalSlider("ElixirCollector", userTownHall.elixirCollector.maxLevel)
+                                    +createSlider("ElixirCollector1", 1, userTownHall.elixirCollector.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Collector/1.png")
                                     - let i = 2;
-                                    each _ in Array(townHall.elixirCollector.amount - 1)
-                                        +createSlider("ElixirCollector" + i++, 0, townHall.elixirCollector.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Collector/0.png")
+                                    each _ in Array(userTownHall.elixirCollector.amount - 1)
+                                        +createSlider("ElixirCollector" + i++, 0, userTownHall.elixirCollector.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Collector/0.png")
                             .col
-                                if townHall.goldMine
+                                if userTownHall.goldMine
                                     p.lead Gold Mine 
-                                    +createGlobalSlider("GoldMine", townHall.goldMine.maxLevel)
-                                    +createSlider("GoldMine1", 1, townHall.goldMine.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Mine/1.png")
+                                    +createGlobalSlider("GoldMine", userTownHall.goldMine.maxLevel)
+                                    +createSlider("GoldMine1", 1, userTownHall.goldMine.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Mine/1.png")
                                     - let i = 2;
-                                    each _ in Array(townHall.goldMine.amount - 1)
-                                        +createSlider("GoldMine" + i++, 0, townHall.goldMine.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Mine/0.png")
+                                    each _ in Array(userTownHall.goldMine.amount - 1)
+                                        +createSlider("GoldMine" + i++, 0, userTownHall.goldMine.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Mine/0.png")
                             .col 
-                                +createMultipleSlidersHome("Dark Elixir Drill", "/Images/Clash of Clans/Home/Resources/Dark Elixir Drill/0.png", townHall)
+                                +createMultipleSlidersHome("Dark Elixir Drill", "/Images/Clash of Clans/Home/Resources/Dark Elixir Drill/0.png")
                         .row.mb-3
                             .col
-                                if townHall.elixirStorage
+                                if userTownHall.elixirStorage
                                     p.lead Elixir Storage 
-                                    +createGlobalSlider("ElixirStorage", townHall.elixirStorage.maxLevel)
-                                    +createSlider("ElixirStorage1", 1, townHall.elixirStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Storage/1.png")
+                                    +createGlobalSlider("ElixirStorage", userTownHall.elixirStorage.maxLevel)
+                                    +createSlider("ElixirStorage1", 1, userTownHall.elixirStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Storage/1.png")
                                     - let i = 2;
-                                    each _ in Array(townHall.elixirStorage.amount - 1)
-                                        +createSlider("ElixirStorage" + i++, 0, townHall.elixirStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Storage/0.png")
+                                    each _ in Array(userTownHall.elixirStorage.amount - 1)
+                                        +createSlider("ElixirStorage" + i++, 0, userTownHall.elixirStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Elixir Storage/0.png")
                             .col 
-                                if townHall.goldStorage
+                                if userTownHall.goldStorage
                                     p.lead Gold Storage 
-                                    +createGlobalSlider("GoldStorage", townHall.goldStorage.maxLevel)
-                                    +createSlider("GoldStorage1", 1, townHall.goldStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Storage/1.png")
+                                    +createGlobalSlider("GoldStorage", userTownHall.goldStorage.maxLevel)
+                                    +createSlider("GoldStorage1", 1, userTownHall.goldStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Storage/1.png")
                                     - let i = 2;
-                                    each _ in Array(townHall.goldStorage.amount - 1)
-                                        +createSlider("GoldStorage" + i++, 0, townHall.goldStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Storage/0.png")
+                                    each _ in Array(userTownHall.goldStorage.amount - 1)
+                                        +createSlider("GoldStorage" + i++, 0, userTownHall.goldStorage.maxLevel, "/Images/Clash of Clans/Home/Resources/Gold Storage/0.png")
                             .col 
-                                +createMultipleSlidersHome("Dark Elixir Storage", "/Images/Clash of Clans/Home/Resources/Dark Elixir Storage/0.png", townHall)
+                                +createMultipleSlidersHome("Dark Elixir Storage", "/Images/Clash of Clans/Home/Resources/Dark Elixir Storage/0.png")
                         h1 Army
                         .row.mb-3
                             .col
-                                if townHall.armyCamp 
+                                if userTownHall.armyCamp 
                                     p.lead Army Camp 
-                                    +createGlobalSlider("ArmyCamp", townHall.armyCamp.maxLevel)
-                                    +createSlider("ArmyCamp1", 1, townHall.armyCamp.maxLevel, "/Images/Clash of Clans/Home/Army/Army Camp/1.png")
+                                    +createGlobalSlider("ArmyCamp", userTownHall.armyCamp.maxLevel)
+                                    +createSlider("ArmyCamp1", 1, userTownHall.armyCamp.maxLevel, "/Images/Clash of Clans/Home/Army/Army Camp/1.png")
                                     - let i = 2;
-                                    each _ in Array(townHall.armyCamp.amount - 1)
-                                        +createSlider("ArmyCamp" + i++, 0, townHall.armyCamp.maxLevel, "/Images/Clash of Clans/Home/Army/Army Camp/0.png")
+                                    each _ in Array(userTownHall.armyCamp.amount - 1)
+                                        +createSlider("ArmyCamp" + i++, 0, userTownHall.armyCamp.maxLevel, "/Images/Clash of Clans/Home/Army/Army Camp/0.png")
                             .col
-                                if townHall.barracks
+                                if userTownHall.barracks
                                     p.lead Barracks 
-                                    +createGlobalSlider("Barracks", townHall.barracks.maxLevel)
-                                    +createSlider("Barracks1", 1, townHall.barracks.maxLevel, "/Images/Clash of Clans/Home/Army/Barracks/1.png")
+                                    +createGlobalSlider("Barracks", userTownHall.barracks.maxLevel)
+                                    +createSlider("Barracks1", 1, userTownHall.barracks.maxLevel, "/Images/Clash of Clans/Home/Army/Barracks/1.png")
                                     - let i = 2;
-                                    each _ in Array(townHall.barracks.amount - 1)
-                                        +createSlider("Barracks" + i++, 0, townHall.barracks.maxLevel, "/Images/Clash of Clans/Home/Army/Barracks/0.png")
+                                    each _ in Array(userTownHall.barracks.amount - 1)
+                                        +createSlider("Barracks" + i++, 0, userTownHall.barracks.maxLevel, "/Images/Clash of Clans/Home/Army/Barracks/0.png")
                             .col 
-                                +createMultipleSlidersHome("Clan Castle", "/Images/Clash of Clans/Home/Defenses/Clan Castle/0.png", townHall)
-                        if townHall.laboratory
+                                +createMultipleSlidersHome("Clan Castle", "/Images/Clash of Clans/Home/Defenses/Clan Castle/0.png")
+                        if userTownHall.laboratory
                             .row.mb-3
                                 .col 
-                                    +createMultipleSlidersHome("Laboratory", "/Images/Clash of Clans/Home/Army/Laboratory/0.png", townHall)
+                                    +createMultipleSlidersHome("Laboratory", "/Images/Clash of Clans/Home/Army/Laboratory/0.png")
                                 .col 
-                                    +createMultipleSlidersHome("Dark Barracks", "/Images/Clash of Clans/Home/Army/Dark Barracks/0.png", townHall)
+                                    +createMultipleSlidersHome("Dark Barracks", "/Images/Clash of Clans/Home/Army/Dark Barracks/0.png")
                                 .col
                         h1 Walls 
                         .row.mb-3 
                             .col 
                                 p.coc-description.lead(style="font-size: 20px;") You don't need to set the number of walls, that are not built yet!
-                                p.coc-description.lead#wallDisplay(style="font-size: 20px; color: white;") 0 of #{townHall.wall.amount} Walls
+                                p.coc-description.lead#wallDisplay(style="font-size: 20px; color: white;") 0 of #{userTownHall.wall.amount} Walls
                                 p.coc-description.lead#wallError(style="color: red; font-size: 20px;")
                             .col 
-                                each _, i in Array(townHall.wall.maxLevel)
+                                each _, i in Array(userTownHall.wall.maxLevel)
                                     .slideGroup
                                         .container 
                                             .row
@@ -186,8 +188,8 @@ html(lang='en')
                                                     div.coc-description.lead(align="left", style="font-size: 28px;") Lv. #{i + 1}
                                                         img.slider-image(src="/Images/Clash of Clans/Home/Defenses/Wall/" + (i + 1) + ".png")
                                                 .col-6
-                                                    input.slider(type="range", min=0, max=townHall.wall.amount, id="Wall" + (i + 1), name="Wall" + (i + 1), value=0)
+                                                    input.slider(type="range", min=0, max=userTownHall.wall.amount, id="Wall" + (i + 1), name="Wall" + (i + 1), value=0)
                                                 .col-3
-                                                    input.coc-description.form-control(type="number", min=0, max=townHall.wall.amount, id="numberWall" + (i + 1), value=0, style="font-size: 20px;")
+                                                    input.coc-description.form-control(type="number", min=0, max=userTownHall.wall.amount, id="numberWall" + (i + 1), value=0, style="font-size: 20px;")
                         button.btn.btn-success(type="submit", name="player", id="player", value=player) Proceed
         include ../../Includes/footer
