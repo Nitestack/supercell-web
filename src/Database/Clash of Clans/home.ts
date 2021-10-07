@@ -248,7 +248,7 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 8000000,
         upgradeDuration: "8d"
     }, {
-        costs: 11000000,
+        costs: 10000000,
         upgradeDuration: "12d"
     }, {
         costs: 12000000,

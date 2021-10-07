@@ -6,6 +6,7 @@ import { home } from "../Database/Clash of Clans/home";
 import { builder } from "../Database/Clash of Clans/builder";
 import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
+import Util from "../Util/index";
 
 export default class Middleware {
     public static generateToken(payload: string | object | Buffer, expireTime?: number) {
@@ -70,11 +71,16 @@ export default class Middleware {
             console.log(err);
         };
     };
-    public static async applyClashOfClansConstants(app: Express) {
+    public static applyClashOfClansConstants(app: Express) {
         for (const propertyName of Object.keys(ClashOfClansConstants)) app.locals[propertyName] = ClashOfClansConstants[propertyName];
         app.locals.home = home;
         app.locals.builder = builder;
         app.locals.townHall = townHall;
         app.locals.builderHall = builderHall;
+        app.locals.maxedBuilderHallLevel = builderHall.length;
+        app.locals.maxedTownHallLevel = townHall.length;
+    };
+    public static applyUtilClass(app: Express) {
+        app.locals.util = Util;
     };
 };

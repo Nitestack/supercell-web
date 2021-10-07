@@ -12,7 +12,7 @@ router.get("/admin", Middleware.redirectToLoginPage, Middleware.isAdmin, async (
     return res.render("Admin/index", {
         userCount: await Database.User.countDocuments().exec(),
         //@ts-ignore
-        user: await Middleware.getUser(req.userID)
+        user: await Middleware.getUser(req.user.id)
     });
 });
 

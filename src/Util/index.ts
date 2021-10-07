@@ -14,11 +14,11 @@ export default class Util {
      * @info Edit in ../TS/Upgrade/mainIndex.ts too
      * @param {string} text The text to short
      */
-    public static timeShortener(text: string) { 
+    public static shortener(text: string) {
         const textArray = text.split(" ");
         for (const textPiece of textArray) if (["0m", "0s", "0ms"].includes(textPiece)) textArray.splice(textArray.indexOf(textPiece), 1);
         if (!text.toLowerCase().includes("d") && !text.toLowerCase().includes("h") && !text.toLowerCase().includes("m")) return "1m";
-        return textArray.slice(0, text.toLowerCase().includes("d") ? 3 : (!text.toLowerCase().includes("h") ? 1 : 2)).join(" "); 
+        return textArray.slice(0, text.toLowerCase().includes("d") ? 3 : (!text.toLowerCase().includes("h") ? 1 : 2)).join(" ");
     };
     /**
      * Gets the percentage between two dates compared to today
@@ -47,7 +47,7 @@ export default class Util {
      * Converts a resolved name into a JavaScript variable name
      * @param {string} name The resolved name
      */
-    public static convertToJavaScriptVarName(name: string) {
+    public static convertToVariableName(name: string) {
         return name[0].toLowerCase() + name.slice(1).replace(/ /g, "").replace(/-/g, "_").replace(/\./g, "").replace(/'/g, "");
     };
     /**
@@ -60,7 +60,7 @@ export default class Util {
         maxLevel: number,
         amount: number
     } | number {
-        return (village == "home" ? townHall : builderHall)[hallLevel - 1][this.convertToJavaScriptVarName(name)];
+        return (village == "home" ? townHall : builderHall)[hallLevel - 1][this.convertToVariableName(name)];
     };
     /**
      * Converts various time formats into seconds
@@ -146,5 +146,13 @@ export default class Util {
             gems == 0 && timeInSeconds > 0 && (gems = 1)
         };
         return gems < 0 && (gems = 0), gems;
+    };
+    /**
+     * Gets the the smallest value of 
+     * @param {Array<number>} input The numbers to compare 
+     */
+    public static min(input: Array<number>) { 
+        if (toString.call(input) !== "[object Array]") return false; 
+        return Math.min.apply(null, input); 
     };
 };

@@ -7,41 +7,9 @@ import PlayerSchemaObject, { PlayerSchema } from "../Database/Models/clashofclan
 import { home } from "../Database/Clash of Clans/home";
 import { builder } from "../Database/Clash of Clans/builder";
 import Util from "../Util";
-import Base from "../Database/Clash of Clans/Base";
 import ClashOfClansConstants from "../Database/Clash of Clans/constants";
 
 const router = Router();
-
-export interface HomeVillage {
-    player: Player;
-    village: "home";
-    maxTownHall: object;
-    database: PlayerSchema;
-    convertPrice: (number: number) => string;
-    convertTime: (timeInSeconds: number, language?: string) => string;
-    convertStatsTime: (timeInSeconds: number) => string;
-    convertNumber: (number: number) => string;
-    shortener: (text: string) => string;
-    resolveDatabaseName: (name: string) => string;
-    timeToGems: (timeInSeconds: number) => number;
-    statsTotal: object;
-};
-
-export interface BuilderBase {
-    player: Player;
-    village: "builder";
-    maxBuilderHall: object;
-    database: PlayerSchema;
-    maxedBuilderHallLevel: 9,
-    convertPrice: (number: number) => string;
-    convertTime: (timeInSeconds: number, language?: string) => string;
-    convertStatsTime: (timeInSeconds: number) => string;
-    convertNumber: (number: number) => string;
-    resolveDatabaseName: (name: string) => string;
-    shortener: (text: string) => string;
-    timeToGems: (timeInSeconds: number) => number;
-    statsTotal: object;
-};
 
 /**
  * Checks for an hash and adds it if it is not included
@@ -89,24 +57,9 @@ router.get("/upgrade-tracker/clashofclans/:playerTag/home", async (req, res) => 
             res.render("Upgrade/Clash of Clans/index", {
                 player: player,
                 village: "home",
-                maxTownHall: townHall[townHall.length - 1],
                 database: playerSchema,
-                convertPrice: Util.convertNumber,
-                convertTime: (timeInSeconds: number, language?: string) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-                },
-                convertStatsTime: (timeInSeconds: number) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000);
-                },
-                convertNumber: Util.convertNumber,
-                totalStats: null,
-                resolveDatabaseName: Util.resolveDatabaseName,
-                statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-                shortener: Util.timeShortener,
-                timeToGems: (timeInSeconds: number) => {
-                    return Util.timeToGems(timeInSeconds, "home");
-                }
-            } as HomeVillage);
+                statsTotal: getTotalCostsAndTimes(playerSchema, "home")
+            });
         } else res.redirect("/upgrade-tracker/clashofclans");
     } catch (err) {
         console.log(err);
@@ -127,24 +80,9 @@ router.get("/upgrade-tracker/clashofclans/:playerTag/builder", async (req, res) 
             res.render("Upgrade/Clash of Clans/index", {
                 player: player,
                 village: "builder",
-                maxBuilderHall: builderHall[builderHall.length - 1],
                 database: playerSchema,
-                convertPrice: Util.convertNumber,
-                convertTime: (timeInSeconds: number) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000, true);
-                },
-                convertStatsTime: (timeInSeconds: number) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000);
-                },
-                convertNumber: Util.convertNumber,
-                maxedBuilderHallLevel: builderHall.length,
-                resolveDatabaseName: Util.resolveDatabaseName,
-                statsTotal: getTotalCostsAndTimes(playerSchema, "builder"),
-                shortener: Util.timeShortener,
-                timeToGems: (timeInSeconds: number) => {
-                    return Util.timeToGems(timeInSeconds, "builder");
-                }
-            } as BuilderBase);
+                statsTotal: getTotalCostsAndTimes(playerSchema, "builder")
+            });
         };
     } catch (err) {
         console.log(err);
@@ -195,27 +133,6 @@ router.post("/upgrade-tracker/clashofclans/managePlayer", async (req, res) => {
 });
 
 /**
- * Verifies the player and redirects to "set home village structrures"
- * @todo Need to add functionality to the tracker
- */
-router.post("/upgrade-tracker/clashofclans/verifyPlayer", async (req, res) => {
-    try {
-        const { playerTag, apiToken } = req.body;
-        const response = await API.verifyPlayerToken(playerTag, apiToken);
-        if (!response) return res.render("Upgrade/Clash of Clans/Authentication/verify", {
-            errorMessage: "Verification failed! Invalid token!"
-        });
-        res.render("redirect", {
-            action: "/upgrade-tracker/clashofclans/home/new",
-            name: "playerTag",
-            value: playerTag
-        });
-    } catch {
-        res.render("Errors/404");
-    };
-});
-
-/**
  * Redirects to the page to set the home village structures
  */
 router.post("/upgrade-tracker/clashofclans/home/new", async (req, res) => {
@@ -245,7 +162,7 @@ router.post("/upgrade-tracker/clashofclans/home/structures/set", async (req, res
         const player: Player = JSON.parse(req.body.player);
         const object = prepareObject(req.body, player, "home", true);
         //@ts-ignore
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: player.tag });
+        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: checkForHash(player.tag) });
         await PlayerSchemaObject.findOneAndUpdate({
             playerTag: checkForHash(player.tag)
         }, {
@@ -265,13 +182,13 @@ router.post("/upgrade-tracker/clashofclans/home/structures/set", async (req, res
         }, {
             upsert: true
         });
-        /*if (player.builderHallLevel && !playerSchema?.builderBase) {*/
+        if (player.builderHallLevel && !playerSchema?.builderBase) {
             res.render("redirect", {
                 action: "/upgrade-tracker/clashofclans/builder/new",
                 name: "player",
                 value: player
             });
-        /*} else res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home");*/
+        } else res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home");
     } catch (err) {
         console.log(err);
     };
@@ -285,7 +202,7 @@ router.post("/upgrade-tracker/clashofclans/builder/structures/set", async (req, 
         const player: Player = JSON.parse(req.body.player);
         const object = prepareObject(req.body, player, "builder", true);
         object["Builder"] = 1;
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: player.tag });
+        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: checkForHash(player.tag) });
         await PlayerSchemaObject.findOneAndUpdate({
             playerTag: checkForHash(player.tag)
         }, {
@@ -330,10 +247,10 @@ router.post("/upgrade-tracker/clashofclans/redirectToOtherVillage", (req, res) =
 router.post("/upgrade-tracker/clashofclans/apiUpdate", async (req, res) => {
     const { playerTag, village } = req.body;
     try {
-        const player = await API.player(playerTag);
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: playerTag });
+        const player = await API.player(checkForHash(playerTag));
+        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: checkForHash(playerTag) });
         await PlayerSchemaObject.findOneAndUpdate({
-            playerTag: playerTag,
+            playerTag: checkForHash(playerTag),
         }, {
             player: player,
             homeVillage: prepareObject(playerSchema?.homeVillage, player, "home"),
@@ -357,7 +274,7 @@ router.post("/upgrade-tracker/clashofclans/seasonBoosts", async (req, res) => {
     const builderBoost = parseInt(builderSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
     const researchBoost = parseInt(researchSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
     await PlayerSchemaObject.findOneAndUpdate({
-        playerTag: playerTag
+        playerTag: checkForHash(playerTag)
     }, {
         builderSeasonBoost: builderBoost,
         researchSeasonBoost: researchBoost
@@ -540,7 +457,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
         updateDatabase = true;
     };
     if (updateDatabase && village == "home") await PlayerSchemaObject.findOneAndUpdate({
-        playerTag: player.tag
+        playerTag: checkForHash(player.tag)
     }, {
         homeVillage: playerSchema.homeVillage,
         homeVillageBuilder: playerSchema.homeVillageBuilder,
@@ -551,7 +468,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
         upsert: false
     });
     else if (updateDatabase && village == "builder") await PlayerSchemaObject.findOneAndUpdate({
-        playerTag: player.tag
+        playerTag: checkForHash(player.tag)
     }, {
         builderBase: playerSchema.builderBase,
         builderBaseBuilder: playerSchema.builderBaseBuilder,

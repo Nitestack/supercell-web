@@ -91,6 +91,7 @@ app.all('*', (req, res) => res.render("Errors/404"));
 //Setting local variables
 app.locals.websiteName = "NightClash";
 Middleware.applyClashOfClansConstants(app);
+Middleware.applyUtilClass(app);
 
 app.listen(port, async () => {
     await connect(process.env.MONGODB_URL, {

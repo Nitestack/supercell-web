@@ -1,5 +1,15 @@
 - const subTitle = player.name + " " + (village == "home" ? "Home Village" : "Builder Base") + " " + "Overview";
 - const upgradeTracker = "Clash of Clans";
+- const playerTownHall = townHall[player.townHallLevel - 1];
+- const playerBuilderHall = builderHall[player.builderHallLevel - 1];
+- const maxTownHall = townHall[townHall.length - 1];
+- const maxBuilderHall = builderHall[builderHall.length - 1];
+
+- function getNumberArray(item) { const numberArray = []; for (const key of Object.keys(database[village == "home" ? "homeVillage" : "builderBase"])) { if (item.includes("Giga")) { numberArray.push(player.townHallWeaponLevel); break; } if (key.toLowerCase().includes("xbow") && item.toLowerCase() == "x-bow") numberArray.push(parseInt(database[village == "home" ? "homeVillage" : "builderBase"][key])); else if (key.slice(0, -1).replace(/([A-Z]+)/g, ' $1').trim().toLowerCase() == item.replace(/'/g, "").toLowerCase()) numberArray.push(parseInt(database[village == "home" ? "homeVillage" : "builderBase"][key])); } return numberArray; };
+- function itemInHall(item) { return (village == "home" ? playerTownHall : playerBuilderHall)[util.convertToVariableName(item)] ? true : false; };
+
+- function convertTime(timeInSeconds) { return util.convertMilliseconds(timeInSeconds * 1000, true); };
+- function convertStatsTime(timeInSeconds) { return util.convertMilliseconds(timeInSeconds * 1000); };
 
 doctype
 html(lang='en')
@@ -75,8 +85,6 @@ html(lang='en')
                                     div#boostModalAmount 1
                                     img#boostModalImage(style="height: 50px;", align="right")
             button.btn.btn-primary#boostModalButton(type="button", data-bs-toggle="modal", data-bs-target="#boostModal", style="display: none;")
-        button#builderHallLevel(style="display: none;", value=player.builderHallLevel)
-        button#townHallLevel(style="display: none;", value=player.townHallLevel)
         .container(style="background-color: #5E5451; border-radius: 9px; border: 1px solid #181614; padding: 12px; margin-top: 30px; margin-bottom: 30px;")
             .row
                 ul.nav.nav-tabs#scrollBar(style="margin-right: 4px; margin-left: 4px;")
@@ -174,5 +182,5 @@ html(lang='en')
                         .row 
                             button.btn.btn-primary#seasonBoostModalButton(type="button", data-bs-toggle="modal", data-bs-target="#seasonBoostModal", style="border: 1px solid #281303; border-radius: 5px;") Set Season Boosts
             #modules
-                include ../../Includes/modules
+                include modules
         include ../../Includes/footer

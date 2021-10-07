@@ -1,4 +1,4 @@
-include mixins
+include ../../Includes/mixins
 
 //- OVERVIEW MODULE
 section#overviewModule.module.container
@@ -111,9 +111,9 @@ section#wallsModule.module.container
                 th.align-middle(scope="col") 
                     div(align="middle") Upgrade Info
         tbody 
-            - const lowestWall = min(Object.keys(database[village == "home" ? "homeVillage" : "builderBase"].Walls));
+            - const lowestWall = util.min(Object.keys(database[village == "home" ? "homeVillage" : "builderBase"].Walls));
             - const numberArray = [];
-            - const hallItem = village == "home" ? townHall.wall : builderHall.wall;
+            - const hallItem = village == "home" ? playerTownHall.wall : playerBuilderHall.wall;
             - const hallItemMaxLevel = hallItem.maxLevel ? hallItem.maxLevel : player.builderHallLevel;
             - const hallItemAmount = hallItem.amount ? hallItem.amount : hallItem;
             - for (let i = lowestWall; i <= (village == "home" ? hallItemMaxLevel : player.builderHallLevel); i++) numberArray.push(i);
@@ -127,14 +127,14 @@ section#wallsModule.module.container
                         p.lead.coc-description(style="color: green; font-size: 21px;", align="center") Level #{item}
                     td.align-middle
                         h1.coc-description.price-item(align="middle") #{dataBaseItem[item] || 0}
-                    td.align-middle(class=(hallItemMaxLevel == parseInt(item) ? null : "total " + wallItem.type), level=item, itemName="Wall", maxLeveL=(village == "home" ? townHall.wall.maxLevel : (builderHall.wall.maxLevel ? builderHall.wall.maxLevel : player.builderHallLevel)), amount=dataBaseItem[item] || 0)
+                    td.align-middle(class=(hallItemMaxLevel == parseInt(item) ? null : "total " + wallItem.type), level=item, itemName="Wall", maxLeveL=(village == "home" ? hallItemMaxLevel : (playerBuilderHall.wall.maxLevel ? playerBuilderHall.wall.maxLevel : player.builderHallLevel)), amount=dataBaseItem[item] || 0)
                         .container 
                             .row 
                                 if parseInt(item) != (village == "home" ? hallItemMaxLevel : player.builderHallLevel)
                                     .col
                                         div.price-item Lv. #{parseInt(item) + 1}
                                     .col
-                                        div.price-item(align="right") #{convertPrice(wallItem.levels[parseInt(item)].calculateSeasonBoostCosts(database.builderSeasonBoost))}
+                                        div.price-item(align="right") #{util.convertNumber(wallItem.levels[parseInt(item)].calculateSeasonBoostCosts(database.builderSeasonBoost))}
                                             if wallItem.costType == "gold"
                                                 img(src="/Images/Clash of Clans/Home/Gold.png", style="max-width: 20px;")
                                             else if wallItem.levels[parseInt(item)].costType == "builderGold"
@@ -142,7 +142,7 @@ section#wallsModule.module.container
                                             else if wallItem.levels[parseInt(item)].costType == "builderGoldAndElixir" || wallItem.levels[parseInt(item)].costType == "goldAndElixir"
                                                 img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="max-width: 20px;")
                                     .col 
-                                        div.price-item(align="right") #{convertPrice((dataBaseItem[item] || 0) * wallItem.levels[parseInt(item)].calculateSeasonBoostCosts(database.builderSeasonBoost))}
+                                        div.price-item(align="right") #{util.convertNumber((dataBaseItem[item] || 0) * wallItem.levels[parseInt(item)].calculateSeasonBoostCosts(database.builderSeasonBoost))}
                                             if wallItem.levels[parseInt(item)].costType == "gold"
                                                 img(src="/Images/Clash of Clans/Home/Gold.png", style="max-width: 20px;")
                                             else if wallItem.levels[parseInt(item)].costType == "builderGold"
@@ -272,9 +272,9 @@ section#darktroopsModule.module.container
                         +createTableContent(item, "Troops", numberArray, "Dark Troops")
 section#statsModule.module.container
     - const hallLevel = village == "home" ? player.townHallLevel : player.builderHallLevel;
-    - const labLevel = (village == "home" ? townHall : builderHall)["laboratory" || "starLaboratory"]?.maxLevel || hallLevel;
-    - const petHouseLevel = village == "home" && hallLevel >= 14 ? townHall.petHouse.maxLevel : null;
-    - const wallLevel = (village == "home" ? townHall : builderHall)["wall"]?.maxLevel || hallLevel;
+    - const labLevel = (village == "home" ? playerTownHall : builderHall)["laboratory" || "starLaboratory"]?.maxLevel || hallLevel;
+    - const petHouseLevel = village == "home" && hallLevel >= 14 ? playerTownHall.petHouse.maxLevel : null;
+    - const wallLevel = (village == "home" ? playerTownHall : builderHall)["wall"]?.maxLevel || hallLevel;
     table.table.table-striped.table-hover 
         thead 
             tr 
@@ -294,19 +294,19 @@ section#statsModule.module.container
                         .center-image
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (village == "home" ? "Town Hall" : "Builder Hall") + "/" + hallLevel + ".png", style="height: 70px;")
                     td.align-middle
-                        .price-item(align="right") #{convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[0]])}
+                        .price-item(align="right") #{util.convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[0]])}
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (structuresCostTypes[0][0].toUpperCase() + structuresCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
                     td.align-middle(rowspan=structuresCostTypes.length)
                         div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalStructuresTime"])}
                 if structuresCostTypes[1]
                     tr 
                         td.align-middle
-                            .price-item(align="right") #{convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[1]])}
+                            .price-item(align="right") #{util.convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[1]])}
                                 img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (structuresCostTypes[1][0].toUpperCase() + structuresCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
                 if structuresCostTypes[2]
                     tr 
                         td.align-middle
-                            .price-item(align="right") #{convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[2]])}
+                            .price-item(align="right") #{util.convertNumber(statsTotal["totalStructuresCosts"][structuresCostTypes[2]])}
                                 img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (structuresCostTypes[2][0].toUpperCase() + structuresCostTypes[2].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
             //-LABORATORY
             if ((village == "home" && hallLevel >= 3) || village == "builder") && statsTotal["totalLaboratoryCosts"]
@@ -317,14 +317,14 @@ section#statsModule.module.container
                         .center-image
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/Army/" + (village == "home" ? "Laboratory" : "Star Laboratory") + "/" + labLevel + ".png", style="height: 70px;")
                     td.align-middle
-                        .price-item(align="right") #{convertNumber(statsTotal["totalLaboratoryCosts"][labCostTypes[0]])}
+                        .price-item(align="right") #{util.convertNumber(statsTotal["totalLaboratoryCosts"][labCostTypes[0]])}
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (labCostTypes[0][0].toUpperCase() + labCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
                     td.align-middle(rowspan=labCostTypes.length)
                         div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalLaboratoryTime"])}
                 if labCostTypes[1]
                     tr 
                         td.align-middle
-                            .price-item(align="right") #{convertNumber(statsTotal["totalLaboratoryCosts"][labCostTypes[1]])}
+                            .price-item(align="right") #{util.convertNumber(statsTotal["totalLaboratoryCosts"][labCostTypes[1]])}
                                 img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (labCostTypes[1][0].toUpperCase() + labCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
             //-HEROES
             if ((village == "home" && hallLevel >= 7) || (village == "builder" && hallLevel >= 5)) && statsTotal["totalHeroCosts"]
@@ -335,14 +335,14 @@ section#statsModule.module.container
                         .center-image
                             img(src="/Images/Clash of Clans/Hero.png", style="height: 50px;")
                     td.align-middle
-                        .price-item(align="right") #{convertNumber(statsTotal["totalHeroCosts"][heroCostTypes[0]])}
+                        .price-item(align="right") #{util.convertNumber(statsTotal["totalHeroCosts"][heroCostTypes[0]])}
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (heroCostTypes[0][0].toUpperCase() + heroCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
                     td.align-middle(rowspan=heroCostTypes.length)
                         div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalHeroTime"])}
                 if heroCostTypes[1]
                     tr 
                         td.align-middle
-                            .price-item(align="right") #{convertNumber(statsTotal["totalHeroCosts"][heroCostTypes[1]])}
+                            .price-item(align="right") #{util.convertNumber(statsTotal["totalHeroCosts"][heroCostTypes[1]])}
                                 img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (heroCostTypes[1][0].toUpperCase() + heroCostTypes[1].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
             //-PETS
             if village == "home" && hallLevel >= 14 && statsTotal["totalPetsCosts"]
@@ -353,7 +353,7 @@ section#statsModule.module.container
                         .center-image
                             img(src="/Images/Clash of Clans/Home/Army/Pet House/" + petHouseLevel + ".png", style="height: 70px;")
                     td.align-middle
-                        .price-item(align="right") #{convertNumber(statsTotal["totalPetsCosts"][petCostTypes[0]])}
+                        .price-item(align="right") #{util.convertNumber(statsTotal["totalPetsCosts"][petCostTypes[0]])}
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + (petCostTypes[0][0].toUpperCase() + petCostTypes[0].slice(1)).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 20px;")
                     td.align-middle
                         div(align="center", style="color: white;") #{convertStatsTime(statsTotal["totalPetsTime"])}
@@ -366,7 +366,7 @@ section#statsModule.module.container
                         .center-image
                             img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/Defenses/Wall/" + wallLevel + ".png", style="height: 70px;")
                     td.align-middle
-                        .price-item(align="right") #{convertNumber(statsTotal["totalWallCosts"][wallCostTypes[0]])}
+                        .price-item(align="right") #{util.convertNumber(statsTotal["totalWallCosts"][wallCostTypes[0]])}
                             if wallCostTypes[0].includes("And")
                                 img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
                             else
@@ -376,7 +376,7 @@ section#statsModule.module.container
                 if wallCostTypes[1]
                     tr 
                         td.align-middle
-                            .price-item(align="right") #{convertNumber(statsTotal["totalWallCosts"][wallCostTypes[1]])}
+                            .price-item(align="right") #{util.convertNumber(statsTotal["totalWallCosts"][wallCostTypes[1]])}
                                 if wallCostTypes[1].includes("And")
                                     img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
                                 else
@@ -400,7 +400,7 @@ section#statsModule.module.container
                                 else
                                     img(src="/Images/Clash of Clans/" + village[0].toUpperCase() + village.slice(1) + "/" + item[0].toUpperCase() + item.slice(1).replace(/([A-Z]+)/g, ' $1').trim() + ".png", style="height: 70px;")
                         td.align-middle 
-                            .price-item(align="center") #{convertNumber(statsTotal[item])}
+                            .price-item(align="center") #{util.convertNumber(statsTotal[item])}
                                 if item.includes("And")
                                     img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
                                 else

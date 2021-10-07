@@ -195,7 +195,7 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
             ...playerSchema.otto,
             builder: builderSchema.length == builderAmount ? newBuilder : playerSchema.otto.builder
         }
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Includes", "modules.pug"));
+        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
         const compileObject = {
             player: playerSchema.player,
             village: village,
@@ -207,7 +207,7 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
             convertStatsTime: (timeInSeconds: number) => {
                 return Util.convertMilliseconds(timeInSeconds * 1000);
             },
-            shortener: Util.timeShortener,
+            shortener: Util.shortener,
             convertNumber: Util.convertNumber,
             resolveDatabaseName: Util.resolveDatabaseName,
             statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
@@ -280,7 +280,7 @@ router.post("/upgrade-tracker/clashofclans/startLaboratoryUpgrade", async (req, 
         };
         newLaboratory.push(lab);
         playerSchema[(village + "Lab")] = newLaboratory;
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Includes", "modules.pug"));
+        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
         const compileObject = {
             player: playerSchema.player,
             village: village,
@@ -292,7 +292,7 @@ router.post("/upgrade-tracker/clashofclans/startLaboratoryUpgrade", async (req, 
             convertStatsTime: (timeInSeconds: number) => {
                 return Util.convertMilliseconds(timeInSeconds * 1000);
             },
-            shortener: Util.timeShortener,
+            shortener: Util.shortener,
             convertNumber: Util.convertNumber,
             resolveDatabaseName: Util.resolveDatabaseName,
             statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
@@ -357,7 +357,7 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
         };
         newPetHouse.push(pet);
         playerSchema.petHouse = newPetHouse;
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Includes", "modules.pug"));
+        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
         await PlayerSchemaObject.findOneAndUpdate({
             playerTag: playerTag
         }, {
@@ -377,7 +377,7 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
                 convertStatsTime: (timeInSeconds: number) => {
                     return Util.convertMilliseconds(timeInSeconds * 1000);
                 },
-                shortener: Util.timeShortener,
+                shortener: Util.shortener,
                 convertNumber: Util.convertNumber,
                 resolveDatabaseName: Util.resolveDatabaseName,
                 statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
@@ -426,7 +426,7 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
                 convertStatsTime: (timeInSeconds: number) => {
                     return Util.convertMilliseconds(timeInSeconds * 1000);
                 },
-                shortener: Util.timeShortener,
+                shortener: Util.shortener,
                 convertNumber: Util.convertNumber,
                 resolveDatabaseName: Util.resolveDatabaseName,
                 statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
@@ -443,7 +443,7 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
                 compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
                 compileObject["builder"] = builder;
             };
-            const compileFunction = compileFile(join(__dirname, "..", "Views", "Includes", "modules.pug"));
+            const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
             sendObject["htmlCode"] = compileFunction(compileObject);
         };
         return res.send(sendObject);
@@ -494,7 +494,7 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
         wallObject[`${currentLevel + 1}`] = `${parseInt(wallObject[`${currentLevel + 1}`]) + amount}`;
         newVillageObject["Walls"] = wallObject;
         playerSchema[village == "home" ? "homeVillage" : "builderBase"] = newVillageObject;
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Includes", "modules.pug"));
+        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
         const compileObject = {
             player: playerSchema.player,
             village: village,
@@ -506,7 +506,7 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
             convertStatsTime: (timeInSeconds: number) => {
                 return Util.convertMilliseconds(timeInSeconds * 1000);
             },
-            shortener: Util.timeShortener,
+            shortener: Util.shortener,
             convertNumber: Util.convertNumber,
             resolveDatabaseName: Util.resolveDatabaseName,
             statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
@@ -653,7 +653,7 @@ router.post("/upgrade-tracker/clashofclans/applyBoost", async (req, res) => {
         if (update) playerSchema = await PlayerSchemaObject.findOne({
             playerTag: playerTag
         });
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Includes", "modules.pug"));
+        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
         const compileObject = {
             player: playerSchema.player,
             village: village,
@@ -665,7 +665,7 @@ router.post("/upgrade-tracker/clashofclans/applyBoost", async (req, res) => {
             convertStatsTime: (timeInSeconds: number) => {
                 return Util.convertMilliseconds(timeInSeconds * 1000);
             },
-            shortener: Util.timeShortener,
+            shortener: Util.shortener,
             convertNumber: Util.convertNumber,
             resolveDatabaseName: Util.resolveDatabaseName,
             statsTotal: getTotalCostsAndTimes(playerSchema, "home"),

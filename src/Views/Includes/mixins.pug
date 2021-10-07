@@ -1,26 +1,19 @@
-- function min(input) { if (toString.call(input) !== "[object Array]") return false; return Math.min.apply(null, input); };
-//- EDIT IN UTIL CLASS TOO!
-- function convertName(name) { return name[0].toLowerCase() + name.slice(1).replace(/ /g, "").replace(/-/g, "_").replace(/\./g, "").replace(/'/g, ""); };
-- function convertNameToID(name) { return name.replace(/ /g, "").replace(/-/g, "") };
-- function getNumberArray(item) { const numberArray = []; for (const key of Object.keys(database[village == "home" ? "homeVillage" : "builderBase"])) { if (item.includes("Giga")) { numberArray.push(player.townHallWeaponLevel); break; } if (key.toLowerCase().includes("xbow") && item.toLowerCase() == "x-bow") numberArray.push(parseInt(database[village == "home" ? "homeVillage" : "builderBase"][key])); else if (key.slice(0, -1).replace(/([A-Z]+)/g, ' $1').trim().toLowerCase() == item.replace(/'/g, "").toLowerCase()) numberArray.push(parseInt(database[village == "home" ? "homeVillage" : "builderBase"][key])); } return numberArray; };
-- function itemInHall(item) { return (village == "home" ? townHall : builderHall)[convertName(item)] ? true : false; };
-
 mixin unitIcon(name, path, type)
-    - const hall = village == "home" ? townHall : builderHall;
+    - const hall = village == "home" ? playerTownHall : playerBuilderHall;
     - const imagePath = `/Images/Clash of Clans/${village[0].toUpperCase() + village.slice(1)}/${path}/${name}${type == "pet" ? "_Icon" : ""}.png`;
     - const unitElement = player[(type == "troop" || type == "pet" || type == "siegeMachine" ? "troops" : (type == "hero" ? "heroes" : "spells"))].find(element => element.name.toLowerCase() == name.toLowerCase() && element.village.toLowerCase().includes(village.toLowerCase()));
     - let lvl = 0;
     - let maxLvl = 0;
     - if (unitElement) { lvl = unitElement.level; maxLvl = unitElement.maxLevel; };
     if lvl == 0
-        .unit-icon.locked(style="background-image: url('" + imagePath + "');", title=`${name} Level 0 (Max for TH: ${hall[convertName(name)] ? hall[convertName(name)].maxLevel : 0})`)
+        .unit-icon.locked(style="background-image: url('" + imagePath + "');", title=`${name} Level 0 (Max for TH: ${hall[util.convertToVariableName(name)] ? hall[util.convertToVariableName(name)].maxLevel : 0})`)
     else 
-        .unit-icon(style="background-image: url('" + imagePath + "');", title=`${name} Level ${lvl} (Max for TH: ${hall[convertName(name)].maxLevel})`)
+        .unit-icon(style="background-image: url('" + imagePath + "');", title=`${name} Level ${lvl} (Max for TH: ${hall[util.convertToVariableName(name)].maxLevel})`)
             if lvl == 1 && ![...homeHeroesArray, "Battle Machine"].includes(name)
             else
                 if lvl == maxLvl 
                     .unit-icon-level.max.coc-description(style="font-size: 17px;") #{maxLvl}
-                else if hall[convertName(name)].maxLevel == lvl 
+                else if hall[util.convertToVariableName(name)].maxLevel == lvl 
                     .unit-icon-level.maxTH.coc-description(style="font-size: 17px;") #{lvl}
                 else 
                     .unit-icon-level.coc-description(style="font-size: 17px;") #{lvl}
@@ -46,7 +39,7 @@ mixin achievement(achievementElement)
 mixin displayAllAchievements() 
     each item in ["Home", "Builder"]
         - const achievements = player.achievements.filter(achievement => achievement.village.toLowerCase().includes(item.toLowerCase()));
-        h5.price-item(style="padding-top: 10px;") #{item} #{item.toLowerCase() == "home" ? "Village" : "Builder"} Achievements
+        h5.price-item(style="padding-top: 10px;") #{item} #{item.toLowerCase() == "home" ? "Village" : "Base"} Achievements
         .container 
             .row
                 div(style="padding-left: 0; width: auto;")
@@ -78,26 +71,26 @@ mixin createGlobalSlider(name, max)
         input.coc-description.form-control(id="global" + name, type="number", min=0, max=max, style="font-size: 20px;")
 
 mixin createMultipleSlidersHome(name, imagePath)
-    if userTownHall[convertName(name)]
+    if playerTownHall[util.convertToVariableName(name)]
         p.lead #{name}
-        +createGlobalSlider(convertNameToID(name), userTownHall[convertName(name)].maxLevel)
+        +createGlobalSlider(util.convertToDatabaseName(name), playerTownHall[util.convertToVariableName(name)].maxLevel)
         - let i = 1;
-        each _ in Array(userTownHall[convertName(name)].amount)
-            +createSlider(convertNameToID(name) + i++, 0, userTownHall[convertName(name)].maxLevel, imagePath)
+        each _ in Array(playerTownHall[util.convertToVariableName(name)].amount)
+            +createSlider(util.convertToDatabaseName(name) + i++, 0, playerTownHall[util.convertToVariableName(name)].maxLevel, imagePath)
 
 mixin createMultipleSlidersBuilder(name, imagePath)
-    - let maxLevel = name == "Spring Trap" ? userBuilderHall[convertName(name)].maxLevel : player.builderHallLevel;
-    if userBuilderHall[convertName(name)]
+    - let maxLevel = name == "Spring Trap" ? playerBuilderHall[util.convertToVariableName(name)].maxLevel : player.builderHallLevel;
+    if playerBuilderHall[util.convertToVariableName(name)]
         p.lead #{name}
-        +createGlobalSlider(convertNameToID(name), maxLevel)
+        +createGlobalSlider(util.convertToDatabaseName(name), maxLevel)
         - let i = 1;
-        each _ in Array(name == "Spring Trap" ? userBuilderHall[convertName(name)].amount : userBuilderHall[convertName(name)])
-            +createSlider(convertNameToID(name) + i++, 0, maxLevel, imagePath)
+        each _ in Array(name == "Spring Trap" ? playerBuilderHall[util.convertToVariableName(name)].amount : playerBuilderHall[util.convertToVariableName(name)])
+            +createSlider(util.convertToDatabaseName(name) + i++, 0, maxLevel, imagePath)
 
 mixin createTableContent(name, path, levels, moduleName)
     - const imagePath = "/Images/Clash of Clans/" + (village == "home" ? "Home" : "Builder") + "/" + path + "/" + name;
-    - const hallItem = (village == "home" ? townHall : builderHall)[convertName(name)];
-    - const maxedHallItem = (village == "home" ? maxTownHall : maxBuilderHall)[convertName(name)];
+    - const hallItem = (village == "home" ? playerTownHall : playerBuilderHall)[util.convertToVariableName(name)];
+    - const maxedHallItem = (village == "home" ? maxTownHall : maxBuilderHall)[util.convertToVariableName(name)];
     - const element = (village == "home" ? home : builder).find(element => element.name == name);
     - const hallItemAmount = hallItem.amount || hallItem;
     - const hallItemMaxLevel = village == "builder" && name == "Army Camp" ? 1 : hallItem.maxLevel || player.builderHallLevel;
@@ -138,7 +131,7 @@ mixin createTableContent(name, path, levels, moduleName)
                     img(src=imagePath + "/" + hallItemMaxLevel + ".png", style="height: 70px;")
         td.align-middle(rowspan=hallItemAmount + 1)
             .container
-                - const level = min(levels);
+                - const level = util.min(levels);
                 if level == hallItemMaxLevel
                     if village == "builder" && name == "Army Camp"
                             p.coc-description(style="color: green; font-size: 21px;", align="center") #{player.builderHallLevel >= 8 ? "Maximum amount of buildings reached" : "Maximum amount of buildings reached for your BH level"}
@@ -163,7 +156,7 @@ mixin createTableContent(name, path, levels, moduleName)
                                 else
                                     .col
                                         .flexible-inline
-                                            div.price-item(align="right") #{name == "Builder's Hut" && level + i + 1 == 1 ? (database.homeVillage.Builder == 4 ? "2k" : (database.homeVillage.Builder == 3 ? "1k & 2k" : "500 & 1k & 2k")) : convertPrice(elementLevel.calculateSeasonBoostCosts(database[(laboratoryArray.includes(name) || homePetsArray.includes(name) ? "research" : "builder") + "SeasonBoost"]))}
+                                            div.price-item(align="right") #{name == "Builder's Hut" && level + i + 1 == 1 ? (database.homeVillage.Builder == 4 ? "2k" : (database.homeVillage.Builder == 3 ? "1k & 2k" : "500 & 1k & 2k")) : util.convertNumber(elementLevel.calculateSeasonBoostCosts(database[(laboratoryArray.includes(name) || homePetsArray.includes(name) ? "research" : "builder") + "SeasonBoost"]))}
                                             if elementLevel.costType == "builderGoldAndElixir" || elementLevel.costType == "goldAndElixir"
                                                 img(src="/Images/Clash of Clans/Home/Gold and Elixir.png", style="height: 20px;")
                                             else 
@@ -213,7 +206,7 @@ mixin createTableContent(name, path, levels, moduleName)
                             .col 
                                 .row
                                     .col
-                                        div(id=convertNameToID(builder.name) + builder._id, title=`Finished: ${getDay(finishDate.getDay())} ${numberToOrdinal(finishDate.getDate())} ${getMonth(finishDate.getMonth())} ${finishDate.getFullYear()} @ ${finishDate.getHours()}:${finishDate.getMinutes()}`, class="prg-bar" + (percentage == 0 ? "-null" : ""), style=`--width: ${percentage};` data-content=`${shortener(convertedRemainingTime)} (${percentage}%)`)
+                                        div(id=util.convertToDatabaseName(builder.name) + builder._id, title=`Finished: ${getDay(finishDate.getDay())} ${numberToOrdinal(finishDate.getDate())} ${getMonth(finishDate.getMonth())} ${finishDate.getFullYear()} @ ${finishDate.getHours()}:${finishDate.getMinutes()}`, class="prg-bar" + (percentage == 0 ? "-null" : ""), style=`--width: ${percentage};` data-content=`${util.shortener(convertedRemainingTime)} (${percentage}%)`)
                                 .row 
                                     .col
                                         div(style="color: white;")
@@ -221,10 +214,10 @@ mixin createTableContent(name, path, levels, moduleName)
                                             | #{builder.currentLevel + 1}
                                     .col
                                         .flexible-inline
-                                            div.price-item(id="gemCount" + convertNameToID(builder.name) + builder._id) #{timeToGems(remainingTime / 1000)}
+                                            div.price-item(id="gemCount" + util.convertToDatabaseName(builder.name) + builder._id) #{util.timeToGems(remainingTime / 1000)}
                                             img(src="/Images/Clash of Clans/Home/Gem.png", style="height: 20px;")
                             .col
-                                button.btn.btn-warning.editUpgrade(type="button", data-id=convertNameToID(builder.name) + builder._id) #[i.fas.fa-tools]
+                                button.btn.btn-warning.editUpgrade(type="button", data-id=util.convertToDatabaseName(builder.name) + builder._id) #[i.fas.fa-tools]
                                 button.btn.btn-success.finishUpgrade(type="button", data-name=builder.name, data-id=builder.id, data-tag=player.tag) #[i.fas.fa-check]
                         else
                             if !(village == "builder" && name == "Army Camp")
@@ -239,4 +232,4 @@ mixin createTableContent(name, path, levels, moduleName)
                                     else 
                                         button.btn.lab-button(data-module=moduleName, data-id=name, onclick=`startLaboratoryUpgrade("${name}", "${lvl}", "${player.tag}");`)
                                 else
-                                    button.btn.builder-button(data-module=moduleName, data-id=convertNameToID(name) + (index + 1), onclick=`startBuilderUpgrade("${convertNameToID(name) + (index + 1)}", "${name}", ${index + 1}, ${lvl}, "${player.tag}");`)
+                                    button.btn.builder-button(data-module=moduleName, data-id=util.convertToDatabaseName(name) + (index + 1), onclick=`startBuilderUpgrade("${util.convertToDatabaseName(name) + (index + 1)}", "${name}", ${index + 1}, ${lvl}, "${player.tag}");`)
