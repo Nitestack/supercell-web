@@ -112,7 +112,8 @@ router.post("/upgrade-tracker/clashofclans/managePlayer", async (req, res) => {
             name: "player",
             value: player
         });
-    } catch {
+    } catch (err) {
+        console.log(err);
         res.render("Errors/404");
     };
 });

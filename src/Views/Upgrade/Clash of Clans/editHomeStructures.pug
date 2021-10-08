@@ -38,14 +38,14 @@ html(lang='en')
                                 +createSlider("Builder", 2, 5, "/Images/Clash of Clans/Home/Defenses/Builder's Hut/1.png")
                                 p.coc-description.lead(style="font-size: 20px;") Don't include the O.T.T.O. Hut!
                                 p.coc-description.lead(style="font-size: 20px;") Be sure that you set the correct amount of builders you have for upgrade plans etc.
-                            .col
-                                if player.townHallLevel >= 14
-                                    if playerTownHall[convertName("Builders Hut")]
+                            if player.townHallLevel >= 14
+                                .col
+                                    if playerTownHall[util.convertToVariableName("Builders Hut")]
                                         p.lead Builders Hut
-                                        +createGlobalSlider(convertNameToID("Builders Hut"), playerTownHall[convertName("Builders Hut")].maxLevel)
+                                        +createGlobalSlider(util.convertToDatabaseName("Builders Hut"), playerTownHall[util.convertToVariableName("Builders Hut")].maxLevel)
                                         - let i = 1;
-                                        each _ in Array(playerTownHall[convertName("Builders Hut")].amount)
-                                            +createSlider(convertNameToID("Builders Hut") + i++, 1, playerTownHall[convertName("Builders Hut")].maxLevel, "/Images/Clash of Clans/Home/Defenses/Builder's Hut/1.png")
+                                        each _ in Array(playerTownHall[util.convertToVariableName("Builders Hut")].amount)
+                                            +createSlider(util.convertToDatabaseName("Builders Hut") + i++, 1, playerTownHall[util.convertToVariableName("Builders Hut")].maxLevel, "/Images/Clash of Clans/Home/Defenses/Builder's Hut/1.png")
                         h1 Defenses 
                         .row.mb-3
                             .col

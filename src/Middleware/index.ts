@@ -24,17 +24,24 @@ export default class Middleware {
             jwt.verify(token as string, process.env.SECRET, (err, decoded) => {
                 if (err) {
                     if (err.message.toLowerCase().includes("expired")) {
-                        //@ts-ignore
-                        res.cookie("x-access-token", this.generateToken({ id: decoded.id, username: decoded.username, roles: decoded.roles }), {
+                        const newDecoded = jwt.decode(token, {
+                            json: true,
+                            complete: true
+                        })?.payload;
+                        res.cookie("x-access-token", Middleware.generateToken({ id: newDecoded.id, username: newDecoded.username, roles: newDecoded.roles }), {
                             path: "/",
                             sameSite: true,
-                            httpOnly: true // The cookie only accessible by the web server
+                            httpOnly: true //The cookie only accessible by the web server
                         });
+                        res.locals.user = {
+                            id: newDecoded.id,
+                            username: newDecoded.username,
+                            roles: newDecoded.roles
+                        };
                     } else {
                         console.log(err);
                     };
-                } //@ts-ignore
-                else {
+                } else {
                     res.locals.user = {
                         id: decoded.id,
                         username: decoded.username,
