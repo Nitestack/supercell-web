@@ -10,38 +10,46 @@ html(lang='en')
         include ../../../Includes/navbar
         include ../../../Includes/upgradeTracker
         .d-flex.justify-content-center
-            #searchingPlayer.accordion.bg-transparent
-                ul.list-group.bg-transparent
-                    li.list-group-item.accordion-item.bg-transparent
-                        h2#playerHeader.accordion-header
-                            .accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#tagPlayerCollapse', aria-expanded='true', aria-controls='tagPlayerCollapse', id="playerButtonToClick")
-                                | Add village by player tag
-                        #tagPlayerCollapse.accordion-collapse.collapse(aria-labelledby='playerHeader', data-bs-parent='#searchingPlayer')
-                            .accordion-body.bg-transparent(id="resultBody")
-                                p.lead#error(style="color: red;")
-                                p.coc-description.lead(style="font-size: 28px;") Please enter a player tag to search a village!
-                                form(id="playerSearchForm")
-                                    .input-group.mb-3
-                                        span.input-group-text #
-                                        input.coc-description.form-control(name="playerTag", id="playerTag", type="text", placeholder="Player Tag", minlength=8, maxlength=10, style="font-size: 25px;")
-                                        button.btn.btn-success(type="submit") #[i.fas.fa-search]
-                                p#loadingScreen(align="center")
-                                #hidingDiv
-                                    .container(id="playerContainer")
-                                    p
-                                    p.coc-description.lead(style="font-size: 28px;") If this is your account, please click the button below. If not, feel free to use the input field above again! 
-                                    form(method="POST", action="/upgrade-tracker/clashofclans/managePlayer")
-                                        button.btn.btn-success#player(name="player", type="submit") Proceed
-                    li.list-group-item.accordion-item.bg-transparent
-                        h2#clanHeader.accordion-header
-                            .accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#clanSearchCollapse', aria-expanded='false', aria-controls='clanSearchCollapse')
-                                | Add a village by searching your clan
-                        #clanSearchCollapse.accordion-collapse.collapse(aria-labelledby='clanHeader', data-bs-parent='#searchingPlayer')
-                            .accordion-body.bg-transparent
-                                p.coc-description.lead(style="font-size: 28px;") Please enter a clan name or clan tag to search a village!
-                                form(method="POST", action="/upgrade-tracker/clashofclans/searchForPlayerByClan")
-                                    .input-group.mb-3
-                                        span.input-group-text #
-                                        input.coc-description.form-control(name="clanInput", id="clanInput", type="text", placeholder="Clan Name/Tag", style="font-size: 25px;")
-                                        button.btn.btn-success(type="submit") #[i.fas.fa-search]
+            if user
+                #searchingPlayer.accordion.bg-transparent
+                    ul.list-group.bg-transparent
+                        li.list-group-item.accordion-item.bg-transparent
+                            h2#playerHeader.accordion-header
+                                .accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#tagPlayerCollapse', aria-expanded='true', aria-controls='tagPlayerCollapse', id="playerButtonToClick")
+                                    | Add village by player tag
+                            #tagPlayerCollapse.accordion-collapse.collapse(aria-labelledby='playerHeader', data-bs-parent='#searchingPlayer')
+                                .accordion-body.bg-transparent(id="resultBody")
+                                    p.lead#error(style="color: red;")
+                                    p.coc-description.lead(style="font-size: 28px;") Please enter a player tag to search a village!
+                                    form(id="playerSearchForm")
+                                        .input-group.mb-3
+                                            span.input-group-text #
+                                            input.coc-description.form-control(name="playerTag", id="playerTag", type="text", placeholder="Player Tag", minlength=8, maxlength=10, style="font-size: 25px;")
+                                            button.btn.btn-success(type="submit") #[i.fas.fa-search]
+                                    p#loadingScreen(align="center")
+                                    #hidingDiv
+                                        .container(id="playerContainer")
+                                        p
+                                        p.coc-description.lead(style="font-size: 28px;") If this is your account, please click the button below. If not, feel free to use the input field above again! 
+                                        form(method="POST", action="/upgrade-tracker/clashofclans/managePlayer")
+                                            button.btn.btn-success#player(name="player", type="submit") Proceed
+                        li.list-group-item.accordion-item.bg-transparent
+                            h2#clanHeader.accordion-header
+                                .accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#clanSearchCollapse', aria-expanded='false', aria-controls='clanSearchCollapse')
+                                    | Add a village by searching your clan
+                            #clanSearchCollapse.accordion-collapse.collapse(aria-labelledby='clanHeader', data-bs-parent='#searchingPlayer')
+                                .accordion-body.bg-transparent
+                                    p.coc-description.lead(style="font-size: 28px;") Please enter a clan name or clan tag to search a village!
+                                    form(method="POST", action="/upgrade-tracker/clashofclans/searchForPlayerByClan")
+                                        .input-group.mb-3
+                                            span.input-group-text #
+                                            input.coc-description.form-control(name="clanInput", id="clanInput", type="text", placeholder="Clan Name/Tag", style="font-size: 25px;")
+                                            button.btn.btn-success(type="submit") #[i.fas.fa-search]
+            else
+                .center-image
+                    p.coc-description.lead(style="font-size: 28px;") You need to create an account to save your village!
+                    a(href="/login?redirect=/upgrade-tracker/clashofclans")
+                        button.btn.btn-primary Login
+                    a(href="/register?redirect=/upgrade-tracker/clashofclans")
+                        button.btn.btn-success Register
         include ../../../Includes/footer

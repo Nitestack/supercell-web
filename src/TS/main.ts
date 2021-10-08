@@ -211,6 +211,5 @@ function findGETParameterValue(parameterName: string) {
         tmp = item.split("=");
         if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
     });
-    console.log(result);
     return result;
 };

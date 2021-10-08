@@ -3,11 +3,12 @@ import { API } from "..";
 import { Player } from "clashofclans.js";
 import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
-import PlayerSchemaObject, { PlayerSchema } from "../Database/Models/clashofclans";
+import { ClashOfClansVillage } from "../Database/Models/clashofclans";
 import { home } from "../Database/Clash of Clans/home";
 import { builder } from "../Database/Clash of Clans/builder";
 import Util from "../Util";
 import ClashOfClansConstants from "../Database/Clash of Clans/constants";
+import Database from "../Database/Models/index";
 
 const router = Router();
 
@@ -31,7 +32,7 @@ router.get("/upgrade-tracker/clashofclans", (req, res) => res.render("Upgrade/Cl
  */
 router.get("/upgrade-tracker/clashofclans/:playerTag", async (req, res) => {
     //Searches for a player in the database
-    const playerSchema = await PlayerSchemaObject.findOne({
+    const playerSchema = await Database.ClashOfClansVillage.findOne({
         playerTag: checkForHash(req.params.playerTag)
     });
     //If the player doesn't exists
@@ -47,7 +48,7 @@ router.get("/upgrade-tracker/clashofclans/:playerTag", async (req, res) => {
 router.get("/upgrade-tracker/clashofclans/:playerTag/home", async (req, res) => {
     try {
         //Searches for a player in the database
-        const playerSchema = await PlayerSchemaObject.findOne({
+        const playerSchema = await Database.ClashOfClansVillage.findOne({
             playerTag: checkForHash(req.params.playerTag)
         });
         //If a player exists in the database
@@ -71,7 +72,7 @@ router.get("/upgrade-tracker/clashofclans/:playerTag/home", async (req, res) => 
  */
 router.get("/upgrade-tracker/clashofclans/:playerTag/builder", async (req, res) => {
     try {
-        const playerSchema = await PlayerSchemaObject.findOne({
+        const playerSchema = await Database.ClashOfClansVillage.findOne({
             playerTag: checkForHash(req.params.playerTag)
         });
         if (playerSchema) {
@@ -105,28 +106,12 @@ router.post("/upgrade-tracker/clashofclans/chooseVillage", (req, res) => {
 router.post("/upgrade-tracker/clashofclans/managePlayer", async (req, res) => {
     try {
         const player: Player = JSON.parse(req.body.player);
-        /*AUTHENTICATION*/
-        /*const playerProfile = await HomeVillageSchema.findById(player.tag.includes("#") ? player.tag : "#" + player.tag);
-        if (!playerProfile) return res.render("Upgrade/Clash of Clans/Authentication/verify", {
-            playerTag: player.tag
-        });
-        res.render("Upgrade/Clash of Clans/Authentication/password", {
-            subTitle: "Password",
-            playerTag: player.tag,
-            errorMessage: "This account was already verified! Please enter the password!"
-        });*/
         /*REDIRECT TO SET UP HOME STRUCTURES*/
         res.render("redirect", {
             action: "/upgrade-tracker/clashofclans/home/new",
             name: "player",
             value: player
         });
-        /*REDIRECT TO SET UP BUILDER STRUCTURES*/
-        /*res.render("redirect", {
-            action: "/upgrade-tracker/clashofclans/builder/new",
-            name: "player",
-            value: player
-        });*/
     } catch {
         res.render("Errors/404");
     };
@@ -162,8 +147,8 @@ router.post("/upgrade-tracker/clashofclans/home/structures/set", async (req, res
         const player: Player = JSON.parse(req.body.player);
         const object = prepareObject(req.body, player, "home", true);
         //@ts-ignore
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: checkForHash(player.tag) });
-        await PlayerSchemaObject.findOneAndUpdate({
+        const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: checkForHash(player.tag) });
+        await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: checkForHash(player.tag)
         }, {
             playerTag: checkForHash(player.tag),
@@ -202,8 +187,8 @@ router.post("/upgrade-tracker/clashofclans/builder/structures/set", async (req, 
         const player: Player = JSON.parse(req.body.player);
         const object = prepareObject(req.body, player, "builder", true);
         object["Builder"] = 1;
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: checkForHash(player.tag) });
-        await PlayerSchemaObject.findOneAndUpdate({
+        const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: checkForHash(player.tag) });
+        await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: checkForHash(player.tag)
         }, {
             playerTag: checkForHash(player.tag),
@@ -220,7 +205,7 @@ router.post("/upgrade-tracker/clashofclans/builder/structures/set", async (req, 
             }
         }, {
             upsert: true
-        });
+        }); 
         if (player.townHallLevel && !playerSchema?.homeVillage) {
             res.render("redirect", {
                 action: "/upgrade-tracker/clashofclans/home/new",
@@ -248,8 +233,8 @@ router.post("/upgrade-tracker/clashofclans/apiUpdate", async (req, res) => {
     const { playerTag, village } = req.body;
     try {
         const player = await API.player(checkForHash(playerTag));
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: checkForHash(playerTag) });
-        await PlayerSchemaObject.findOneAndUpdate({
+        const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: checkForHash(playerTag) });
+        await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: checkForHash(playerTag),
         }, {
             player: player,
@@ -273,7 +258,7 @@ router.post("/upgrade-tracker/clashofclans/seasonBoosts", async (req, res) => {
     const { playerTag, village } = JSON.parse(info);
     const builderBoost = parseInt(builderSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
     const researchBoost = parseInt(researchSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
-    await PlayerSchemaObject.findOneAndUpdate({
+    await Database.ClashOfClansVillage.findOneAndUpdate({
         playerTag: checkForHash(playerTag)
     }, {
         builderSeasonBoost: builderBoost,
@@ -394,10 +379,10 @@ export function prepareObject(structures: object, player: Player, village: "home
 
 /**
  * Updates the level when an element has finished upgrading
- * @param {PlayerSchema} playerSchema The player of the database 
+ * @param {ClashOfClansVillage} playerSchema The player of the database 
  * @param {"home" | "builder"} village The village
  */
-export async function updateLevels(playerSchema: PlayerSchema, village: "home" | "builder") {
+export async function updateLevels(playerSchema: ClashOfClansVillage, village: "home" | "builder") {
     let updateDatabase = false;
     const { player } = playerSchema;
     //Check if an builder has finished
@@ -456,7 +441,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
         playerSchema.petHouse = [];
         updateDatabase = true;
     };
-    if (updateDatabase && village == "home") await PlayerSchemaObject.findOneAndUpdate({
+    if (updateDatabase && village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
         playerTag: checkForHash(player.tag)
     }, {
         homeVillage: playerSchema.homeVillage,
@@ -467,7 +452,7 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
     }, {
         upsert: false
     });
-    else if (updateDatabase && village == "builder") await PlayerSchemaObject.findOneAndUpdate({
+    else if (updateDatabase && village == "builder") await Database.ClashOfClansVillage.findOneAndUpdate({
         playerTag: checkForHash(player.tag)
     }, {
         builderBase: playerSchema.builderBase,
@@ -483,10 +468,10 @@ export async function updateLevels(playerSchema: PlayerSchema, village: "home" |
 
 /**
  * Gets the total costs and the total time and split them in categories
- * @param {PlayerSchema} playerSchema The player of the database 
+ * @param {ClashOfClansVillage} playerSchema The player of the database 
  * @param {"home" | "builder"} village The village
  */
-export function getTotalCostsAndTimes(playerSchema: PlayerSchema, village: "home" | "builder") {
+export function getTotalCostsAndTimes(playerSchema: ClashOfClansVillage, village: "home" | "builder") {
     const structures = village == "home" ? [...ClashOfClansConstants.homeDefensesArray, ...ClashOfClansConstants.homeTrapsArray, ...ClashOfClansConstants.homeArmyArray, ...ClashOfClansConstants.homeResourcesArray] : [...ClashOfClansConstants.builderDefensesArray, ...ClashOfClansConstants.builderTrapsArray, ...ClashOfClansConstants.builderArmyArray, ...ClashOfClansConstants.builderResourcesArray];
     const base = playerSchema[village == "home" ? "homeVillage" : "builderBase"];
     const totalCosts = {};

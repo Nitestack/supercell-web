@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { API } from "..";
-import PlayerSchemaObject, { Builder, Laboratory, PetHouse } from "../Database/Models/clashofclans";
+import { Builder, Laboratory, PetHouse } from "../Database/Models/clashofclans";
 import { compileFile } from "pug";
 import { join } from "path";
 import Util from "../Util";
@@ -13,6 +13,7 @@ import { Token, ClashRoyale } from "supercell-apis";
 import { CRProfile, CRCard } from "../API";
 import crElixirCosts from "../Database/Clash Royale/elixirCost";
 import { createDeckLink } from "../Database/Clash Royale/links";
+import Database from "../Database/Models/index";
 
 const router = Router();
 
@@ -101,11 +102,11 @@ function sortBuilder(a: Builder, b: Builder) {
 router.post("/upgrade-tracker/clashofclans/getBuilders", async (req, res) => {
     try {
         const { playerTag, village } = req.body;
-        let playerSchema = await PlayerSchemaObject.findOne({
+        let playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         const upgradeDone = await updateLevels(playerSchema, village);
-        if (upgradeDone) playerSchema = await PlayerSchemaObject.findOne({
+        if (upgradeDone) playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         const builder = playerSchema[village == "home" ? "homeVillageBuilder" : "builderBaseBuilder"] || [];
@@ -147,11 +148,11 @@ function getClockTowerDuration(clockTowerLevel?: number | string) {
 router.post("/upgrade-tracker/clashofclans/getLab", async (req, res) => {
     try {
         const { playerTag, village } = req.body;
-        let playerSchema = await PlayerSchemaObject.findOne({
+        let playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         const upgradeDone = await updateLevels(playerSchema, village);
-        if (upgradeDone) playerSchema = await PlayerSchemaObject.findOne({
+        if (upgradeDone) playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         return res.send(playerSchema[(village) + "Lab"] || []);
@@ -168,12 +169,12 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
         const id = parseInt(req.body.id);
         const currentLevel = parseInt(req.body.currentLevel);
         const { buildingName, village, playerTag } = req.body;
-        let playerSchema = await PlayerSchemaObject.findOne({ playerTag: playerTag });
+        let playerSchema = await Database.getClashOfClansVillage({ playerTag: playerTag });
         if (!playerSchema) return res.send({
             errorMessage: "An database error happened! Please try again!"
         });
         const update = await updateLevels(playerSchema, village);
-        if (update) playerSchema = await PlayerSchemaObject.findOne({ playerTag: playerTag });
+        if (update) playerSchema = await Database.getClashOfClansVillage({ playerTag: playerTag });
         const builderSchema: Array<Builder> = playerSchema[(village == "home" ? "homeVillage" : "builderBase") + "Builder"];
         const builderAmount = parseInt(playerSchema[village == "home" ? "homeVillage" : "builderBase"]["Builder"]);
         //if all builders are busy
@@ -224,7 +225,7 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
             compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
             compileObject["builder"] = builder;
         };
-        if (village == "home") await PlayerSchemaObject.findOneAndUpdate({
+        if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             homeVillageBuilder: builderSchema.length == builderAmount ? builderSchema : newBuilder,
@@ -235,7 +236,7 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
         }, {
             upsert: false
         });
-        else if (village == "builder") await PlayerSchemaObject.findOneAndUpdate({
+        else if (village == "builder") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             builderBaseBuilder: builderSchema.length == builderAmount ? builderSchema : newBuilder,
@@ -261,7 +262,7 @@ router.post("/upgrade-tracker/clashofclans/startLaboratoryUpgrade", async (req, 
     try {
         const currentLevel = parseInt(req.body.currentLevel);
         const { unitName, village, playerTag } = req.body;
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: playerTag });
+        const playerSchema = await Database.getClashOfClansVillage({ playerTag: playerTag });
         if (!playerSchema) return res.send({
             errorMessage: "An database error happened! Please try again!"
         });
@@ -309,14 +310,14 @@ router.post("/upgrade-tracker/clashofclans/startLaboratoryUpgrade", async (req, 
             compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
             compileObject["builder"] = builder;
         };
-        if (village == "home") await PlayerSchemaObject.findOneAndUpdate({
+        if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             homeLab: newLaboratory
         }, {
             upsert: false
         });
-        else if (village == "builder") await PlayerSchemaObject.findOneAndUpdate({
+        else if (village == "builder") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             builderLab: newLaboratory
@@ -338,7 +339,7 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
     try {
         const currentLevel = parseInt(req.body.currentLevel);
         const { unitName, village, playerTag } = req.body;
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: playerTag });
+        const playerSchema = await Database.getClashOfClansVillage({ playerTag: playerTag });
         if (!playerSchema) return res.send({
             errorMessage: "An database error happened! Please try again!"
         });
@@ -358,7 +359,7 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
         newPetHouse.push(pet);
         playerSchema.petHouse = newPetHouse;
         const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
-        await PlayerSchemaObject.findOneAndUpdate({
+        await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             homeLab: newPetHouse
@@ -400,7 +401,7 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
 router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
     try {
         const { playerTag, village } = req.body;
-        let playerSchema = await PlayerSchemaObject.findOne({
+        let playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         const upgradeDone = await updateLevels(playerSchema, village);
@@ -412,7 +413,7 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
             petHouse: village == "home" ? (playerSchema.petHouse || []) : []
         };
         if (upgradeDone) {
-            playerSchema = await PlayerSchemaObject.findOne({
+            playerSchema = await Database.getClashOfClansVillage({
                 playerTag: playerTag
             });
             const compileObject = {
@@ -457,7 +458,7 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
  */
 router.post("/upgrade-tracker/finishUpgrade", async (req, res) => {
     const { tag, village, name, id } = req.body;
-    const player = await PlayerSchemaObject.findOne({
+    const player = await Database.getClashOfClansVillage({
         playerTag: tag
     });
     //If an player exists in database
@@ -483,7 +484,7 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
         const { village, playerTag } = req.body;
         const currentLevel = parseInt(req.body.currentLevel);
         const amount = parseInt(req.body.amount);
-        const playerSchema = await PlayerSchemaObject.findOne({ playerTag: playerTag });
+        const playerSchema = await Database.getClashOfClansVillage({ playerTag: playerTag });
         if (!playerSchema) return res.send({
             errorMessage: "An database error happened! Please try again!"
         });
@@ -523,14 +524,14 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
             compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
             compileObject["builder"] = builder;
         };
-        if (village == "home") await PlayerSchemaObject.findOneAndUpdate({
+        if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             homeVillage: newVillageObject
         }, {
             upsert: false
         });
-        else if (village == "builder") await PlayerSchemaObject.findOneAndUpdate({
+        else if (village == "builder") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             builderBase: newVillageObject
@@ -551,7 +552,7 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
 router.post("/upgrade-tracker/clashofclans/searchForPlayer", async (req, res) => {
     try {
         const { playerTag } = req.body;
-        const playerDatabase = await PlayerSchemaObject.findOne({
+        const playerDatabase = await Database.getClashOfClansVillage({
             tag: playerTag
         });
         if (playerDatabase) {
@@ -599,7 +600,7 @@ router.post("/upgrade-tracker/clashofclans/applyBoost", async (req, res) => {
     try {
         const { boost, playerTag, village } = req.body;
         const amount = req.body.amount ? parseInt(req.body.amount) : 1;
-        let playerSchema = await PlayerSchemaObject.findOne({
+        let playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         if (boost.toLowerCase() == "builder potion") {
@@ -635,14 +636,14 @@ router.post("/upgrade-tracker/clashofclans/applyBoost", async (req, res) => {
             }];
             playerSchema.builderLab = lab;
         };
-        if (village == "home") await PlayerSchemaObject.findOneAndUpdate({
+        if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             homeVillageBuilder: playerSchema.homeVillageBuilder,
             homeLab: playerSchema.homeLab,
             otto: playerSchema.otto
         });
-        else await PlayerSchemaObject.findOneAndUpdate({
+        else await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
             builderBaseBuilder: playerSchema.builderBaseBuilder,
@@ -650,7 +651,7 @@ router.post("/upgrade-tracker/clashofclans/applyBoost", async (req, res) => {
             otto: playerSchema.otto
         });
         const update = await updateLevels(playerSchema, village);
-        if (update) playerSchema = await PlayerSchemaObject.findOne({
+        if (update) playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
         const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));

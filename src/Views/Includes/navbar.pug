@@ -4,10 +4,12 @@ mixin navbarItems()
     a.coc-description.nav-link.navbar-link-custom(type="button", href="/tools") #[i.fas.fa-tools] Tools
     if user
         .navbar-dropdown
-            a.dropbtn.coc-description.nav-link.navbar-link-custom #[i.fas.fa-user-circle] #{user.username}
+            a.dropbtn.coc-description.nav-link.navbar-link-custom #{user.username}
                 i.fa.fa-caret-down
             .navbar-dropdown-content 
-                a.coc-description.nav-link.navbar-link-custom(type="button", href='/account') #[i.fas.fa-cogs.text-muted] My Account
+                a.coc-description.nav-link.navbar-link-custom(type="button", href='/account') #[i.fas.fa-user-circle] My Account
+                if user.roles.includes("615878086d275732c0fe02b1")
+                    a.coc-description.nav-link.navbar-link-custom(type="button", href='/admin') #[i.fas.fa-cogs.text-muted] Admin
                 a.coc-description.nav-link.navbar-link-custom(type="button", href='/logout') #[i.fas.fa-user-slash.text-muted] Logout
     else 
         a.coc-description.nav-link.navbar-link-custom(type="button", href='/login') #[i.fas.fa-code] Login

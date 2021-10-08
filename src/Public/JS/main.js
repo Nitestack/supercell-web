@@ -232,7 +232,6 @@ function findGETParameterValue(parameterName) {
         if (tmp[0] === parameterName)
             result = decodeURIComponent(tmp[1]);
     });
-    console.log(result);
     return result;
 }
 ;

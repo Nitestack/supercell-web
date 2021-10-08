@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import Database from "../Database/Models/User/index";
+import Database from "../Database/Models/index";
 import bcrypt from "bcryptjs";
 import Middleware from "../Middleware/index";
 
@@ -22,40 +22,28 @@ router.get("/forgot-password", (req, res) => {
     res.render("Authentication/forgotPassword");
 });
 router.get("/account", Middleware.redirectToLoginPage, (req, res) => res.render("Authentication/account", {
-    
+
 }));
 
-router.post("/auth/signup", (req, res) => {
+router.post("/auth/signup", async (req, res) => {
     try {
         //Check for Email validaty
-        Database.User.findOne({
-            username: req.body.username
-        }).exec((err, user) => {
-            if (err) {
-                console.log(err);
-                return res.redirect("/register?error=internal");
-            } else if (user) return res.redirect("/register?error=user");
-            Database.User.findOne({
-                email: req.body.email
-            }).exec((err, user) => {
-                if (err) {
-                    console.log(err);
-                    return res.redirect("/register?error=user");
-                } else if (user) return res.redirect("/register?error=email");
-            });
-        });
+        const userCheck = await Database.getUser({ username: req.body.username });
+        if (userCheck) return res.redirect("/register?error=user");
+        const emailCheck = await Database.getUser({ email: req.body.email });
+        if (emailCheck) return res.redirect("/register?error=email");
         //Check for role validaty
         if (req.body.roles) for (let i = 0; i < req.body.roles.length; i++) if (!Database.ROLES.includes(req.body.roles[i])) {
             console.log(`Failed! Role ${req.body.roles[i]} does not exist!`);
             return res.redirect("/register?error=internal");
         };
-        const user = new Database.User({
+        const newUser = new Database.User({
             username: req.body.username,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8)
         });
         //Sign up
-        user.save((err, user) => {
+        newUser.save((err, user) => {
             if (err) {
                 console.log(err);
                 return res.redirect("/register?error=internal");
@@ -90,10 +78,9 @@ router.post("/auth/signup", (req, res) => {
                         };
                     });
                 };
-                res.cookie("x-access-token", Middleware.generateToken({ id: user.id, username: user.username }), {
+                res.cookie("x-access-token", Middleware.generateToken({ id: user.id, username: user.username, roles: user.roles }), {
                     path: "/",
                     sameSite: true,
-                    maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
                     httpOnly: true // The cookie only accessible by the web server
                 });
                 return res.redirect("/account");
@@ -101,27 +88,26 @@ router.post("/auth/signup", (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        return res.redirect("/register?error=internal");
     };
 });
 
 router.post("/auth/signin", async (req, res) => {
-    Database.User.findOne({
-        username: req.body.username
-    }).exec((err, user) => {
-        if (err) {
-            console.log(err);
-            return res.redirect("/login?error=internal");
-        } else if (!user) return res.redirect("/login?error=user");
+    try {
+        const user = await Database.getUser({ username: req.body.username });
+        if (!user) return res.redirect("/login?error=user");
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) return res.redirect("/login?error=password");
-        res.cookie("x-access-token", Middleware.generateToken({ id: user.id, username: user.username }), {
+        res.cookie("x-access-token", Middleware.generateToken({ id: user.id, username: user.username, roles: user.roles }), {
             path: "/",
             sameSite: true,
-            maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
             httpOnly: true // The cookie only accessible by the web server
         });
         return res.redirect("/account");
-    });
+    } catch (err) {
+        console.log(err);
+        return res.redirect("/login?error=internal");
+    };
 });
 
 export default router;

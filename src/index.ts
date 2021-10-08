@@ -9,14 +9,13 @@ import toolsRouter from "./Routes/tools";
 import adminRouter from "./Routes/admin";
 //User
 import authRouter from "./Routes/user";
-import Database from "./Database/Models/User/index";
+import Database from "./Database/Models/index";
 //Middleware
 import Middleware from "./Middleware/index";
 //Other modules
 import dotenv from "dotenv";
 import { set, connect, connection } from "mongoose";
 import express from 'express';
-import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { join } from "path";
@@ -32,19 +31,13 @@ dotenv.config();
 //MongoDB Connection
 connection.on("open", () => {
     console.log("MongoDB connection established!");
-    Database.Role.estimatedDocumentCount({}, (error, count) => {
+    Database.Role.countDocuments({}, (error, count) => {
         if (!error && count == 0) {
             Database.Role.create({
                 name: "user"
             }).then(err => {
                 if (err) console.log(err);
                 console.log("Added 'user' to roles collection!");
-            });
-            Database.Role.create({
-                name: "moderator"
-            }).then(err => {
-                if (err) console.log(err);
-                console.log("Added 'moderator' to roles collection!");
             });
             Database.Role.create({
                 name: "admin"
@@ -73,9 +66,9 @@ app.use(cors({
     origin: `http://localhost:${port}`
 }));
 //Parse requests of content-type application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 //Parse requests of content-type application/json
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 

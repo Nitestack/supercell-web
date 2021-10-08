@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Express } from "express";
 import jwt from "jsonwebtoken";
-import Database from "../Database/Models/User/index";
+import Database from "../Database/Models/index";
 import ClashOfClansConstants from "../Database/Clash of Clans/constants";
 import { home } from "../Database/Clash of Clans/home";
 import { builder } from "../Database/Clash of Clans/builder";
@@ -25,7 +25,7 @@ export default class Middleware {
                 if (err) {
                     if (err.message.toLowerCase().includes("expired")) {
                         //@ts-ignore
-                        res.cookie("x-access-token", this.generateToken({ id: decoded.id, username: decoded.username }), {
+                        res.cookie("x-access-token", this.generateToken({ id: decoded.id, username: decoded.username, roles: decoded.roles }), {
                             path: "/",
                             sameSite: true,
                             httpOnly: true // The cookie only accessible by the web server
@@ -37,20 +37,18 @@ export default class Middleware {
                 else {
                     res.locals.user = {
                         id: decoded.id,
-                        username: decoded.username
+                        username: decoded.username,
+                        roles: decoded.roles
                     };
                 };
             });
         };
         next();
     };
-    public static isAdmin(req: Request, res: Response, next: NextFunction) {
-        //@ts-ignore
-        Database.User.findById(res.locals.user.id).exec((err, user) => {
-            if (err) {
-                console.log(err);
-                return res.render("Errors/404");
-            } else {
+    public static async isAdmin(req: Request, res: Response, next: NextFunction) {
+        try {
+            const user = await Database.getUserById(res.locals.user.id);
+            if (user) {
                 Database.Role.find({ _id: { $in: user.roles } }, (err, roles) => {
                     if (err) {
                         console.log(err);
@@ -60,15 +58,10 @@ export default class Middleware {
                         return res.render("Errors/404");
                     };
                 });
-            };
-        });
-    };
-    public static async getUser(userID: string) {
-        try {
-            const user = await Database.User.findById(userID);
-            if (user) return user;
+            };            
         } catch (err) {
             console.log(err);
+            return res.render("Errors/404");
         };
     };
     public static applyClashOfClansConstants(app: Express) {

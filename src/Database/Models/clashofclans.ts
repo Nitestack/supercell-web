@@ -1,7 +1,7 @@
 import { model, Schema, SchemaTypes, Document } from "mongoose";
 import { Player } from "clashofclans.js";
 
-export interface PlayerSchema extends Document {
+export interface ClashOfClansVillage extends Document {
     playerTag: string;
     player: Player;
     homeVillage: object;
@@ -51,7 +51,7 @@ const requiredNumber = {
     required: true
 };
 
-export default model<PlayerSchema>("player-schema", new Schema({
+export default model<ClashOfClansVillage>("clashofclansvillage", new Schema({
     playerTag: {
         type: SchemaTypes.String,
         required: true
@@ -146,4 +146,4 @@ export default model<PlayerSchema>("player-schema", new Schema({
         },
         required: true
     }
-}), "player-schema");
+}));

@@ -1,6 +1,6 @@
 import { model, Schema, SchemaTypes, Document, SchemaType } from "mongoose";
 
-interface User extends Document {
+export interface User extends Document {
     username: string;
     email: string;
     password: string;
@@ -26,5 +26,8 @@ export default model<User>("user", new Schema({
         type: Schema.Types.ObjectId,
         ref: "Role"
     }],
-    clashOfClansVillages: [SchemaTypes.String]
+    clashOfClansVillages: [{
+        type: SchemaTypes.ObjectId,
+        ref: "ClashOfClansVillage"
+    }]
 }));
