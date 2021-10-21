@@ -2,7 +2,6 @@
 const village = document.getElementById("village").value;
 /*turns the music on, when the user first clicks on the body*/
 let alreadyClicked = false;
-document.getElementById("backgroundMusic").volume = 0.05;
 //adds scrollbar function on navbar
 document.getElementById("scrollBar").scrollTop = 0;
 let lastScrollTop = 0;
@@ -21,6 +20,7 @@ document.body.onclick = function () {
     if (alreadyClicked)
         return;
     alreadyClicked = true;
+    document.getElementById("backgroundMusic").volume = 0.5;
     document.getElementById("backgroundMusic").play();
 };
 //BOOST PANEL
@@ -355,7 +355,7 @@ $(".finishUpgrade").on("click", function () {
         }
     });
 });
-function startBuilderUpgrade(buildingID, buildingName, id, currentLevel, playerTag) {
+function startBuilderUpgrade(buildingID, buildingName, id, currentLevel, playerTag, hero) {
     const buttonParent = $(`button.builder-button[data-id=${buildingID.replace(/'/g, "\\'").replace(/ /g, "\\ ")}]`)[0].parentElement;
     const { innerHTML } = buttonParent;
     buttonParent.innerHTML = loadingScreen;
@@ -378,7 +378,10 @@ function startBuilderUpgrade(buildingID, buildingName, id, currentLevel, playerT
                 displayErrorModal(errorMessage);
             }
             else if (result.htmlCode) {
-                document.getElementById("startBuilderUpgrade").play();
+                if (hero)
+                    document.getElementById("startHeroUpgrade").play();
+                else
+                    document.getElementById("startBuilderUpgrade").play();
                 const modules = document.getElementById("modules");
                 $(modules).fadeOut("fast", function () {
                     modules.innerHTML = result.htmlCode;

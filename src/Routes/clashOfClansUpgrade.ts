@@ -278,6 +278,7 @@ router.post("/upgrade-tracker/clashofclans/seasonBoosts", async (req, res) => {
  * @param {boolean?} wall If it is the first time setting structures
  */
 export function prepareObject(structures: object, player: Player, village: "home" | "builder", wall?: boolean) {
+    console.log(player);
     if (structures["player"]) delete structures["player"];
     if (village == "home") {
         let spellFactoryLevel: number = 0;

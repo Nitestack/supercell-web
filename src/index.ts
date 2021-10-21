@@ -21,6 +21,7 @@ import cors from "cors";
 import { join } from "path";
 import methodOverride from 'method-override';
 import { Client } from "clashofclans.js";
+import Util from "./Util";
 
 //Clash of Clans API Client
 const API = new Client();
@@ -102,4 +103,4 @@ app.listen(port, async () => {
     console.log(`The server is live on http://localhost:${port}!`);
 });
 
-export { API };
+export { API, app };

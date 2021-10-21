@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { API } from "..";
 import { Builder, Laboratory, PetHouse } from "../Database/Models/clashofclans";
-import { compileFile } from "pug";
 import { join } from "path";
 import Util from "../Util";
 import { home } from "../Database/Clash of Clans/home";
@@ -57,7 +56,6 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
         const { playerTag } = req.body;
         const player: CRProfile = await client.player(playerTag);
         console.log(player);
-        const compileFunction = compileFile("./src/Views/Includes/crProfile.pug");
         if (player) {
             if (player.leagueStatistics) {
                 player.leagueStatistics.currentSeason.name = getLeague(player.leagueStatistics.currentSeason.trophies);
@@ -70,10 +68,10 @@ router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
             for (const card of player.currentDeck) cardIDsArray.push(card.id);
             player.currentDeckLink = createDeckLink(cardIDsArray);
             player.currentDeckMobileLink = createDeckLink(cardIDsArray, true);
-            
+
             res.send({
                 player: player,
-                htmlCode: compileFunction({
+                htmlCode: Util.compilePUGFile("Includes/crProfile.pug", {}, {
                     player: player,
                     chests: (await client.playersUpcomingChests(playerTag)).items
                 })
@@ -196,35 +194,6 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
             ...playerSchema.otto,
             builder: builderSchema.length == builderAmount ? newBuilder : playerSchema.otto.builder
         }
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
-        const compileObject = {
-            player: playerSchema.player,
-            village: village,
-            database: playerSchema,
-            convertPrice: Util.convertNumber,
-            convertTime: (timeInSeconds: number, language?: string) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-            },
-            convertStatsTime: (timeInSeconds: number) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000);
-            },
-            shortener: Util.shortener,
-            convertNumber: Util.convertNumber,
-            resolveDatabaseName: Util.resolveDatabaseName,
-            statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-            timeToGems: (timeInSeconds: number) => {
-                return Util.timeToGems(timeInSeconds, "home");
-            }
-        };
-        if (village == "home") {
-            compileObject["townHall"] = townHall[playerSchema.player.townHallLevel - 1];
-            compileObject["maxTownHall"] = townHall[townHall.length - 1];
-            compileObject["home"] = home;
-        } else {
-            compileObject["builderHall"] = builderHall[playerSchema.player.builderHallLevel - 1];
-            compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
-            compileObject["builder"] = builder;
-        };
         if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
@@ -248,7 +217,12 @@ router.post("/upgrade-tracker/clashofclans/startBuilderUpgrade", async (req, res
             upsert: false
         });
         return res.send({
-            htmlCode: compileFunction(compileObject)
+            htmlCode: Util.compilePUGFile("Upgrade/Clash of Clans/modules.pug", {}, {
+                player: playerSchema.player,
+                village: village,
+                database: playerSchema,
+                statsTotal: getTotalCostsAndTimes(playerSchema, "home")
+            })
         });
     } catch (err) {
         console.log(err);
@@ -281,35 +255,6 @@ router.post("/upgrade-tracker/clashofclans/startLaboratoryUpgrade", async (req, 
         };
         newLaboratory.push(lab);
         playerSchema[(village + "Lab")] = newLaboratory;
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
-        const compileObject = {
-            player: playerSchema.player,
-            village: village,
-            database: playerSchema,
-            convertPrice: Util.convertNumber,
-            convertTime: (timeInSeconds: number, language?: string) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-            },
-            convertStatsTime: (timeInSeconds: number) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000);
-            },
-            shortener: Util.shortener,
-            convertNumber: Util.convertNumber,
-            resolveDatabaseName: Util.resolveDatabaseName,
-            statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-            timeToGems: (timeInSeconds: number) => {
-                return Util.timeToGems(timeInSeconds, "home");
-            }
-        };
-        if (village == "home") {
-            compileObject["townHall"] = townHall[playerSchema.player.townHallLevel - 1];
-            compileObject["maxTownHall"] = townHall[townHall.length - 1];
-            compileObject["home"] = home;
-        } else {
-            compileObject["builderHall"] = builderHall[playerSchema.player.builderHallLevel - 1];
-            compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
-            compileObject["builder"] = builder;
-        };
         if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
@@ -325,7 +270,12 @@ router.post("/upgrade-tracker/clashofclans/startLaboratoryUpgrade", async (req, 
             upsert: false
         });
         return res.send({
-            htmlCode: compileFunction(compileObject)
+            htmlCode: Util.compilePUGFile("Upgrade/Clash of Clans/modules.pug", {}, {
+                player: playerSchema.player,
+                village: village,
+                database: playerSchema,
+                statsTotal: getTotalCostsAndTimes(playerSchema, "home")
+            })
         });
     } catch (err) {
         console.log(err);
@@ -358,7 +308,6 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
         };
         newPetHouse.push(pet);
         playerSchema.petHouse = newPetHouse;
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
         await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
@@ -367,27 +316,11 @@ router.post("/upgrade-tracker/clashofclans/startPetHouseUpgrade", async (req, re
             upsert: false
         });
         return res.send({
-            htmlCode: compileFunction({
+            htmlCode: Util.compilePUGFile("Upgrade/Clash of Clans/modules.pug", {}, {
                 player: playerSchema.player,
                 village: village,
                 database: playerSchema,
-                convertPrice: Util.convertNumber,
-                convertTime: (timeInSeconds: number, language?: string) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-                },
-                convertStatsTime: (timeInSeconds: number) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000);
-                },
-                shortener: Util.shortener,
-                convertNumber: Util.convertNumber,
-                resolveDatabaseName: Util.resolveDatabaseName,
-                statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-                timeToGems: (timeInSeconds: number) => {
-                    return Util.timeToGems(timeInSeconds, "home");
-                },
-                townHall: townHall[playerSchema.player.townHallLevel - 1],
-                maxTownHall: townHall[townHall.length - 1],
-                home: home
+                statsTotal: getTotalCostsAndTimes(playerSchema, "home")
             })
         });
     } catch (err) {
@@ -416,36 +349,12 @@ router.post("/upgrade-tracker/clashofclans/updateTimers", async (req, res) => {
             playerSchema = await Database.getClashOfClansVillage({
                 playerTag: playerTag
             });
-            const compileObject = {
+            sendObject["htmlCode"] = Util.compilePUGFile("Upgrade/Clash of Clans/modules.pug", {}, {
                 player: playerSchema.player,
                 village: village,
                 database: playerSchema,
-                convertPrice: Util.convertNumber,
-                convertTime: (timeInSeconds: number, language?: string) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-                },
-                convertStatsTime: (timeInSeconds: number) => {
-                    return Util.convertMilliseconds(timeInSeconds * 1000);
-                },
-                shortener: Util.shortener,
-                convertNumber: Util.convertNumber,
-                resolveDatabaseName: Util.resolveDatabaseName,
-                statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-                timeToGems: (timeInSeconds: number) => {
-                    return Util.timeToGems(timeInSeconds, "home");
-                }
-            };
-            if (village == "home") {
-                compileObject["townHall"] = townHall[playerSchema.player.townHallLevel - 1];
-                compileObject["maxTownHall"] = townHall[townHall.length - 1];
-                compileObject["home"] = home;
-            } else {
-                compileObject["builderHall"] = builderHall[playerSchema.player.builderHallLevel - 1];
-                compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
-                compileObject["builder"] = builder;
-            };
-            const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
-            sendObject["htmlCode"] = compileFunction(compileObject);
+                statsTotal: getTotalCostsAndTimes(playerSchema, "home")
+            });
         };
         return res.send(sendObject);
     } catch (err) {
@@ -495,35 +404,6 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
         wallObject[`${currentLevel + 1}`] = `${parseInt(wallObject[`${currentLevel + 1}`]) + amount}`;
         newVillageObject["Walls"] = wallObject;
         playerSchema[village == "home" ? "homeVillage" : "builderBase"] = newVillageObject;
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
-        const compileObject = {
-            player: playerSchema.player,
-            village: village,
-            database: playerSchema,
-            convertPrice: Util.convertNumber,
-            convertTime: (timeInSeconds: number, language?: string) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-            },
-            convertStatsTime: (timeInSeconds: number) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000);
-            },
-            shortener: Util.shortener,
-            convertNumber: Util.convertNumber,
-            resolveDatabaseName: Util.resolveDatabaseName,
-            statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-            timeToGems: (timeInSeconds: number) => {
-                return Util.timeToGems(timeInSeconds, "home");
-            }
-        };
-        if (village == "home") {
-            compileObject["townHall"] = townHall[playerSchema.player.townHallLevel - 1];
-            compileObject["maxTownHall"] = townHall[townHall.length - 1];
-            compileObject["home"] = home;
-        } else {
-            compileObject["builderHall"] = builderHall[playerSchema.player.builderHallLevel - 1];
-            compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
-            compileObject["builder"] = builder;
-        };
         if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
             playerTag: playerTag
         }, {
@@ -539,7 +419,12 @@ router.post("/upgrade-tracker/clashofclans/upgradeWalls", async (req, res) => {
             upsert: false
         });
         return res.send({
-            htmlCode: compileFunction(compileObject)
+            htmlCode: Util.compilePUGFile("Upgrade/Clash of Clans/modules.pug", {}, {
+                player: playerSchema.player,
+                village: village,
+                database: playerSchema,
+                statsTotal: getTotalCostsAndTimes(playerSchema, "home")
+            })
         });
     } catch (err) {
         console.log(err);
@@ -559,20 +444,17 @@ router.post("/upgrade-tracker/clashofclans/searchForPlayer", async (req, res) =>
             res.status(400).send("There is already an player in the database!");
         } else {
             const player = await API.player(playerTag);
-            if (player) {
-                const profileInHTML = compileFile("./src/Views/Includes/profile.pug");
-                res.send({
+            if (player) res.send({
+                player: player,
+                homeVillage: Util.compilePUGFile("Includes/profile.pug", {}, {
                     player: player,
-                    homeVillage: profileInHTML({
-                        player: player,
-                        village: "home"
-                    }),
-                    builderBase: profileInHTML({
-                        player: player,
-                        village: "builder"
-                    })
-                });
-            };
+                    village: "home"
+                }),
+                builderBase: Util.compilePUGFile("Includes/profile.pug", {}, {
+                    player: player,
+                    village: "builder"
+                })
+            });
         };
     } catch (error) {
         res.status(400).send("Invalid player tag! Please try again!");
@@ -654,36 +536,12 @@ router.post("/upgrade-tracker/clashofclans/applyBoost", async (req, res) => {
         if (update) playerSchema = await Database.getClashOfClansVillage({
             playerTag: playerTag
         });
-        const compileFunction = compileFile(join(__dirname, "..", "Views", "Upgrade", "Clash of Clans", "modules.pug"));
-        const compileObject = {
+        return res.send(Util.compilePUGFile("Upgrade/Clash of Clans/modules.pug", {}, {
             player: playerSchema.player,
             village: village,
             database: playerSchema,
-            convertPrice: Util.convertNumber,
-            convertTime: (timeInSeconds: number, language?: string) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000, true, language);
-            },
-            convertStatsTime: (timeInSeconds: number) => {
-                return Util.convertMilliseconds(timeInSeconds * 1000);
-            },
-            shortener: Util.shortener,
-            convertNumber: Util.convertNumber,
-            resolveDatabaseName: Util.resolveDatabaseName,
-            statsTotal: getTotalCostsAndTimes(playerSchema, "home"),
-            timeToGems: (timeInSeconds: number) => {
-                return Util.timeToGems(timeInSeconds, "home");
-            }
-        };
-        if (village == "home") {
-            compileObject["townHall"] = townHall[playerSchema.player.townHallLevel - 1];
-            compileObject["maxTownHall"] = townHall[townHall.length - 1];
-            compileObject["home"] = home;
-        } else {
-            compileObject["builderHall"] = builderHall[playerSchema.player.builderHallLevel - 1];
-            compileObject["maxBuilderHall"] = builderHall[builderHall.length - 1];
-            compileObject["builder"] = builder;
-        };
-        return res.send(compileFunction(compileObject));
+            statsTotal: getTotalCostsAndTimes(playerSchema, "home")
+        }));
     } catch (error) {
 
     };

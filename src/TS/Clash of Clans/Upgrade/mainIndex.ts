@@ -2,7 +2,6 @@
 const village = document.getElementById("village").value;
 /*turns the music on, when the user first clicks on the body*/
 let alreadyClicked = false;
-(document.getElementById("backgroundMusic") as HTMLAudioElement).volume = 0.05;
 
 //adds scrollbar function on navbar
 document.getElementById("scrollBar").scrollTop = 0;
@@ -20,6 +19,7 @@ document.getElementById("scrollBar").onscroll = function (ev) {
 document.body.onclick = function () {
     if (alreadyClicked) return;
     alreadyClicked = true;
+    (document.getElementById("backgroundMusic") as HTMLAudioElement).volume = 0.5;
     (document.getElementById("backgroundMusic") as HTMLAudioElement).play();
 };
 
@@ -345,7 +345,7 @@ $(".finishUpgrade").on("click", function () {
     });
 });
 
-function startBuilderUpgrade(buildingID: string, buildingName: string, id: number, currentLevel: number, playerTag: string) {
+function startBuilderUpgrade(buildingID: string, buildingName: string, id: number, currentLevel: number, playerTag: string, hero?: boolean) {
     const buttonParent = $(`button.builder-button[data-id=${buildingID.replace(/'/g, "\\'").replace(/ /g, "\\ ")}]`)[0].parentElement;
     const { innerHTML } = buttonParent;
     buttonParent.innerHTML = loadingScreen;
@@ -367,7 +367,8 @@ function startBuilderUpgrade(buildingID: string, buildingName: string, id: numbe
                 const { errorMessage } = result;
                 displayErrorModal(errorMessage);
             } else if (result.htmlCode) {
-                (document.getElementById("startBuilderUpgrade") as HTMLAudioElement).play();
+                if (hero) (document.getElementById("startHeroUpgrade") as HTMLAudioElement).play();
+                else (document.getElementById("startBuilderUpgrade") as HTMLAudioElement).play();
                 const modules = document.getElementById("modules");
                 $(modules).fadeOut("fast", function () {
                     modules.innerHTML = result.htmlCode;

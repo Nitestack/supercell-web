@@ -232,4 +232,4 @@ mixin createTableContent(name, path, levels, moduleName)
                                     else 
                                         button.btn.lab-button(data-module=moduleName, data-id=name, onclick=`startLaboratoryUpgrade("${name}", "${lvl}", "${player.tag}");`)
                                 else
-                                    button.btn.builder-button(data-module=moduleName, data-id=util.convertToDatabaseName(name) + (index + 1), onclick=`startBuilderUpgrade("${util.convertToDatabaseName(name) + (index + 1)}", "${name}", ${index + 1}, ${lvl}, "${player.tag}");`)
+                                    button.btn.builder-button(data-module=moduleName, data-id=util.convertToDatabaseName(name) + (index + 1), onclick=`startBuilderUpgrade("${util.convertToDatabaseName(name) + (index + 1)}", "${name}", ${index + 1}, ${lvl}, "${player.tag}", ${homeHeroesArray.includes(name) || name == "Battle Machine" ? true : false});`)

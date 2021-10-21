@@ -3,15 +3,36 @@ import humanizer from "humanize-duration";
 import prettyMS from "pretty-ms";
 import { townHall } from "../Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
+import { compileFile, LocalsObject, Options } from "pug";
+import { app } from "../index";
+import { join } from "path";
 
 export default class Util {
+    /**
+     * Compiles a pug template an returns a html code
+     * @param {string} path The path at the ../Views direction 
+     * @param {Options?} options The compile options  
+     * @param {LocalsObject?} locals The locals accessable in the pug template
+     */
+    public static compilePUGFile(path: string, options?: Options, locals?: LocalsObject) {
+        try {
+            const compileFunction =  compileFile(join(__dirname, "..", "Views", path), options);
+            return compileFunction({ ...app.locals, ...locals });
+        } catch (err) {
+            console.log(err);
+        };
+    };
+    /**
+     * Rounds a number
+     * @param {number} number The number to round 
+     * @param {number} decimalPlaces The amount of decimal places that will be returned 
+     */
     public static round(number: number, decimalPlaces: number) {
         const factorOfTen = Math.pow(10, decimalPlaces);
         return Math.round(number * factorOfTen) / factorOfTen;
     };
     /**
      * Shorts the time
-     * @info Edit in ../TS/Upgrade/mainIndex.ts too
      * @param {string} text The text to short
      */
     public static shortener(text: string) {
@@ -30,7 +51,6 @@ export default class Util {
     };
     /**
      * Resolves a database name
-     * @info While editing this function, edit it in `mixins.pug` too!
      * @param {string} name The name to resolve
      */
     public static resolveDatabaseName(name: string) {

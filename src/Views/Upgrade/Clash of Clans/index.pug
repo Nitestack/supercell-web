@@ -1,15 +1,5 @@
 - const subTitle = player.name + " " + (village == "home" ? "Home Village" : "Builder Base") + " " + "Overview";
 - const upgradeTracker = "Clash of Clans";
-- const playerTownHall = townHall[player.townHallLevel - 1];
-- const playerBuilderHall = builderHall[player.builderHallLevel - 1];
-- const maxTownHall = townHall[townHall.length - 1];
-- const maxBuilderHall = builderHall[builderHall.length - 1];
-
-- function getNumberArray(item) { const numberArray = []; for (const key of Object.keys(database[village == "home" ? "homeVillage" : "builderBase"])) { if (item.includes("Giga")) { numberArray.push(player.townHallWeaponLevel); break; } if (key.toLowerCase().includes("xbow") && item.toLowerCase() == "x-bow") numberArray.push(parseInt(database[village == "home" ? "homeVillage" : "builderBase"][key])); else if (key.slice(0, -1).replace(/([A-Z]+)/g, ' $1').trim().toLowerCase() == item.replace(/'/g, "").toLowerCase()) numberArray.push(parseInt(database[village == "home" ? "homeVillage" : "builderBase"][key])); } return numberArray; };
-- function itemInHall(item) { return (village == "home" ? playerTownHall : playerBuilderHall)[util.convertToVariableName(item)] ? true : false; };
-
-- function convertTime(timeInSeconds) { return util.convertMilliseconds(timeInSeconds * 1000, true); };
-- function convertStatsTime(timeInSeconds) { return util.convertMilliseconds(timeInSeconds * 1000); };
 
 doctype
 html(lang='en')
