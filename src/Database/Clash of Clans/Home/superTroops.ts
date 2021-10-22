@@ -1,1 +1,0 @@
-export default ["Super Barbarian", "Super Archer", "Super Giant", "Sneaky Goblin", "Super Wall Breaker", "Rocket Balloon", "Super Wizard", "Inferno Dragon", "Super Minion", "Super Valkyrie", "Super Witch", "Ice Hound"];
