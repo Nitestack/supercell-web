@@ -12,8 +12,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
-    "outDir": "src/Public/JS"
+    "outDir": "src/Website/Public/JS"
   },
-  "include": ["src/TS"],
+  "include": ["src/Website/TypeScript"],
   "exclude": ["node_modules"]
 }

@@ -1,3 +1,9 @@
+# Personal ignore
+Tests/
+ClashNinja/
+Loader/
+notes.txt
+
 # Logs
 logs
 *.log

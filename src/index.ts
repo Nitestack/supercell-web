@@ -1,17 +1,17 @@
 //https://coc.guide/
 //https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki
 //Routes
-import rootRouter from "./Routes/root";
-import clashofclansUpgradeTrackerRouter from "./Routes/clashOfClansUpgrade";
-import statsTrackerRouter from "./Routes/stats";
-import ajaxRequests from "./Routes/ajax";
-import toolsRouter from "./Routes/tools";
-import adminRouter from "./Routes/admin";
+import rootRouter from "./API/Routes/root";
+import clashofclansUpgradeTrackerRouter from "./API/Routes/clashOfClansUpgrade";
+import statsTrackerRouter from "./API/Routes/stats";
+import ajaxRequests from "./API/Routes/ajax";
+import toolsRouter from "./API/Routes/tools";
+import adminRouter from "./API/Routes/admin";
 //User
-import authRouter from "./Routes/user";
-import Database from "./Database/Models/index";
+import authRouter from "./API/Routes/user";
+import Database from "./Configuration/Database/Models/index";
 //Middleware
-import Middleware from "./Middleware/index";
+import Middleware from "./API/Middleware/index";
 //Other modules
 import dotenv from "dotenv";
 import { set, connect, connection } from "mongoose";
@@ -19,9 +19,9 @@ import express from 'express';
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { join } from "path";
+import { lstatSync, readdirSync } from "fs";
 import methodOverride from 'method-override';
 import { Client } from "clashofclans.js";
-import Util from "./Util";
 
 //Clash of Clans API Client
 const API = new Client();
@@ -55,10 +55,10 @@ const app = express();
 
 //View engine
 app.set('view engine', 'pug');
-app.set('views', join(__dirname, "Views"));
+app.set('views', join(__dirname, "Website", "Views"));
 
 //Static files
-app.use(express.static(join(__dirname, "Public")));
+app.use(express.static(join(__dirname, "Website", "Public")));
 
 //Define the port number
 const port = process.env.PORT || 3000;
@@ -74,9 +74,21 @@ app.use(methodOverride('_method'));
 app.use(cookieParser());
 
 //Using middleware
-app.use(Middleware.validateToken);
+app.use(Middleware.Authentication.validateToken);
 
 //Applying routes
+function readRoutes(path: string) {
+    for (const file of readdirSync(path)) {
+        if (lstatSync(join(path, file)).isDirectory()) readRoutes(join(path, file));
+        else if (!file.toLowerCase().endsWith("ts")) continue;
+        else import(join(__dirname, path, file)).then((router) => {
+            console.log(join(__dirname, path, file));
+            app.use(router);
+        });
+    };
+};
+readRoutes(join(__dirname, "API", "Routes"));
+
 app.use(rootRouter, adminRouter, authRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests, toolsRouter);
 
 //App
