@@ -23,7 +23,7 @@
                                     span.cr-description(style="color: #CCCCCC; font-size: 25px; padding-top: 10px;") #{player.tag} 
                                     button.btn.bg-transparent(type="button", id="shareButton", value=player.tag) #[i.fas.fa-share]
                                 .flexible-inline
-                                    if player.expLevel < 13
+                                    if player.expLevel < ClashRoyale.maxLevel
                                         .xp-cr #{player.expLevel}
                                     else 
                                         .xp-cr-max #{player.expLevel}
@@ -180,14 +180,14 @@
     section#cardsModule.module.container
         div(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")
             h4 Card Collection 
-            p.lead(style="color: #FC99FC") Found: #{player.cards.length}/103
+            p.lead(style="color: #FC99FC") Found: #{player.cards.length}/#{ClashRoyale.cardAmount}
             div(style="display: grid; grid-template-columns: repeat(4, 1fr);")
                 each card in player.cards
                     div.cr-card-container
                         a(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                             button.btn.bg-transparent(style="padding: 0;")
                                 img.cr-card-image(src=card.iconUrls.medium)
-                                span.card-level(class="cr-text-" + (card.maxLevel == 13 ? "common" : (card.maxLevel == 11 ? "rare" : (card.maxLevel == 8 ? "epic" : "legendary")))) Level #{card.level + (13 - card.maxLevel)}
+                                span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == 11 ? "rare" : (card.maxLevel == 8 ? "epic" : "legendary")))) Level #{card.level + (13 - card.maxLevel)}
                                 
     section#upcomingchestsModule.module.container
         .container(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")

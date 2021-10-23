@@ -9,7 +9,7 @@ import { builderHall } from "../../Configuration/Database/Clash of Clans/Builder
 import { getTotalCostsAndTimes, updateLevels } from "./clashOfClansUpgrade";
 import { Token, ClashRoyale } from "supercell-apis";
 import { CRProfile, CRCard } from "../../API/Interfaces/clashRoyale";
-import crElixirCosts from "../../Configuration/Database/Clash Royale/elixirCost";
+import ClashRoyaleElixir from "../../Configuration/Database/Clash Royale/elixirCost";
 import { createDeckLink } from "../../Configuration/Database/Clash Royale/links";
 import Database from "../../Configuration/Database/Models/index";
 
@@ -45,7 +45,7 @@ class AjaxRouter {
 
         function getAverageElixirCost(deck: Array<CRCard>) {
             let totalCosts: number = 0;
-            for (const card of deck) totalCosts += crElixirCosts.find(el => el.name.toLowerCase() == card.name.toLowerCase()).elixirCost;
+            for (const card of deck) totalCosts += ClashRoyaleElixir.getElixirCosts(card.name);
             return Util.round(totalCosts / deck.length, 1);
         };
 
@@ -55,7 +55,6 @@ class AjaxRouter {
                 const client = new ClashRoyale(token);
                 const { playerTag } = req.body;
                 const player: CRProfile = await client.player(playerTag);
-                console.log(player);
                 if (player) {
                     if (player.leagueStatistics) {
                         player.leagueStatistics.currentSeason.name = getLeague(player.leagueStatistics.currentSeason.trophies);

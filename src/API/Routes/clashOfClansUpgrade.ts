@@ -24,8 +24,8 @@ class CocUpgradeRouter {
     constructor() {
         this.router = Router();
         /**
- * Upgrade Tracker
- */
+         * Upgrade Tracker
+         */
         this.router.get("/upgrade-tracker/clashofclans", (req, res) => res.render("Upgrade/Clash of Clans/Authentication/index", {
             subTitle: "Upgrade Tracker"
         }));
@@ -283,7 +283,7 @@ class CocUpgradeRouter {
  * @param {"home" | "builder"} village The village
  * @param {boolean?} wall If it is the first time setting structures
  */
- export function prepareObject(structures: object, player: Player, village: "home" | "builder", wall?: boolean) {
+export function prepareObject(structures: object, player: Player, village: "home" | "builder", wall?: boolean) {
     if (structures["player"]) delete structures["player"];
     if (village == "home") {
         let spellFactoryLevel: number = 0;
