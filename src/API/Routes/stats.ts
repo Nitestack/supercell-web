@@ -1,7 +1,11 @@
 import { Router } from "express";
 
-const router = Router();
+class StatsRouter {
+    constructor() {
+        this.router = Router();
+        this.router.get("/stats-tracker", (req, res) => res.render("Stats/index"));
+    };
+    public router: Router;
+};
 
-router.get("/stats-tracker", (req, res) => res.render("Stats/index"));
-
-export default router;
+module.exports = StatsRouter;

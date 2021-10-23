@@ -1,3 +1,9 @@
+import { Express } from "express";
+import { home } from "../Clash of Clans/home";
+import { builder } from "../Clash of Clans/builder";
+import { townHall } from "../Clash of Clans/Home/townHall";
+import { builderHall } from "../Clash of Clans/Builder/builderHall";
+
 export default class ClashOfClansConstants {
     public static homeHeroesArray = ["Barbarian King", "Archer Queen", "Grand Warden", "Royal Champion"];
     public static homeArmyArray = ["Barracks", "Army Camp", "Laboratory", "Spell Factory", "Dark Barracks", "Dark Spell Factory", "Workshop", "Pet House"];
@@ -20,3 +26,17 @@ export default class ClashOfClansConstants {
 
     public static laboratoryArray = [...this.homePetsArray, ...this.homeTroopsArray, ...this.homeDarkTroopsArray, ...this.homeSpellsArray, ...this.homeSiegeMachinesArray, ...this.builderTroopsArray];
 };
+
+class CocConstants {
+    public static apply(app: Express) {
+        for (const propertyName of Object.keys(ClashOfClansConstants)) app.locals[propertyName] = ClashOfClansConstants[propertyName];
+        app.locals.home = home;
+        app.locals.builder = builder;
+        app.locals.townHall = townHall;
+        app.locals.builderHall = builderHall;
+        app.locals.maxedBuilderHallLevel = builderHall.length;
+        app.locals.maxedTownHallLevel = townHall.length;
+    };
+};
+
+module.exports = CocConstants;

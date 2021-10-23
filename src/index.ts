@@ -1,19 +1,11 @@
 //https://coc.guide/
 //https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki
-//Routes
-import rootRouter from "./API/Routes/root";
-import clashofclansUpgradeTrackerRouter from "./API/Routes/clashOfClansUpgrade";
-import statsTrackerRouter from "./API/Routes/stats";
-import ajaxRequests from "./API/Routes/ajax";
-import toolsRouter from "./API/Routes/tools";
-import adminRouter from "./API/Routes/admin";
 //User
-import authRouter from "./API/Routes/user";
 import Database from "./Configuration/Database/Models/index";
 //Middleware
 import Middleware from "./API/Middleware/index";
 //Other modules
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import { set, connect, connection } from "mongoose";
 import express from 'express';
 import cookieParser from "cookie-parser";
@@ -22,12 +14,13 @@ import { join } from "path";
 import { lstatSync, readdirSync } from "fs";
 import methodOverride from 'method-override';
 import { Client } from "clashofclans.js";
+import Constants from "./Configuration/Database/Constants/index";
 
 //Clash of Clans API Client
 const API = new Client();
 
 //process.env
-dotenv.config();
+config();
 
 //MongoDB Connection
 connection.on("open", () => {
@@ -81,23 +74,20 @@ function readRoutes(path: string) {
     for (const file of readdirSync(path)) {
         if (lstatSync(join(path, file)).isDirectory()) readRoutes(join(path, file));
         else if (!file.toLowerCase().endsWith("ts")) continue;
-        else import(join(__dirname, path, file)).then((router) => {
-            console.log(join(__dirname, path, file));
-            app.use(router);
-        });
+        else {
+            const Router = require(join(path, file));
+            app.use(new Router().router);
+        };
     };
 };
 readRoutes(join(__dirname, "API", "Routes"));
-
-app.use(rootRouter, adminRouter, authRouter, clashofclansUpgradeTrackerRouter, statsTrackerRouter, ajaxRequests, toolsRouter);
 
 //App
 app.all('*', (req, res) => res.render("Errors/404"));
 
 //Setting local variables
 app.locals.websiteName = "NightClash";
-Middleware.applyClashOfClansConstants(app);
-Middleware.applyUtilClass(app);
+Constants.applyConstants(app);
 
 app.listen(port, async () => {
     await connect(process.env.MONGODB_URL, {
