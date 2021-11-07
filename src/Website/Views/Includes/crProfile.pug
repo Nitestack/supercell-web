@@ -1,3 +1,8 @@
+mixin statsRoyaleCol(header, value)
+    .col
+        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") #{header}
+        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{value}
+
 .container(style="background-color: #61687B; border: 1px solid #42454B; border-radius: 7px; color: white; padding: 5px;")
     .row(style="padding: 5px;")
         h4(align="center") Player Profile
@@ -116,26 +121,22 @@
         .row(style="border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; background-color: #E3EEF2; margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #939CA8; padding: calc(var(--bs-gutter-x)/ 2);")
             .container(style="padding: 0;")
                 .row(style="margin-bottom: 20px;")
-                    .col
-                        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") Wins
-                        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{player.wins}
-                    .col
-                        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") Three Crown Wins
-                        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{player.threeCrownWins}
+                    +statsRoyaleCol("Wins", player.wins)
+                    +statsRoyaleCol("Losses", player.losses)
                 .row(style="margin-bottom: 20px;")
-                    .col
-                        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") Highest Trophies
-                        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{player.bestTrophies}
-                    .col
-                        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") Cards Found
-                        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{player.cards.length}/103
+                    +statsRoyaleCol("Three Crown Wins", player.threeCrownWins)
+                    +statsRoyaleCol("Matches Played", player.battleCount)
                 .row(style="margin-bottom: 20px;")
-                    .col 
-                        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") Total Donations
-                        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{player.totalDonations}
-                    .col
-                        p.cr-description.lead(style="font-size: 15px; color: #0440D3; margin: 1px;") Current Favorite Card
-                        p.price-item.lead(style="background-color: #CBD4D9; margin: 1px; padding: 10px; border-radius: 5px;") #{player.currentFavouriteCard ? player.currentFavouriteCard.name : "-"}
+                    +statsRoyaleCol("Highest Trophies", player.bestTrophies)
+                    +statsRoyaleCol("Cards Found", `${player.cards.length}/${ClashRoyale.cardAmount}`)
+                .row(style="margin-bottom: 20px;")
+                    +statsRoyaleCol("Total Donations", player.totalDonations)
+                    +statsRoyaleCol("Current Favorite Card", player.currentFavouriteCard ? player.currentFavouriteCard.name : "-")
+                - const accountCreatedBadge = player.badges.find(badge => badge.name.toLowerCase() == "played1year");
+                if accountCreatedBadge
+                    - const days = accountCreatedBadge.progress;
+                    .row(style="margin-bottom: 20px;")
+                        +statsRoyaleCol("Account Created", `${new Date(Date.now() - (days * 86400000)).toLocaleDateString(undefined, { month: "long", weekday: "long", day: "numeric", year: "numeric" })} (${util.shortener(util.convertMilliseconds(days * 86400000, true))} ago)`)
             .container(style="margin-bottom: 50px;")
                 .row(style="background: linear-gradient(#311089, #583DAA); border-top-left-radius: 5px; border-top-right-radius: 5px;")
                     .col(style="padding: 9px;")
@@ -172,11 +173,12 @@
                                 h4.price-item(align="center") Tournament Stats
                         .row(style="background-color: #C9DCEB; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; padding: 18px;")
                             .col 
-                                p.cr-description.lead(style="font-size: 15px; color: #0540D2; margin: 1px;") Tournaments Played
-                                p.price-item.lead(style="background-color: #B3C5D3; margin: 1px; padding: 10px; border-radius: 5px;") #{player.challengeMaxWins}
+                                p.cr-description.lead(style="font-size: 15px; color: #0540D2; margin: 1px;") Matches Played
+                                p.price-item.lead(style="background-color: #B3C5D3; margin: 1px; padding: 10px; border-radius: 5px;") #{player.tournamentBattleCount}
                             .col 
-                                p.cr-description.lead(style="font-size: 15px; color: #0540D2; margin: 1px;") Tournament Wins
-                                p.price-item.lead(style="background-color: #B3C5D3; margin: 1px; padding: 10px; border-radius: 5px;") #{player.challengeCardsWon}
+                                p.cr-description.lead(style="font-size: 15px; color: #0540D2; margin: 1px;") Cards Won
+                                p.price-item.lead(style="background-color: #B3C5D3; margin: 1px; padding: 10px; border-radius: 5px;") #{player.tournamentCardsWon}
+
     section#cardsModule.module.container
         div(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")
             h4 Card Collection 
@@ -192,6 +194,7 @@
     section#upcomingchestsModule.module.container
         .container(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")
             h4 Upcoming Chests
+
 style.
     li.nav-item.categories {
         background-color: #657d96;

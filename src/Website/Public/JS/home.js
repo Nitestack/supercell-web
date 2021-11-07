@@ -22,7 +22,7 @@ $("div[data-end-time]").each(function () {
 });
 let megaCrabEnd;
 let megaCrabBegin;
-for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bsLeagueReset", "bsSeasonEnd", "powerLeague", "crLeagueReset", "crSeasonEnd", "megaCrab", "tribeBoost", "bbSeasonEnd"]) {
+for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bsLeagueReset", "bsSeasonEnd", "powerLeague", "crLeagueReset", "crSeasonEnd", "megaCrab", "tribeBoost", "bbSeasonEnd", "intelReset", "forcePointsDecrease"]) {
     let date = new Date();
     date.setUTCMinutes(0);
     date.setUTCSeconds(0);
@@ -38,9 +38,9 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
             date.setUTCDate(10);
         }
         else {
-            if (date.getUTCMonth() == 11)
+            if (date.getUTCMonth() == 12)
                 date.setUTCFullYear(date.getUTCFullYear() + 1);
-            date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
+            date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
             date.setUTCDate(1);
         }
         ;
@@ -48,9 +48,9 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
     }
     else if (element == "cocSeasonEnd") {
         active = true;
-        if (date.getUTCMonth() == 11)
+        if (date.getUTCMonth() == 12)
             date.setUTCFullYear(date.getUTCFullYear() + 1);
-        date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
+        date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
         date.setUTCDate(1);
         date.setUTCHours(8);
     }
@@ -58,9 +58,9 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
         active = true;
         const thisMonthLastMonday = getLastMonday(date.getUTCMonth(), date.getUTCFullYear());
         if (Date.now() > thisMonthLastMonday.getTime()) {
-            date.setUTCDate(getLastMonday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0)).getUTCDate());
-            date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
-            if (date.getUTCMonth() == 11)
+            date.setUTCDate(getLastMonday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0)).getUTCDate());
+            date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
+            if (date.getUTCMonth() == 12)
                 date.setUTCFullYear(date.getUTCFullYear() + 1);
         }
         else
@@ -76,9 +76,9 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
         }
         else {
             if (date.getUTCDate() >= 28) {
-                if (date.getUTCMonth() == 11)
+                if (date.getUTCMonth() == 12)
                     date.setUTCFullYear(date.getUTCFullYear() + 1);
-                date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
+                date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
             }
             ;
             date.setUTCDate(22);
@@ -193,14 +193,28 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
                 date = new Date(thisMonthMegaCrabSunday.getTime() - 172800000);
             }
             else {
-                date = getLastSunday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0));
+                date = getLastSunday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0));
             }
             ;
         }
         ;
-        megaCrabBegin = Date.now() < thisMonthMegaCrabSunday.getTime() - 172800000 ? new Date(thisMonthMegaCrabSunday.getTime() - 172800000) : getLastSunday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0));
+        megaCrabBegin = Date.now() < thisMonthMegaCrabSunday.getTime() - 172800000 ? new Date(thisMonthMegaCrabSunday.getTime() - 172800000) : getLastSunday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0));
         megaCrabEnd = new Date(thisMonthMegaCrabSunday.getTime() + 86400000);
         date.setUTCHours(8);
+    }
+    else if (element == "intelReset") {
+        active = true;
+        date = getNextSunday();
+    }
+    else if (element == "forcePointsDecrease") {
+        active = true;
+        let todayMidnight = new Date();
+        todayMidnight.setUTCMilliseconds(0);
+        todayMidnight.setUTCSeconds(0);
+        todayMidnight.setUTCMinutes(0);
+        todayMidnight.setUTCHours(0);
+        todayMidnight = new Date(todayMidnight.getTime() + 86400000);
+        date = todayMidnight;
     }
     ;
     createCountdown(document.getElementById(element), date, active);
@@ -217,10 +231,10 @@ function getLastMonday(month, year) {
     date.setUTCMinutes(0);
     //Clash of Clans UTC League Reset Hours
     date.setUTCHours(5);
-    if (month == 11)
+    if (month == 12)
         date.setUTCFullYear(date.getUTCFullYear() + 1);
     date.setUTCDate(1); // Roll to the first day of ...
-    date.setUTCMonth(month == 11 ? 0 : month + 1); // ... the next month.
+    date.setUTCMonth(month == 12 ? 0 : month + 1); // ... the next month.
     do { // Roll the days backwards until Monday.
         date.setUTCDate(date.getUTCDate() - 1);
     } while (date.getUTCDay() !== 1);
@@ -234,13 +248,26 @@ function getLastSunday(month, year) {
     date.setUTCMinutes(0);
     //Boom Beach Mega Crab End
     date.setUTCHours(8);
-    if (month == 11)
+    if (month == 12)
         date.setUTCFullYear(date.getUTCFullYear() + 1);
     date.setUTCDate(1); // Roll to the first day of ...
-    date.setUTCMonth(month == 11 ? 0 : month + 1); // ... the next month.
+    date.setUTCMonth(month == 12 ? 0 : month + 1); // ... the next month.
     do { // Roll the days backwards until Monday.
         date.setUTCDate(date.getUTCDate() - 1);
-    } while (date.getUTCDay() !== 0);
+    } while (date.getUTCDay() != 0);
+    return date;
+}
+;
+function getNextSunday() {
+    let date = new Date();
+    date.setUTCMilliseconds(0);
+    date.setUTCSeconds(0);
+    date.setUTCMinutes(0);
+    date.setUTCHours(0);
+    while (date.getDay() != 0 || date.getTime() < Date.now()) {
+        date = new Date(date.getTime() + 86400000);
+    }
+    ;
     return date;
 }
 ;

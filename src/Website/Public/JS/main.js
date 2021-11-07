@@ -139,19 +139,20 @@ function isMobile() {
     return check;
 }
 ;
-function addModuleEventListener() {
+function addModuleEventListener(dontEditHash) {
     $('li.nav-item.categories a').on('click', function () {
         $('li.nav-item.categories a').removeClass('active');
         setModule($(this).attr('id'));
     });
 }
 ;
-function setModule(name) {
+function setModule(name, dontEditHash) {
     name = name.toLowerCase();
     $('.module').hide();
     $(`#${name}Module`).show();
     $(`#${name}`).addClass('active');
-    location.hash = "#" + name;
+    if (!dontEditHash)
+        location.hash = "#" + name;
 }
 ;
 function openLink(link) {
@@ -198,9 +199,9 @@ function getClashRoyaleSeasonEnd() {
     date.setUTCMilliseconds(0);
     const thisMonthLastMonday = getFirstMonday(date.getUTCMonth(), date.getUTCFullYear());
     if (Date.now() > thisMonthLastMonday.getTime()) {
-        date.setUTCDate(getFirstMonday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0)).getUTCDate());
-        date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
-        if (date.getUTCMonth() == 11)
+        date.setUTCDate(getFirstMonday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0)).getUTCDate());
+        date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
+        if (date.getUTCMonth() == 12)
             date.setUTCFullYear(date.getUTCFullYear() + 1);
     }
     else
@@ -217,10 +218,12 @@ function getFirstMonday(month, year) {
     //Clash Royale League Reset
     date.setUTCHours(8);
     date.setUTCDate(1); // Roll to the first day of ...
-    date.setUTCMonth(month == 11 ? 0 : month); // ... the next month.
-    do { // Roll the days forwards until Monday.
+    date.setUTCMonth(month); // ... the next month.
+    date.setUTCFullYear(year);
+    while (date.getUTCDay() != 1) {
         date.setUTCDate(date.getUTCDate() + 1);
-    } while (date.getUTCDay() !== 1);
+    }
+    ;
     return date;
 }
 ;

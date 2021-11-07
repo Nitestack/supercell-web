@@ -18,7 +18,7 @@ document.getElementById("playerSearchForm").onsubmit = function(ev) {
             $("#hidingDiv").show();
             const { player, htmlCode } = object;
             document.getElementById("playerContainer").innerHTML = htmlCode;
-            addModuleEventListener();
+            addModuleEventListener(true);
             if (player.leagueStatistics) createCountdown(document.getElementById("crSeasonTimer"), getClashRoyaleSeasonEnd(), false, true);
             setModule("profile");
         },

@@ -38,7 +38,7 @@ class RootRouter{
                 endTime: parseDateTime(element.endTime).getTime()
             });
             res.render("home", {
-                maps: newEvents,
+                maps: Util.removeDuplicates(newEvents),
                 convertTime: Util.convertMilliseconds
             });
         });

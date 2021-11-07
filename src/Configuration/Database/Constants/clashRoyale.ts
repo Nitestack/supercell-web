@@ -1,8 +1,8 @@
 import { Express } from "express";
 
 export class ClashRoyaleConstants {
-    public static maxLevel = 13;
-    public static cardAmount = 103;
+    public static maxLevel = 14;
+    public static cardAmount = 106;
 };
 
 export default class CrConstants {

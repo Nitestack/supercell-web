@@ -6,6 +6,7 @@ import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 import { compileFile, LocalsObject, Options } from "pug";
 import { app } from "../../index";
 import { join } from "path";
+import { data } from "jquery";
 
 export default class Util {
     /**
@@ -16,7 +17,7 @@ export default class Util {
      */
     public static compilePUGFile(path: string, options?: Options, locals?: LocalsObject) {
         try {
-            const compileFunction =  compileFile(join(__dirname, "..", "..", "Website", "Views", path), options);
+            const compileFunction = compileFile(join(__dirname, "..", "..", "Website", "Views", path), options);
             return compileFunction({ ...app.locals, ...locals });
         } catch (err) {
             console.log(err);
@@ -171,8 +172,17 @@ export default class Util {
      * Gets the the smallest value of 
      * @param {Array<number>} input The numbers to compare 
      */
-    public static min(input: Array<number>) { 
-        if (toString.call(input) !== "[object Array]") return false; 
-        return Math.min.apply(null, input); 
+    public static min(input: Array<number>) {
+        if (toString.call(input) !== "[object Array]") return false;
+        return Math.min.apply(null, input);
+    };
+    /**
+     * Removes duplicated values of an array
+     * @param {Array<any>} values The array
+     */
+    public static removeDuplicates(values: Array<any>) {
+        const newArray = [];
+        for (const value of values) if (!newArray.includes(value)) newArray.push(value);
+        return newArray;
     };
 };

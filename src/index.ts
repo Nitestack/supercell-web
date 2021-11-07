@@ -89,6 +89,7 @@ app.all('*', (req, res) => res.render("Errors/404"));
 app.locals.websiteName = "NightClash";
 
 app.listen(port, async () => {
+    console.clear();
     await Constants.applyConstants(app);
     await connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
