@@ -1,17 +1,17 @@
 :root {
   /*Brawl Stars Map Colors*/
-  --bs-basket-brawl: #238BFE;
-  --bs-super-city-rampage: #DB19A0;
-  --bs-boss-robo-big: #DC2422;
-  --bs-gem-grab: #9B3Df3;
-  --bs-brawl-ball: #8CA0DF;
-  --bs-heist: #D55CD3;
-  --bs-hot-zone: #E33C50;
-  --bs-siege: #F04F32;
-  --bs-bounty: #01CFFF;
-  --bs-knockout: #F7831C;
-  --bs-showdown-plus: linear-gradient(#F2CC2A, #E29312);
-  --bs-showdown: #81D621;
+  --bs-basket-brawl: #238bfe;
+  --bs-super-city-rampage: #db19a0;
+  --bs-boss-robo-big: #dc2422;
+  --bs-gem-grab: #9b3df3;
+  --bs-brawl-ball: #8ca0df;
+  --bs-heist: #d55cd3;
+  --bs-hot-zone: #e33c50;
+  --bs-siege: #f04f32;
+  --bs-bounty: #01cfff;
+  --bs-knockout: #f7831c;
+  --bs-showdown-plus: linear-gradient(#f2cc2a, #e29312);
+  --bs-showdown: #81d621;
 }
 
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700,900");
@@ -194,8 +194,7 @@ section.module.container {
 
 /*Clash Royale*/
 .cr-text-legendary {
-  background-image: linear-gradient(left, #D68AB0 0%, #D8CE5D 25%, #6BD85D 50%, #5DB9D8 75%, #D85DCB 100%);
-  background-size: 1000% 1000%;
+  /*background-size: 1000% 1000%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
   -moz-background-clip: text;
@@ -208,20 +207,51 @@ section.module.container {
   -o-animation: Text-Legendary 6s infinite;
   white-space: nowrap;
   -webkit-text-stroke: 0;
+  text-shadow: none;*/
+
+  
+
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0, #d68ab0),
+    color-stop(0.25, #d8ce5d),
+    color-stop(0.5, #6bd85d),
+    color-stop(0.75, #5db9d8),
+    color-stop(1, #d85dcb)
+  );
+  background-image: -webkit-linear-gradient(
+    left,
+    #d68ab0 0%,
+    #d8ce5d 25%,
+    #6bd85d 50%,
+    #5db9d8 75%,
+    #d85dcb 100%
+  );
+  background-size: 1000% 1000%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: Text-Legendary 6s infinite;
+  color: #33cccc;
+  white-space: nowrap;
   text-shadow: none;
+  -webkit-text-stroke: 0;
 }
 .cr-text-epic {
-  color: #FE99FE;
+  color: #fe99fe;
   white-space: nowrap;
   text-shadow: none;
 }
 .cr-text-rare {
-  color: #FFCD6A;
+  color: #ffcd6a;
   white-space: nowrap;
   text-shadow: none;
 }
 .cr-text-common {
-  color: #97CCFE;
+  color: #97ccfe;
   white-space: nowrap;
   text-shadow: none;
 }
@@ -252,7 +282,7 @@ section.module.container {
 
 .card-level {
   position: absolute;
-  bottom: 7%;
+  bottom: 11%;
   left: 0%;
   width: 100%;
   text-align: center;
@@ -436,12 +466,12 @@ footer {
   border-radius: 4px;
 }
 a.nav-link.navbar-link-custom:hover {
-  background-color: #DDD;
+  background-color: #ddd;
   color: black;
 }
 
 .header-right {
-  margin-left: auto; 
+  margin-left: auto;
   margin-right: 0;
   display: inline-flex;
   align-items: center;
@@ -465,7 +495,7 @@ a.nav-link.navbar-link-custom:hover {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 4px;
 }
@@ -486,16 +516,14 @@ a.nav-link.navbar-link-custom:hover {
 
 /*Large screens*/
 @media screen and (max-width: 1200px) {
-
 }
 /*Small screens*/
 @media screen and (max-width: 600px) {
-  
 }
 
 #navbar {
   overflow: hidden;
-  background-color: #5E5451;
+  background-color: #5e5451;
   height: 130px;
   transition: 0.4s;
   position: sticky;
@@ -525,7 +553,7 @@ a.nav-link.navbar-link-custom:hover {
 }
 
 .footer {
-  background-color: #24262B;
+  background-color: #24262b;
   padding: 30px;
   color: white;
 }
@@ -538,13 +566,13 @@ a.nav-link.navbar-link-custom:hover {
   -webkit-appearance: none;
   width: 100%;
   height: 20%;
-  background-color: #71BA30;
+  background-color: #71ba30;
   outline: none;
   opacity: 0.7;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
   border-radius: 12px;
-  box-shadow: 0px 1px 10px 1px #40712A;
+  box-shadow: 0px 1px 10px 1px #40712a;
 }
 
 .slider:hover {
@@ -763,8 +791,8 @@ li.nav-item.categories[type="button"] {
 /*MODAL*/
 .modal-content {
   border-radius: 10px;
-  border: 10px solid #5E5451;
-  background-color: #5E5451;
+  border: 10px solid #5e5451;
+  background-color: #5e5451;
 }
 
 .modal-body {
@@ -783,7 +811,7 @@ li.nav-item.categories[type="button"] {
 }
 
 .modal-header {
-  background: linear-gradient(#99928E, #7A726F 25%, #5E5451 50%);
+  background: linear-gradient(#99928e, #7a726f 25%, #5e5451 50%);
   border-bottom: none;
   justify-content: center;
   border: none;
@@ -874,7 +902,7 @@ h5.modal-title {
 }
 
 .map .description {
-  border-bottom: 2px solid #0A0A0A;
+  border-bottom: 2px solid #0a0a0a;
   border-radius: 0;
   display: flex !important;
 }

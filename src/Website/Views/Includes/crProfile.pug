@@ -60,15 +60,17 @@ mixin statsRoyaleCol(header, value)
                             .row
                                 each card, i in player.currentDeck
                                     if i < 4
-                                        a.col(style="padding: 0;", onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');")
+                                        a.col(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                                             button.btn(style="padding: 0;")
                                                 img(src=card.iconUrls.medium)
+                                                span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == ClashRoyale.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyale.maxLevel - 5 ? "epic" : "legendary")))) Level #{card.level + (ClashRoyale.maxLevel - card.maxLevel)}
                             .row
                                 each card, i in player.currentDeck
                                     if i >= 4
-                                        a.col(style="padding: 0;", onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');")
+                                        a.col(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                                             button.btn(style="padding: 0;")
                                                 img(src=card.iconUrls.medium)
+                                                span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == ClashRoyale.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyale.maxLevel - 5 ? "epic" : "legendary")))) Level #{card.level + (ClashRoyale.maxLevel - card.maxLevel)}
                     .row
                         .flexible-inline 
                             img(src="/Images/Clash of Clans/Home/Elixir.png", style="height: 40px;")
@@ -189,11 +191,20 @@ mixin statsRoyaleCol(header, value)
                         a(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                             button.btn.bg-transparent(style="padding: 0;")
                                 img.cr-card-image(src=card.iconUrls.medium)
-                                span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == 11 ? "rare" : (card.maxLevel == 8 ? "epic" : "legendary")))) Level #{card.level + (13 - card.maxLevel)}
+                                span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == ClashRoyale.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyale.maxLevel - 5 ? "epic" : "legendary")))) Level #{card.level + (ClashRoyale.maxLevel - card.maxLevel)}
                                 
     section#upcomingchestsModule.module.container
         .container(style="padding: 9px; background-image: url('/Images/Clash Royale Background.png'); margin-left: auto; margin-right: auto; margin-bottom: 2px; border: 1px solid #526686; border-radius: 7px;")
             h4 Upcoming Chests
+            .row
+                each chest in chests
+                    if chest.index == 0
+                        .col
+                            img(src="/Images/Clash Royale/Chests/" + chest.name + ".png", title=chest.name + " (Next)", style="height: 58px;")
+                    else
+                        .col
+                            img(src="/Images/Clash Royale/Chests/" + chest.name + ".png", title=chest.name + " (+" + chest.index + ")", style="height: 58px;")
+
 
 style.
     li.nav-item.categories {
