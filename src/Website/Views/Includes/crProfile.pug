@@ -62,14 +62,14 @@ mixin statsRoyaleCol(header, value)
                                     if i < 4
                                         a.col(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                                             button.btn(style="padding: 0;")
-                                                img(src=card.iconUrls.medium)
+                                                img.cr-card(src=card.iconUrls.medium)
                                                 span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == ClashRoyale.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyale.maxLevel - 5 ? "epic" : "legendary")))) Level #{card.level + (ClashRoyale.maxLevel - card.maxLevel)}
                             .row
                                 each card, i in player.currentDeck
                                     if i >= 4
                                         a.col(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                                             button.btn(style="padding: 0;")
-                                                img(src=card.iconUrls.medium)
+                                                img.cr-card(src=card.iconUrls.medium)
                                                 span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == ClashRoyale.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyale.maxLevel - 5 ? "epic" : "legendary")))) Level #{card.level + (ClashRoyale.maxLevel - card.maxLevel)}
                     .row
                         .flexible-inline 
@@ -190,7 +190,7 @@ mixin statsRoyaleCol(header, value)
                     div.cr-card-container
                         a(onclick="if(isMobileOrTablet()) openLink('clashroyale://card?id=" + card.id + "');", style="display: block; position: relative; z-index: 2;")
                             button.btn.bg-transparent(style="padding: 0;")
-                                img.cr-card-image(src=card.iconUrls.medium)
+                                img.cr-card(src=card.iconUrls.medium)
                                 span.card-level(class="cr-text-" + (card.maxLevel == ClashRoyale.maxLevel ? "common" : (card.maxLevel == ClashRoyale.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyale.maxLevel - 5 ? "epic" : "legendary")))) Level #{card.level + (ClashRoyale.maxLevel - card.maxLevel)}
                                 
     section#upcomingchestsModule.module.container

@@ -16,7 +16,7 @@ import Database from "../../Configuration/Database/Models/index";
 class AjaxRouter {
     constructor() {
         this.router = Router();
-        //Update them for ajax
+        //Update these functions for ajax
         this.router.post("/upgrade-tracker/clashofclans/searchForPlayerByClan", async (req, res) => {
             try {
             } catch {
@@ -85,13 +85,15 @@ class AjaxRouter {
         //CLASH OF CLANS
 
         /**
-         * Sorts the buildings in the builder array
+         * Sorts the buildings in the builder array by their start
          * @param {Builder} a Compare a 
-         * @param {Buikder} b Compare b
+         * @param {Builder} b Compare b
          */
         function sortBuilder(a: Builder, b: Builder) {
             return (new Date(a.start.getTime() + a.durationInMilliseconds).getTime() - Date.now()) - (new Date(b.start.getTime() + b.durationInMilliseconds).getTime() - Date.now());
         };
+
+        
 
         /**
          * Gets an array of the builders for the builder potion

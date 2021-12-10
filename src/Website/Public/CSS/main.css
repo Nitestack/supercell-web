@@ -109,7 +109,7 @@ code {
 }
 
 body {
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/coc-background.jpg")
+  background: url("../Images/Background.jpg")
     no-repeat center center fixed;
   background-size: cover;
   color: white;
@@ -193,6 +193,56 @@ section.module.container {
 }
 
 /*Clash Royale*/
+@media (min-width: 960px) {
+  .cr-card {
+    width: 74px;
+    height: 89px;
+    display: block;
+  }
+}
+@media (min-width: 768px) {
+  .cr-card {
+    width: 145px;
+    height: auto;
+    display: block;
+  }
+}
+@media (min-width: 480px) {
+  .cr-card {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+@media (min-width: 414px) {
+  .cr-card {
+    width: 98px;
+    height: auto;
+    display: block;
+  }
+}
+@media (min-width: 375px) {
+  .cr-card {
+    width: 89px;
+    height: auto;
+    display: block;
+  }
+}
+@media (min-width: 360px) {
+  .cr-card {
+    width: 89px;
+    height: auto;
+    display: block;
+  }
+}
+@media (min-width: 320px) {
+  .cr-card {
+    width: 75px;
+    height: auto;
+    display: block;
+  }
+}
+
 .cr-text-legendary {
   /*background-size: 1000% 1000%;
   -webkit-background-clip: text;
@@ -208,8 +258,6 @@ section.module.container {
   white-space: nowrap;
   -webkit-text-stroke: 0;
   text-shadow: none;*/
-
-  
 
   background-image: -webkit-gradient(
     linear,
@@ -244,16 +292,19 @@ section.module.container {
   color: #fe99fe;
   white-space: nowrap;
   text-shadow: none;
+  -webkit-text-stroke: 0;
 }
 .cr-text-rare {
   color: #ffcd6a;
   white-space: nowrap;
   text-shadow: none;
+  -webkit-text-stroke: 0;
 }
 .cr-text-common {
   color: #97ccfe;
   white-space: nowrap;
   text-shadow: none;
+  -webkit-text-stroke: 0;
 }
 
 .cr-unit-icon-level {
@@ -907,7 +958,7 @@ h5.modal-title {
   display: flex !important;
 }
 
-.map .description img {
+.map .description {
   vertical-align: middle;
   height: 45px;
 }

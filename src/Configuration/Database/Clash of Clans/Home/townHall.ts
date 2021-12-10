@@ -1680,7 +1680,7 @@ export const townHall = [{
     },
     elixirCollector: { 
         amount: 7,
-        maxLevel: 14 
+        maxLevel: 15 
     },
     goldStorage: { 
         amount: 4,
@@ -1688,7 +1688,7 @@ export const townHall = [{
     },
     goldMine: { 
         amount: 7,
-        maxLevel: 14 
+        maxLevel: 15 
     },
     darkElixirStorage: { 
         amount: 1,
@@ -1696,7 +1696,7 @@ export const townHall = [{
     },
     darkElixirDrill: { 
         amount: 3,
-        maxLevel: 8 
+        maxLevel: 9
     },
     //DEFENSE
     cannon: { 
@@ -1993,7 +1993,7 @@ export const townHall = [{
     },
     elixirCollector: { 
         amount: 7,
-        maxLevel: 14 
+        maxLevel: 15 
     },
     goldStorage: { 
         amount: 4,
@@ -2001,7 +2001,7 @@ export const townHall = [{
     },
     goldMine: { 
         amount: 7,
-        maxLevel: 14 
+        maxLevel: 15 
     },
     darkElixirStorage: { 
         amount: 1,
@@ -2009,7 +2009,7 @@ export const townHall = [{
     },
     darkElixirDrill: { 
         amount: 3,
-        maxLevel: 8 
+        maxLevel: 9
     },
     //DEFENSE
     cannon: { 
@@ -2297,7 +2297,7 @@ export const townHall = [{
     },
     workshop: {
         amount: 1,
-        maxLevel: 5
+        maxLevel: 6
     },
     petHouse: {
         amount: 1,
@@ -2342,7 +2342,7 @@ export const townHall = [{
     },
     elixirCollector: { 
         amount: 7,
-        maxLevel: 14 
+        maxLevel: 15 
     },
     goldStorage: { 
         amount: 4,
@@ -2350,7 +2350,7 @@ export const townHall = [{
     },
     goldMine: { 
         amount: 7,
-        maxLevel: 14  
+        maxLevel: 15  
     },
     darkElixirStorage: { 
         amount: 1,
@@ -2358,7 +2358,7 @@ export const townHall = [{
     },
     darkElixirDrill: { 
         amount: 3,
-        maxLevel: 8
+        maxLevel: 9
     },
     //DEFENSE
     cannon: { 
@@ -2620,5 +2620,9 @@ export const townHall = [{
     logLauncher: {
         amount: 1,
         maxLevel: 4 
+    },
+    flameFlinger: {
+        amount: 1,
+        maxLevel: 4
     }
 }];

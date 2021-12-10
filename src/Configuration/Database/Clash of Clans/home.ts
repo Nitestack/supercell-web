@@ -26,16 +26,19 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 20000,
         upgradeDuration: "0s"
     }, {
-        costs: 40000,
+        costs: 30000,
         upgradeDuration: "0s"
     }, {
-        costs: 80000,
+        costs: 50000,
         upgradeDuration: "0s"
     }, {
-        costs: 150000,
+        costs: 75000,
         upgradeDuration: "0s"
     }, {
-        costs: 250000,
+        costs: 100000,
+        upgradeDuration: "0s"
+    }, {
+        costs: 200000,
         upgradeDuration: "0s"
     }, {
         costs: 500000,
@@ -44,13 +47,10 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 1000000,
         upgradeDuration: "0s"
     }, {
-        costs: 2000000,
+        costs: 3000000,
         upgradeDuration: "0s"
     }, {
-        costs: 4000000,
-        upgradeDuration: "0s"
-    }, {
-        costs: 6000000,
+        costs: 5000000,
         upgradeDuration: "0s"
     }, {
         costs: 7000000,
@@ -80,40 +80,40 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 200000,
         upgradeDuration: "8h"
     }, {
-        costs: 400000,
+        costs: 300000,
         upgradeDuration: "10h"
     }, {
-        costs: 600000,
+        costs: 500000,
         upgradeDuration: "12h"
     }, {
-        costs: 800000,
+        costs: 700000,
         upgradeDuration: "18h"
     }, {
-        costs: 1250000,
+        costs: 1000000,
         upgradeDuration: "1d"
     }, {
-        costs: 2000000,
+        costs: 1500000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 3000000,
+        costs: 2000000,
         upgradeDuration: "2d 12h"
     }, {
-        costs: 5000000,
+        costs: 3000000,
         upgradeDuration: "4d 12h"
     }, {
-        costs: 7000000,
+        costs: 4500000,
         upgradeDuration: "6d"
     }, {
-        costs: 9000000,
+        costs: 7000000,
         upgradeDuration: "9d"
     }, {
-        costs: 12000000,
+        costs: 9000000,
         upgradeDuration: "12d"
     }, {
-        costs: 14000000,
+        costs: 11000000,
         upgradeDuration: "15d"
     }, {
-        costs: 16000000,
+        costs: 13000000,
         upgradeDuration: "16d"
     }, {
         costs: 17500000,
@@ -143,40 +143,40 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 360000,
         upgradeDuration: "10h"
     }, {
-        costs: 700000,
+        costs: 600000,
         upgradeDuration: "12h"
     }, {
-        costs: 900000,
+        costs: 800000,
         upgradeDuration: "14h"
     }, {
-        costs: 1200000,
+        costs: 1000000,
         upgradeDuration: "18h"
     }, {
-        costs: 1500000,
+        costs: 1200000,
         upgradeDuration: "1d"
     }, {
-        costs: 2500000,
+        costs: 1800000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 3200000,
+        costs: 2400000,
         upgradeDuration: "2d 12h"
     }, {
-        costs: 5500000,
+        costs: 3600000,
         upgradeDuration: "5d"
     }, {
-        costs: 7000000,
+        costs: 5000000,
         upgradeDuration: "7d"
     }, {
-        costs: 10000000,
+        costs: 7500000,
         upgradeDuration: "9d"
     }, {
-        costs: 12000000,
+        costs: 9500000,
         upgradeDuration: "12d"
     }, {
-        costs: 14000000,
+        costs: 11500000,
         upgradeDuration: "15d"
     }, {
-        costs: 16000000,
+        costs: 13000000,
         upgradeDuration: "16d"
     }, {
         costs: 17500000,
@@ -227,34 +227,34 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 100000,
         upgradeDuration: "12h"
     }, {
-        costs: 250000,
+        costs: 200000,
         upgradeDuration: "1d"
     }, {
-        costs: 500000,
+        costs: 400000,
         upgradeDuration: "2d"
     }, {
-        costs: 1000000,
+        costs: 750000,
         upgradeDuration: "2d 12h"
     }, {
-        costs: 2000000,
+        costs: 1500000,
         upgradeDuration: "3d"
     }, {
-        costs: 4000000,
+        costs: 3000000,
         upgradeDuration: "4d"
     }, {
-        costs: 6000000,
+        costs: 5000000,
         upgradeDuration: "6d"
     }, {
-        costs: 8000000,
+        costs: 7000000,
         upgradeDuration: "8d"
     }, {
-        costs: 10000000,
+        costs: 9000000,
         upgradeDuration: "12d"
     }, {
-        costs: 12000000,
+        costs: 10500000,
         upgradeDuration: "14d"
     }, {
-        costs: 14500000,
+        costs: 13000000,
         upgradeDuration: "16d"
     }, {
         costs: 17500000,
@@ -278,22 +278,22 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 1000000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 1500000,
+        costs: 1350000,
         upgradeDuration: "2d"
     }, {
-        costs: 2000000,
+        costs: 1750000,
         upgradeDuration: "3d"
     }, {
-        costs: 4000000,
+        costs: 3500000,
         upgradeDuration: "5d"
     }, {
-        costs: 7000000,
+        costs: 6000000,
         upgradeDuration: "9d"
     }, {
-        costs: 10000000,
+        costs: 9500000,
         upgradeDuration: "14d"
     }, {
-        costs: 15000000,
+        costs: 14000000,
         upgradeDuration: "16d"
     }, {
         costs: 18000000,
@@ -302,43 +302,43 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeDefense({
     name: "Wizard Tower",
     levels: [{
-        costs: 170000,
+        costs: 120000,
         upgradeDuration: "3h"
     }, {
-        costs: 320000,
+        costs: 220000,
         upgradeDuration: "8h"
     }, {
-        costs: 670000,
+        costs: 420000,
         upgradeDuration: "12h"
     }, {
-        costs: 920000,
+        costs: 720000,
         upgradeDuration: "18h"
     }, {
-        costs: 1200000,
+        costs: 920000,
         upgradeDuration: "1d"
     }, {
-        costs: 1700000,
+        costs: 1200000,
         upgradeDuration: "1d 12h"
     }, {
         costs: 2200000,
         upgradeDuration: "2d"
     }, {
-        costs: 3700000,
+        costs: 3200000,
         upgradeDuration: "3d 12h"
     }, {
-        costs: 5200000,
+        costs: 4200000,
         upgradeDuration: "6d"
     }, {
-        costs: 8200000,
+        costs: 7200000,
         upgradeDuration: "9d"
     }, {
-        costs: 11200000,
+        costs: 10200000,
         upgradeDuration: "14d"
     }, {
-        costs: 16200000,
+        costs: 14200000,
         upgradeDuration: "16d"
     }, {
-        costs: 17200000,
+        costs: 16200000,
         upgradeDuration: "17d"
     }, {
         costs: 18200000,
@@ -362,10 +362,10 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 2000000,
         upgradeDuration: "2d"
     }, {
-        costs: 4000000,
+        costs: 3000000,
         upgradeDuration: "3d"
     }, {
-        costs: 7000000,
+        costs: 6000000,
         upgradeDuration: "5d"
     }]
 }), new HomeDefense({
@@ -374,37 +374,37 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 300000,
         upgradeDuration: "2h"
     }, {
-        costs: 500000,
+        costs: 450000,
         upgradeDuration: "5h"
     }, {
-        costs: 750000,
+        costs: 650000,
         upgradeDuration: "10h"
     }, {
-        costs: 1000000,
+        costs: 850000,
         upgradeDuration: "18h"
     }, {
-        costs: 1300000,
+        costs: 1100000,
         upgradeDuration: "1d"
     }, {
-        costs: 1500000,
+        costs: 1300000,
         upgradeDuration: "2d"
     }, {
-        costs: 2000000,
+        costs: 1800000,
         upgradeDuration: "3d"
     }, {
-        costs: 3200000,
+        costs: 2500000,
         upgradeDuration: "5d"
     }, {
-        costs: 6000000,
+        costs: 4500000,
         upgradeDuration: "8d"
     }, {
-        costs: 10000000,
+        costs: 8000000,
         upgradeDuration: "14d"
     }, {
-        costs: 15000000,
+        costs: 13000000,
         upgradeDuration: "16d"
     }, {
-        costs: 16500000,
+        costs: 15000000,
         upgradeDuration: "17d"
     }, {
         costs: 18000000,
@@ -413,28 +413,28 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeDefense({
     name: "Bomb Tower",
     levels: [{
-        costs: 1000000,
+        costs: 800000,
         upgradeDuration: "1d"
     }, {
-        costs: 1500000,
+        costs: 1200000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 2500000,
+        costs: 1800000,
         upgradeDuration: "2d"
     }, {
-        costs: 4000000,
+        costs: 3000000,
         upgradeDuration: "4d"
     }, {
-        costs: 6000000,
+        costs: 5000000,
         upgradeDuration: "6d"
     }, {
-        costs: 8000000,
+        costs: 7000000,
         upgradeDuration: "9d"
     }, {
-        costs: 11000000,
+        costs: 10000000,
         upgradeDuration: "14d"
     }, {
-        costs: 15500000,
+        costs: 14000000,
         upgradeDuration: "16"
     }, {
         costs: 18500000,
@@ -446,22 +446,22 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 1000000,
         upgradeDuration: "2d"
     }, {
-        costs: 2000000,
+        costs: 1600000,
         upgradeDuration: "4d"
     }, {
-        costs: 3000000,
+        costs: 2400000,
         upgradeDuration: "5d"
     }, {
-        costs: 5000000,
-        upgradeDuration: "8d"
+        costs: 4000000,
+        upgradeDuration: "6d"
     }, {
-        costs: 8000000,
+        costs: 7000000,
         upgradeDuration: "9d"
     }, {
-        costs: 12000000,
+        costs: 10500000,
         upgradeDuration: "14d"
     }, {
-        costs: 16000000,
+        costs: 14000000,
         upgradeDuration: "16d"
     }, {
         costs: 17000000,
@@ -473,25 +473,25 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeDefense({
     name: "Inferno Tower",
     levels: [{
-        costs: 3000000,
+        costs: 2000000,
         upgradeDuration: "3d"
     }, {
-        costs: 4500000,
+        costs: 3000000,
         upgradeDuration: "4d"
     }, {
-        costs: 6000000,
+        costs: 4500000,
         upgradeDuration: "5d"
     }, {
-        costs: 7500000,
+        costs: 6000000,
         upgradeDuration: "7d"
     }, {
-        costs: 9000000,
+        costs: 7500000,
         upgradeDuration: "9d"
     }, {
-        costs: 11000000,
+        costs: 10500000,
         upgradeDuration: "14d"
     }, {
-        costs: 17000000,
+        costs: 16000000,
         upgradeDuration: "17d"
     }, {
         costs: 19000000,
@@ -548,16 +548,16 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 0,
         upgradeDuration: "0s"
     }, {
-        costs: 6000000,
+        costs: 4000000,
         upgradeDuration: "2d"
     }, {
-        costs: 8000000,
+        costs: 6000000,
         upgradeDuration: "4d"
     }, {
-        costs: 10000000,
+        costs: 8000000,
         upgradeDuration: "6d"
     }, {
-        costs: 12000000,
+        costs: 10000000,
         upgradeDuration: "8d"
     }]
 }), new HomeDefense({
@@ -566,17 +566,17 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 0,
         upgradeDuration: "0s"
     }, {
+        costs: 10000000,
+        upgradeDuration: "6d"
+    }, {
         costs: 12000000,
-        upgradeDuration: "10d"
+        upgradeDuration: "8d"
     }, {
-        costs: 14000000,
-        upgradeDuration: "12d"
-    }, {
-        costs: 16000000,
-        upgradeDuration: "14d"
+        costs: 15000000,
+        upgradeDuration: "9d"
     }, {
         costs: 18000000,
-        upgradeDuration: "16d"
+        upgradeDuration: "11d"
     }]
 }), new HomeDefense({
     name: "Giga Inferno 2",
@@ -651,25 +651,25 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 10000,
         upgradeDuration: "4h"
     }, {
-        costs: 80000,
+        costs: 75000,
         upgradeDuration: "8h"
     }, {
-        costs: 240000,
+        costs: 200000,
         upgradeDuration: "12h"
     }, {
-        costs: 700000,
+        costs: 600000,
         upgradeDuration: "16h"
     }, {
-        costs: 1000000,
+        costs: 900000,
         upgradeDuration: "1d"
     }, {
-        costs: 1500000,
+        costs: 1200000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 2000000,
+        costs: 1800000,
         upgradeDuration: "2d 12h"
     }, {
-        costs: 3000000,
+        costs: 2500000,
         upgradeDuration: "4d"
     }, {
         costs: 4000000,
@@ -690,31 +690,31 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 25000,
         upgradeDuration: "1h"
     }, {
-        costs: 75000,
+        costs: 50000,
         upgradeDuration: "2h"
     }, {
-        costs: 150000,
+        costs: 100000,
         upgradeDuration: "4h"
     }, {
-        costs: 300000,
+        costs: 200000,
         upgradeDuration: "8h"
     }, {
-        costs: 600000,
+        costs: 400000,
         upgradeDuration: "16h"
     }, {
-        costs: 1200000,
+        costs: 800000,
         upgradeDuration: "1d"
     }, {
-        costs: 2500000,
+        costs: 1500000,
         upgradeDuration: "2d"
     }, {
-        costs: 5000000,
+        costs: 3000000,
         upgradeDuration: "4d"
     }, {
-        costs: 8000000,
+        costs: 6000000,
         upgradeDuration: "6d"
     }, {
-        costs: 10000000,
+        costs: 9000000,
         upgradeDuration: "9d"
     }, {
         costs: 12000000,
@@ -723,13 +723,13 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeArmy({
     name: "Spell Factory",
     levels: [{
-        costs: 200000,
+        costs: 150000,
         upgradeDuration: "8h"
     }, {
-        costs: 400000,
+        costs: 300000,
         upgradeDuration: "1d"
     }, {
-        costs: 800000,
+        costs: 600000,
         upgradeDuration: "2d"
     }, {
         costs: 1200000,
@@ -744,22 +744,22 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeArmy({
     name: "Dark Barracks",
     levels: [{
-        costs: 300000,
+        costs: 100000,
         upgradeDuration: "4h"
     }, {
-        costs: 600000,
+        costs: 300000,
         upgradeDuration: "12h"
     }, {
-        costs: 900000,
+        costs: 500000,
         upgradeDuration: "18h"
     }, {
-        costs: 1300000,
+        costs: 900000,
         upgradeDuration: "1d"
     }, {
-        costs: 2000000,
+        costs: 1500000,
         upgradeDuration: "2d"
     }, {
-        costs: 2500000,
+        costs: 2200000,
         upgradeDuration: "3d"
     }, {
         costs: 3000000,
@@ -774,28 +774,28 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeArmy({
     name: "Dark Spell Factory",
     levels: [{
-        costs: 250000,
+        costs: 150000,
         upgradeDuration: "6h"
     }, {
-        costs: 500000,
+        costs: 300000,
         upgradeDuration: "18h"
     }, {
-        costs: 1000000,
+        costs: 600000,
         upgradeDuration: "2d"
     }, {
-        costs: 2000000,
+        costs: 1200000,
         upgradeDuration: "4d"
     }, {
-        costs: 3000000,
+        costs: 2500000,
         upgradeDuration: "6d"
     }]
 }), new HomeArmy({
     name: "Workshop",
     levels: [{
-        costs: 7500000,
+        costs: 5000000,
         upgradeDuration: "6d"
     }, {
-        costs: 9000000,
+        costs: 8000000,
         upgradeDuration: "8d"
     }, {
         costs: 10500000,
@@ -806,6 +806,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 16000000,
         upgradeDuration: "16d"
+    }, {
+        costs: 17500000,
+        upgradeDuration: "18d"
     }]
 }), new HomeArmy({
     name: "Pet House",
@@ -841,13 +844,13 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 300000,
         upgradeDuration: "18h"
     }, {
-        costs: 600000,
+        costs: 500000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 1200000,
+        costs: 1000000,
         upgradeDuration: "3d"
     }, {
-        costs: 2500000,
+        costs: 2000000,
         upgradeDuration: "4d"
     }, {
         costs: 4000000,
@@ -868,10 +871,10 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 500000,
         upgradeDuration: "18h"
     }, {
-        costs: 900000,
+        costs: 800000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 1500000,
+        costs: 1200000,
         upgradeDuration: "3d"
     }]
 }), new HomeTrap({
@@ -886,10 +889,10 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 200000,
         upgradeDuration: "12h"
     }, {
-        costs: 800000,
+        costs: 600000,
         upgradeDuration: "1d"
     }, {
-        costs: 2500000,
+        costs: 2000000,
         upgradeDuration: "2d"
     }, {
         costs: 3000000,
@@ -955,16 +958,16 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 450000,
         upgradeDuration: "5h"
     }, {
-        costs: 1200000,
+        costs: 900000,
         upgradeDuration: "20h"
     }, {
-        costs: 2000000,
+        costs: 1500000,
         upgradeDuration: "1d 16h"
     }]
 }), new HomeTrap({
     name: "Tornado Trap",
     levels: [{
-        costs: 3000000,
+        costs: 2500000,
         upgradeDuration: "0s"
     }, {
         costs: 4000000,
@@ -1279,138 +1282,138 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "2d"
     }, {
         costs: 35000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 37000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 39000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 41000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 43000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 45000,
-        upgradeDuration: "3d 12h"
+        upgradeDuration: "3d"
     }, {
-        costs: 48000,
-        upgradeDuration: "3d 12h"
+        costs: 47000,
+        upgradeDuration: "3d"
+    }, {
+        costs: 49000,
+        upgradeDuration: "3d"
     }, {
         costs: 51000,
-        upgradeDuration: "3d 12h"
+        upgradeDuration: "3d"
     }, {
-        costs: 54000,
-        upgradeDuration: "3d 12h"
+        costs: 53000,
+        upgradeDuration: "3d"
+    }, {
+        costs: 55000,
+        upgradeDuration: "4d"
     }, {
         costs: 57000,
-        upgradeDuration: "3d 12h"
+        upgradeDuration: "4d"
     }, {
-        costs: 60000,
+        costs: 59000,
+        upgradeDuration: "4d"
+    }, {
+        costs: 61000,
         upgradeDuration: "4d"
     }, {
         costs: 63000,
         upgradeDuration: "4d"
     }, {
-        costs: 66000,
-        upgradeDuration: "4d"
+        costs: 65000,
+        upgradeDuration: "5d"
     }, {
-        costs: 69000,
-        upgradeDuration: "4d"
+        costs: 68000,
+        upgradeDuration: "5d"
     }, {
-        costs: 72000,
-        upgradeDuration: "4d"
+        costs: 71000,
+        upgradeDuration: "5d"
     }, {
-        costs: 75000,
+        costs: 74000,
+        upgradeDuration: "5d"
+    }, {
+        costs: 77000,
         upgradeDuration: "5d"
     }, {
         costs: 80000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 85000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 90000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 95000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 100000,
         upgradeDuration: "6d"
     }, {
-        costs: 105000,
+        costs: 86000,
+        upgradeDuration: "6d"
+    }, {
+        costs: 92000,
+        upgradeDuration: "6d"
+    }, {
+        costs: 98000,
+        upgradeDuration: "6d"
+    }, {
+        costs: 104000,
         upgradeDuration: "6d"
     }, {
         costs: 110000,
-        upgradeDuration: "6d"
+        upgradeDuration: "6d 12h"
     }, {
-        costs: 120000,
-        upgradeDuration: "6d"
+        costs: 116000,
+        upgradeDuration: "6d 12h"
     }, {
-        costs: 130000,
-        upgradeDuration: "6d"
+        costs: 122000,
+        upgradeDuration: "6d 12h"
+    }, {
+        costs: 128000,
+        upgradeDuration: "6d 12h"
+    }, {
+        costs: 134000,
+        upgradeDuration: "6d 12h"
     }, {
         costs: 140000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 150000,
-        upgradeDuration: "6d 12h"
+        costs: 146000,
+        upgradeDuration: "7d"
     }, {
-        costs: 160000,
-        upgradeDuration: "6d 12h"
+        costs: 152000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 158000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 164000,
+        upgradeDuration: "7d"
     }, {
         costs: 170000,
-        upgradeDuration: "6d 12h"
-    }, {
-        costs: 180000,
-        upgradeDuration: "6d 12h"
-    }, {
-        costs: 190000,
-        upgradeDuration: "6d 12h"
-    }, {
-        costs: 200000,
         upgradeDuration: "7d"
     }, {
-        costs: 203000,
+        costs: 178000,
         upgradeDuration: "7d"
     }, {
-        costs: 206000,
+        costs: 186000,
         upgradeDuration: "7d"
     }, {
-        costs: 209000,
+        costs: 194000,
         upgradeDuration: "7d"
     }, {
-        costs: 212000,
+        costs: 202000,
         upgradeDuration: "7d"
     }, {
-        costs: 215000,
+        costs: 210000,
         upgradeDuration: "7d"
     }, {
-        costs: 218000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 221000,
+        costs: 217000,
         upgradeDuration: "7d"
     }, {
         costs: 224000,
         upgradeDuration: "7d"
     }, {
-        costs: 227000,
-        upgradeDuration: "7d"
-    }, {
         costs: 230000,
         upgradeDuration: "7d"
     }, {
-        costs: 233000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 236000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 239000,
+        costs: 235000,
         upgradeDuration: "7d"
     }, {
         costs: 240000,
@@ -1522,138 +1525,138 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "2d"
     }, {
         costs: 40000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 42000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 44000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 46000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 48000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 50000,
-        upgradeDuration: "3d 12h"
+        upgradeDuration: "3d"
     }, {
-        costs: 53000,
-        upgradeDuration: "3d 12h"
+        costs: 52000,
+        upgradeDuration: "3d"
+    }, {
+        costs: 54000,
+        upgradeDuration: "3d"
     }, {
         costs: 56000,
-        upgradeDuration: "3d 12h"
+        upgradeDuration: "3d"
     }, {
-        costs: 59000,
-        upgradeDuration: "3d 12h"
+        costs: 58000,
+        upgradeDuration: "3d"
     }, {
-        costs: 62000,
-        upgradeDuration: "3d 12h"
-    }, {
-        costs: 65000,
+        costs: 60000,
         upgradeDuration: "4d"
     }, {
-        costs: 68000,
+        costs: 63000,
         upgradeDuration: "4d"
     }, {
-        costs: 71000,
+        costs: 66000,
         upgradeDuration: "4d"
     }, {
-        costs: 74000,
+        costs: 69000,
         upgradeDuration: "4d"
     }, {
-        costs: 77000,
+        costs: 72000,
         upgradeDuration: "4d"
     }, {
-        costs: 80000,
+        costs: 75000,
         upgradeDuration: "5d"
     }, {
-        costs: 85000,
+        costs: 78000,
+        upgradeDuration: "5d"
+    }, {
+        costs: 81000,
+        upgradeDuration: "5d"
+    }, {
+        costs: 84000,
+        upgradeDuration: "5d"
+    }, {
+        costs: 87000,
         upgradeDuration: "5d"
     }, {
         costs: 90000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 95000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 100000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 105000,
         upgradeDuration: "6d"
     }, {
-        costs: 115000,
+        costs: 96000,
+        upgradeDuration: "6d"
+    }, {
+        costs: 102000,
+        upgradeDuration: "6d"
+    }, {
+        costs: 108000,
+        upgradeDuration: "6d"
+    }, {
+        costs: 114000,
         upgradeDuration: "6d"
     }, {
         costs: 120000,
-        upgradeDuration: "6d"
-    }, {
-        costs: 125000,
-        upgradeDuration: "6d"
-    }, {
-        costs: 135000,
-        upgradeDuration: "6d"
-    }, {
-        costs: 145000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 155000,
+        costs: 126000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 165000,
+        costs: 132000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 175000,
+        costs: 138000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 185000,
+        costs: 144000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 195000,
+        costs: 150000,
         upgradeDuration: "6d 12h"
     }, {
-        costs: 200000,
+        costs: 156000,
         upgradeDuration: "7d"
     }, {
-        costs: 204000,
+        costs: 162000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 168000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 174000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 180000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 187000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 194000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 201000,
         upgradeDuration: "7d"
     }, {
         costs: 208000,
         upgradeDuration: "7d"
     }, {
-        costs: 212000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 216000,
+        costs: 215000,
         upgradeDuration: "7d"
     }, {
         costs: 220000,
         upgradeDuration: "7d"
     }, {
-        costs: 224000,
+        costs: 225000,
         upgradeDuration: "7d"
     }, {
-        costs: 228000,
+        costs: 230000,
         upgradeDuration: "7d"
     }, {
-        costs: 232000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 236000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 240000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 240000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 240000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 240000,
+        costs: 235000,
         upgradeDuration: "7d"
     }, {
         costs: 240000,
@@ -1707,124 +1710,124 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeHero({
     name: "Grand Warden",
     levels: [{
-        costs: 2000000,
+        costs: 1000000,
         upgradeDuration: "0s"
     }, {
-        costs: 2250000,
+        costs: 1250000,
+        upgradeDuration: "2h"
+    }, {
+        costs: 1500000,
         upgradeDuration: "4h"
     }, {
-        costs: 2500000,
+        costs: 1750000,
         upgradeDuration: "8h"
     }, {
-        costs: 2750000,
+        costs: 2000000,
         upgradeDuration: "12h"
     }, {
-        costs: 3000000,
+        costs: 2250000,
+        upgradeDuration: "18h"
+    }, {
+        costs: 2500000,
         upgradeDuration: "1d"
     }, {
-        costs: 3300000,
+        costs: 2750000,
+        upgradeDuration: "1d 6h"
+    }, {
+        costs: 3000000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 3750000,
+        costs: 3500000,
         upgradeDuration: "2d"
+    }, {
+        costs: 4000000,
+        upgradeDuration: "2d 12h"
     }, {
         costs: 4500000,
         upgradeDuration: "3d"
     }, {
-        costs: 5250000,
+        costs: 5000000,
         upgradeDuration: "4d"
     }, {
-        costs: 6000000,
-        upgradeDuration: "4d 12h"
-    }, {
-        costs: 7000000,
+        costs: 5500000,
         upgradeDuration: "5d"
     }, {
-        costs: 7500000,
-        upgradeDuration: "5d 12h"
-    }, {
-        costs: 8000000,
+        costs: 6000000,
         upgradeDuration: "6d"
     }, {
-        costs: 8400000,
-        upgradeDuration: "6d 12h"
-    }, {
-        costs: 8800000,
+        costs: 6500000,
         upgradeDuration: "7d"
     }, {
-        costs: 9100000,
+        costs: 7000000,
         upgradeDuration: "7d"
     }, {
-        costs: 9400000,
+        costs: 7500000,
         upgradeDuration: "7d"
     }, {
-        costs: 9600000,
+        costs: 8000000,
         upgradeDuration: "7d"
     }, {
-        costs: 9800000,
+        costs: 9000000,
         upgradeDuration: "7d"
     }, {
         costs: 10000000,
         upgradeDuration: "7d"
     }, {
-        costs: 10000000,
+        costs: 10100000,
         upgradeDuration: "7d"
     }, {
         costs: 10200000,
         upgradeDuration: "7d"
     }, {
+        costs: 10300000,
+        upgradeDuration: "7d"
+    }, {
         costs: 10400000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 10500000,
         upgradeDuration: "7d"
     }, {
         costs: 10600000,
         upgradeDuration: "7d"
     }, {
+        costs: 10700000,
+        upgradeDuration: "7d"
+    }, {
         costs: 10800000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 10900000,
         upgradeDuration: "7d"
     }, {
         costs: 11000000,
         upgradeDuration: "7d"
     }, {
+        costs: 11100000,
+        upgradeDuration: "7d"
+    }, {
         costs: 11200000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 11300000,
         upgradeDuration: "7d"
     }, {
         costs: 11400000,
         upgradeDuration: "7d"
     }, {
+        costs: 11500000,
+        upgradeDuration: "7d"
+    }, {
         costs: 11600000,
+        upgradeDuration: "7d"
+    }, {
+        costs: 11700000,
         upgradeDuration: "7d"
     }, {
         costs: 11800000,
         upgradeDuration: "7d"
     }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 12000000,
+        costs: 11900000,
         upgradeDuration: "7d"
     }, {
         costs: 12000000,
@@ -1875,22 +1878,22 @@ export const home: Array<Base> = [new HomeDefense({
 }), new HomeHero({
     name: "Royal Champion",
     levels: [{
-        costs: 120000,
+        costs: 60000,
         upgradeDuration: "0s"
     }, {
-        costs: 130000,
+        costs: 80000,
+        upgradeDuration: "8h"
+    }, {
+        costs: 100000,
+        upgradeDuration: "16h"
+    }, {
+        costs: 120000,
         upgradeDuration: "1d"
     }, {
         costs: 140000,
-        upgradeDuration: "1d 12h"
-    }, {
-        costs: 150000,
         upgradeDuration: "2d"
     }, {
         costs: 160000,
-        upgradeDuration: "2d 12h"
-    }, {
-        costs: 170000,
         upgradeDuration: "3d"
     }, {
         costs: 180000,
@@ -2112,29 +2115,29 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 1"
     }, {
-        costs: 25000,
-        upgradeDuration: "6h"
+        costs: 20000,
+        upgradeDuration: "2h"
     }, {
-        costs: 100000,
+        costs: 60000,
+        upgradeDuration: "5h"
+    }, {
+        costs: 200000,
         upgradeDuration: "12h"
     }, {
-        costs: 300000,
+        costs: 650000,
         upgradeDuration: "1d"
     }, {
-        costs: 1000000,
+        costs: 1400000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 2000000,
-        upgradeDuration: "2d 12h"
+        costs: 2500000,
+        upgradeDuration: "3d"
     }, {
-        costs: 3000000,
-        upgradeDuration: "4d"
+        costs: 4000000,
+        upgradeDuration: "4d 12h"
     }, {
-        costs: 5000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 9500000,
-        upgradeDuration: "12d"
+        costs: 8000000,
+        upgradeDuration: "10d"
     }, {
         costs: 1500000,
         upgradeDuration: "14d"
@@ -2148,29 +2151,29 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 2"
     }, {
-        costs: 40000,
+        costs: 30000,
+        upgradeDuration: "3h"
+    }, {
+        costs: 80000,
+        upgradeDuration: "6h"
+    }, {
+        costs: 300000,
         upgradeDuration: "12h"
     }, {
-        costs: 160000,
+        costs: 800000,
         upgradeDuration: "1d"
     }, {
-        costs: 480000,
+        costs: 2000000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 1300000,
-        upgradeDuration: "2d"
+        costs: 3000000,
+        upgradeDuration: "3d"
     }, {
-        costs: 2500000,
-        upgradeDuration: "2d 12h"
+        costs: 4500000,
+        upgradeDuration: "5d"
     }, {
-        costs: 3500000,
-        upgradeDuration: "4d"
-    }, {
-        costs: 5500000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 10000000,
-        upgradeDuration: "12d"
+        costs: 9000000,
+        upgradeDuration: "10d 12h"
     }, {
         costs: 15500000,
         upgradeDuration: "14d"
@@ -2184,31 +2187,31 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 3"
     }, {
-        costs: 50000,
-        upgradeDuration: "9h"
+        costs: 40000,
+        upgradeDuration: "4h"
     }, {
-        costs: 200000,
-        upgradeDuration: "18h"
+        costs: 150000,
+        upgradeDuration: "8h"
     }, {
-        costs: 600000,
-        upgradeDuration: "1d 12h"
+        costs: 500000,
+        upgradeDuration: "12h"
     }, {
-        costs: 1500000,
-        upgradeDuration: "2d 12h"
+        costs: 1200000,
+        upgradeDuration: "1d"
     }, {
-        costs: 2500000,
+        costs: 2000000,
+        upgradeDuration: "2d"
+    }, {
+        costs: 3500000,
         upgradeDuration: "4d"
     }, {
-        costs: 4000000,
-        upgradeDuration: "5d"
+        costs: 5000000,
+        upgradeDuration: "8d"
     }, {
-        costs: 6000000,
-        upgradeDuration: "9d"
+        costs: 9000000,
+        upgradeDuration: "13d"
     }, {
-        costs: 10500000,
-        upgradeDuration: "14d"
-    }, {
-        costs: 15000000,
+        costs: 13000000,
         upgradeDuration: "15d"
     }]
 }), new HomeOffense({
@@ -2220,25 +2223,25 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 4"
     }, {
-        costs: 50000,
+        costs: 45000,
+        upgradeDuration: "5h"
+    }, {
+        costs: 175000,
+        upgradeDuration: "9h"
+    }, {
+        costs: 500000,
         upgradeDuration: "12h"
     }, {
-        costs: 200000,
+        costs: 1200000,
         upgradeDuration: "1d"
     }, {
-        costs: 600000,
+        costs: 2000000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 1200000,
-        upgradeDuration: "2d"
+        costs: 3500000,
+        upgradeDuration: "4d"
     }, {
-        costs: 2500000,
-        upgradeDuration: "3d 12h"
-    }, {
-        costs: 4000000,
-        upgradeDuration: "6d"
-    }, {
-        costs: 9500000,
+        costs: 9000000,
         upgradeDuration: "12d"
     }]
 }), new HomeOffense({
@@ -2251,28 +2254,28 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Barracks Lv. 5"
     }, {
         costs: 100000,
-        upgradeDuration: "12h"
+        upgradeDuration: "6h"
     }, {
         costs: 250000,
+        upgradeDuration: "12h"
+    }, {
+        costs: 600000,
+        upgradeDuration: "18h"
+    }, {
+        costs: 1200000,
         upgradeDuration: "1d"
     }, {
-        costs: 750000,
-        upgradeDuration: "1d 12h"
+        costs: 3000000,
+        upgradeDuration: "2d 12h"
     }, {
-        costs: 1500000,
-        upgradeDuration: "2d"
+        costs: 6000000,
+        upgradeDuration: "5d"
     }, {
-        costs: 3500000,
-        upgradeDuration: "4d"
+        costs: 10500000,
+        upgradeDuration: "10d"
     }, {
-        costs: 7500000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 11500000,
-        upgradeDuration: "11d"
-    }, {
-        costs: 14000000,
-        upgradeDuration: "15d"
+        costs: 13000000,
+        upgradeDuration: "14d 12h"
     }, {
         costs: 16000000,
         upgradeDuration: "16d"
@@ -2286,26 +2289,26 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 6"
     }, {
-        costs: 150000,
+        costs: 125000,
+        upgradeDuration: "8h"
+    }, {
+        costs: 400000,
         upgradeDuration: "12h"
     }, {
-        costs: 450000,
+        costs: 800000,
+        upgradeDuration: "18h"
+    }, {
+        costs: 1500000,
         upgradeDuration: "1d"
     }, {
-        costs: 900000,
-        upgradeDuration: "2d"
+        costs: 2750000,
+        upgradeDuration: "3d 12h"
     }, {
-        costs: 1800000,
-        upgradeDuration: "3d"
+        costs: 6500000,
+        upgradeDuration: "7d 12h"
     }, {
-        costs: 3500000,
-        upgradeDuration: "4d"
-    }, {
-        costs: 7500000,
-        upgradeDuration: "8d"
-    }, {
-        costs: 12000000,
-        upgradeDuration: "14d"
+        costs: 11000000,
+        upgradeDuration: "13d 12h"
     }, {
         costs: 14000000,
         upgradeDuration: "16d"
@@ -2322,32 +2325,32 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 7"
     }, {
-        costs: 150000,
+        costs: 120000,
+        upgradeDuration: "8h"
+    }, {
+        costs: 320000,
         upgradeDuration: "12h"
     }, {
-        costs: 350000,
+        costs: 620000,
+        upgradeDuration: "18h"
+    }, {
+        costs: 1200000,
         upgradeDuration: "1d"
     }, {
-        costs: 650000,
-        upgradeDuration: "1d 12h"
-    }, {
-        costs: 1300000,
+        costs: 2200000,
         upgradeDuration: "2d"
     }, {
-        costs: 2600000,
+        costs: 4200000,
         upgradeDuration: "4d"
     }, {
-        costs: 5000000,
-        upgradeDuration: "6d"
+        costs: 7200000,
+        upgradeDuration: "7d 12h"
     }, {
-        costs: 8000000,
-        upgradeDuration: "9d"
+        costs: 9200000,
+        upgradeDuration: "12d 12h"
     }, {
-        costs: 10000000,
-        upgradeDuration: "13d"
-    }, {
-        costs: 15000000,
-        upgradeDuration: "15d"
+        costs: 14200000,
+        upgradeDuration: "14d 12h"
     }]
 }), new HomeOffense({
     name: "Healer",
@@ -2358,20 +2361,20 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 8"
     }, {
-        costs: 500000,
-        upgradeDuration: "1d 12h"
+        costs: 450000,
+        upgradeDuration: "12h"
     }, {
-        costs: 1000000,
-        upgradeDuration: "2d 12h"
+        costs: 900000,
+        upgradeDuration: "1d"
     }, {
-        costs: 3000000,
-        upgradeDuration: "4d"
+        costs: 2700000,
+        upgradeDuration: "2d"
     }, {
-        costs: 9500000,
-        upgradeDuration: "11d 20h"
+        costs: 6000000,
+        upgradeDuration: "10d"
     }, {
-        costs: 14500000,
-        upgradeDuration: "15d"
+        costs: 13000000,
+        upgradeDuration: "14d"
     }, {
         costs: 17000000,
         upgradeDuration: "17d"
@@ -2385,20 +2388,20 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 9"
     }, {
-        costs: 1750000,
+        costs: 1000000,
+        upgradeDuration: "18h"
+    }, {
+        costs: 2000000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 2500000,
+        costs: 3000000,
         upgradeDuration: "3d"
     }, {
-        costs: 4000000,
-        upgradeDuration: "5d"
+        costs: 4500000,
+        upgradeDuration: "6d"
     }, {
-        costs: 6000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 8000000,
-        upgradeDuration: "9d"
+        costs: 7000000,
+        upgradeDuration: "8d"
     }, {
         costs: 10000000,
         upgradeDuration: "14d"
@@ -2418,28 +2421,28 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 10"
     }, {
-        costs: 1500000,
+        costs: 1200000,
+        upgradeDuration: "12h"
+    }, {
+        costs: 1800000,
+        upgradeDuration: "1d"
+    }, {
+        costs: 2800000,
         upgradeDuration: "2d"
     }, {
-        costs: 2250000,
-        upgradeDuration: "3d 12h"
+        costs: 3800000,
+        upgradeDuration: "4d"
     }, {
-        costs: 3200000,
-        upgradeDuration: "4d 12h"
+        costs: 5000000,
+        upgradeDuration: "5d 12h"
     }, {
-        costs: 4500000,
-        upgradeDuration: "6d"
+        costs: 7500000,
+        upgradeDuration: "8d 12h"
     }, {
-        costs: 6000000,
-        upgradeDuration: "7d"
-    }, {
-        costs: 9000000,
-        upgradeDuration: "10d"
-    }, {
-        costs: 12000000,
+        costs: 11000000,
         upgradeDuration: "14d"
     }, {
-        costs: 15500000,
+        costs: 14000000,
         upgradeDuration: "15d"
     }]
 }), new HomeOffense({
@@ -2451,23 +2454,23 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 11"
     }, {
-        costs: 2500000,
-        upgradeDuration: "3d"
+        costs: 2000000,
+        upgradeDuration: "2d"
     }, {
-        costs: 3500000,
-        upgradeDuration: "5d"
+        costs: 3000000,
+        upgradeDuration: "4d"
     }, {
-        costs: 4500000,
-        upgradeDuration: "7d"
+        costs: 4000000,
+        upgradeDuration: "6d"
     }, {
-        costs: 7000000,
+        costs: 6000000,
         upgradeDuration: "9d"
     }, {
         costs: 9000000,
         upgradeDuration: "12d"
     }, {
-        costs: 15000000,
-        upgradeDuration: "15d 12h"
+        costs: 12000000,
+        upgradeDuration: "14d"
     }, {
         costs: 17000000,
         upgradeDuration: "16d 12h"
@@ -2481,22 +2484,22 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Barracks Lv. 12"
     }, {
-        costs: 3500000,
-        upgradeDuration: "3d"
+        costs: 3000000,
+        upgradeDuration: "2d 12h"
     }, {
-        costs: 4500000,
-        upgradeDuration: "5d"
+        costs: 4000000,
+        upgradeDuration: "4d"
     }, {
-        costs: 6000000,
-        upgradeDuration: "7d 12h"
+        costs: 5000000,
+        upgradeDuration: "6d"
     }, {
-        costs: 8000000,
-        upgradeDuration: "10d 12h"
+        costs: 7000000,
+        upgradeDuration: "10d"
     }, {
-        costs: 10500000,
-        upgradeDuration: "14d"
+        costs: 9500000,
+        upgradeDuration: "13d"
     }, {
-        costs: 14000000,
+        costs: 13000000,
         upgradeDuration: "15d 12h"
     }, {
         costs: 17500000,
@@ -2512,7 +2515,7 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Barracks Lv. 13"
     }, {
         costs: 9000000,
-        upgradeDuration: "10d"
+        upgradeDuration: "8d"
     }, {
         costs: 11000000,
         upgradeDuration: "14d"
@@ -2533,7 +2536,7 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Barracks Lv. 14"
     }, {
         costs: 11000000,
-        upgradeDuration: "14d"
+        upgradeDuration: "11d"
     }, {
         costs: 15000000,
         upgradeDuration: "16d"
@@ -2566,19 +2569,19 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 1"
     }, {
         costs: 3000,
-        upgradeDuration: "1d"
+        upgradeDuration: "8h"
     }, {
         costs: 7000,
-        upgradeDuration: "1d 12h"
+        upgradeDuration: "16h"
     }, {
         costs: 15000,
-        upgradeDuration: "2d"
+        upgradeDuration: "1d"
     }, {
         costs: 25000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d"
     }, {
         costs: 40000,
-        upgradeDuration: "4d 12h"
+        upgradeDuration: "4d"
     }, {
         costs: 90000,
         upgradeDuration: "7d"
@@ -2602,19 +2605,19 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 2"
     }, {
         costs: 5000,
-        upgradeDuration: "1d 6h"
+        upgradeDuration: "10h"
     }, {
         costs: 9000,
-        upgradeDuration: "2d"
+        upgradeDuration: "20h"
     }, {
         costs: 16000,
-        upgradeDuration: "2d 12h"
+        upgradeDuration: "1d 6h"
     }, {
         costs: 30000,
-        upgradeDuration: "4d"
+        upgradeDuration: "2d"
     }, {
         costs: 50000,
-        upgradeDuration: "5d"
+        upgradeDuration: "4d"
     }, {
         costs: 100000,
         upgradeDuration: "7d 12h"
@@ -2641,22 +2644,22 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 3"
     }, {
         costs: 8000,
-        upgradeDuration: "2d 6h"
+        upgradeDuration: "1d"
     }, {
         costs: 12000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d"
     }, {
         costs: 25000,
-        upgradeDuration: "4d"
+        upgradeDuration: "3d"
     }, {
         costs: 45000,
-        upgradeDuration: "6d"
+        upgradeDuration: "5d"
     }, {
         costs: 90000,
-        upgradeDuration: "8d 12h"
+        upgradeDuration: "7d 12h"
     }, {
         costs: 175000,
-        upgradeDuration: "13d"
+        upgradeDuration: "11d"
     }, {
         costs: 260000,
         upgradeDuration: "16d"
@@ -2674,13 +2677,13 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 4"
     }, {
         costs: 10000,
-        upgradeDuration: "2d 12h"
+        upgradeDuration: "1d 6h"
     }, {
         costs: 20000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d 12h"
     }, {
         costs: 30000,
-        upgradeDuration: "4d"
+        upgradeDuration: "3d 18h"
     }, {
         costs: 50000,
         upgradeDuration: "5d"
@@ -2713,10 +2716,10 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 5"
     }, {
         costs: 50000,
-        upgradeDuration: "5d"
+        upgradeDuration: "4d"
     }, {
         costs: 80000,
-        upgradeDuration: "6d 12h"
+        upgradeDuration: "5d 12h"
     }, {
         costs: 130000,
         upgradeDuration: "9d 12h"
@@ -2758,16 +2761,16 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 7"
     }, {
         costs: 75000,
-        upgradeDuration: "6d"
+        upgradeDuration: "4d"
     }, {
         costs: 125000,
-        upgradeDuration: "9d"
+        upgradeDuration: "7d"
     }, {
         costs: 200000,
-        upgradeDuration: "14d"
+        upgradeDuration: "12d"
     }, {
         costs: 280000,
-        upgradeDuration: "16d"
+        upgradeDuration: "14d 12h"
     }, {
         costs: 320000,
         upgradeDuration: "17d 12h"
@@ -2782,10 +2785,10 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Barracks Lv. 8"
     }, {
         costs: 80000,
-        upgradeDuration: "5d"
+        upgradeDuration: "4d"
     }, {
         costs: 120000,
-        upgradeDuration: "8d"
+        upgradeDuration: "7d"
     }, {
         costs: 160000,
         upgradeDuration: "10d 12h"
@@ -2821,25 +2824,25 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Spell Factory Lv. 1"
     }, {
-        costs: 85000,
+        costs: 50000,
+        upgradeDuration: "4h"
+    }, {
+        costs: 100000,
+        upgradeDuration: "8h"
+    }, {
+        costs: 200000,
         upgradeDuration: "12h"
     }, {
-        costs: 225000,
+        costs: 600000,
         upgradeDuration: "1d"
     }, {
-        costs: 450000,
-        upgradeDuration: "1d 12h"
+        costs: 1500000,
+        upgradeDuration: "4d"
     }, {
-        costs: 900000,
-        upgradeDuration: "3d"
+        costs: 3000000,
+        upgradeDuration: "7d"
     }, {
-        costs: 2000000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 4000000,
-        upgradeDuration: "8d"
-    }, {
-        costs: 8000000,
+        costs: 6000000,
         upgradeDuration: "10d 12h"
     }, {
         costs: 10000000,
@@ -2855,22 +2858,22 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Spell Factory Lv. 2"
     }, {
         costs: 75000,
-        upgradeDuration: "6h"
+        upgradeDuration: "5h"
+    }, {
+        costs: 150000,
+        upgradeDuration: "10h"
     }, {
         costs: 300000,
-        upgradeDuration: "18h"
+        upgradeDuration: "20h"
     }, {
-        costs: 600000,
+        costs: 900000,
         upgradeDuration: "1d 12h"
     }, {
-        costs: 1200000,
-        upgradeDuration: "3d"
+        costs: 1800000,
+        upgradeDuration: "4d"
     }, {
-        costs: 2500000,
-        upgradeDuration: "5d"
-    }, {
-        costs: 4500000,
-        upgradeDuration: "9d"
+        costs: 3600000,
+        upgradeDuration: "7d"
     }, {
         costs: 14000000,
         upgradeDuration: "16d"
@@ -2884,17 +2887,17 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Spell Factory Lv. 3"
     }, {
-        costs: 450000,
-        upgradeDuration: "18h"
+        costs: 400000,
+        upgradeDuration: "12h"
     }, {
-        costs: 900000,
-        upgradeDuration: "1d 12h"
+        costs: 800000,
+        upgradeDuration: "1d"
     }, {
-        costs: 1800000,
-        upgradeDuration: "3d"
+        costs: 1600000,
+        upgradeDuration: "2d"
     }, {
-        costs: 3000000,
-        upgradeDuration: "5d"
+        costs: 2400000,
+        upgradeDuration: "4d"
     }, {
         costs: 11000000,
         upgradeDuration: "11d 12h"
@@ -2908,13 +2911,13 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Spell Factory Lv. 4"
     }, {
-        costs: 3000000,
+        costs: 2000000,
         upgradeDuration: "4d"
     }, {
-        costs: 6000000,
+        costs: 4000000,
         upgradeDuration: "7d"
     }, {
-        costs: 13000000,
+        costs: 12000000,
         upgradeDuration: "15d"
     }]
 }), new HomeOffense({
@@ -2926,16 +2929,16 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Spell Factory Lv. 4"
     }, {
-        costs: 1500000,
-        upgradeDuration: "2d"
+        costs: 1200000,
+        upgradeDuration: "1d 12h"
     }, {
-        costs: 2500000,
-        upgradeDuration: "4d"
+        costs: 2000000,
+        upgradeDuration: "3d"
     }, {
-        costs: 4200000,
-        upgradeDuration: "6d"
+        costs: 3600000,
+        upgradeDuration: "5d"
     }, {
-        costs: 6000000,
+        costs: 5000000,
         upgradeDuration: "7d 12h"
     }, {
         costs: 8500000,
@@ -2953,19 +2956,19 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Spell Factory Lv. 5"
     }, {
-        costs: 3000000,
-        upgradeDuration: "3d"
+        costs: 2500000,
+        upgradeDuration: "2d"
     }, {
-        costs: 4500000,
-        upgradeDuration: "4d 12h"
+        costs: 4000000,
+        upgradeDuration: "4d"
     }, {
-        costs: 7000000,
-        upgradeDuration: "6d 12h"
+        costs: 6000000,
+        upgradeDuration: "5d 12h"
     }, {
-        costs: 9000000,
-        upgradeDuration: "11d 12h"
+        costs: 8000000,
+        upgradeDuration: "10d"
     }, {
-        costs: 14000000,
+        costs: 12000000,
         upgradeDuration: "15d"
     }, {
         costs: 16500000,
@@ -2998,19 +3001,19 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Dark Spell Factory Lv. 1"
     }, {
-        costs: 20000,
+        costs: 12000,
+        upgradeDuration: "8h"
+    }, {
+        costs: 25000,
         upgradeDuration: "1d"
     }, {
-        costs: 40000,
-        upgradeDuration: "2d"
+        costs: 50000,
+        upgradeDuration: "3d"
     }, {
-        costs: 75000,
-        upgradeDuration: "4d"
-    }, {
-        costs: 150000,
+        costs: 100000,
         upgradeDuration: "9d"
     }, {
-        costs: 200000,
+        costs: 175000,
         upgradeDuration: "11d"
     }, {
         costs: 260000,
@@ -3028,14 +3031,14 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Dark Spell Factory Lv. 2"
     }, {
-        costs: 20000,
-        upgradeDuration: "2d"
+        costs: 15000,
+        upgradeDuration: "18h"
     }, {
-        costs: 40000,
-        upgradeDuration: "4d"
+        costs: 30000,
+        upgradeDuration: "1d 12h"
     }, {
-        costs: 75000,
-        upgradeDuration: "7d 12h"
+        costs: 60000,
+        upgradeDuration: "5d"
     }, {
         costs: 120000,
         upgradeDuration: "11d"
@@ -3049,16 +3052,16 @@ export const home: Array<Base> = [new HomeDefense({
         upgradeDuration: "0s",
         text: "Dark Spell Factory Lv. 3"
     }, {
-        costs: 30000,
-        upgradeDuration: "2d 12h"
+        costs: 20000,
+        upgradeDuration: "1d 12h"
     }, {
-        costs: 50000,
-        upgradeDuration: "5d"
+        costs: 40000,
+        upgradeDuration: "3d"
     }, {
-        costs: 80000,
-        upgradeDuration: "8d"
+        costs: 70000,
+        upgradeDuration: "6d"
     }, {
-        costs: 120000,
+        costs: 110000,
         upgradeDuration: "11d"
     }]
 }), new HomeOffense({
@@ -3071,13 +3074,13 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Spell Factory Lv. 4"
     }, {
         costs: 25000,
-        upgradeDuration: "2d 12h"
+        upgradeDuration: "1d 12h"
     }, {
         costs: 40000,
-        upgradeDuration: "4d"
+        upgradeDuration: "3d"
     }, {
         costs: 70000,
-        upgradeDuration: "6d 12h"
+        upgradeDuration: "6d"
     }, {
         costs: 125000,
         upgradeDuration: "8d 12h"
@@ -3098,15 +3101,15 @@ export const home: Array<Base> = [new HomeDefense({
         text: "Dark Spell Factory Lv. 5"
     }, {
         costs: 30000,
-        upgradeDuration: "3d"
+        upgradeDuration: "2d"
     }, {
         costs: 60000,
-        upgradeDuration: "5d 12h"
+        upgradeDuration: "4d"
     }, {
-        costs: 120000,
+        costs: 100000,
         upgradeDuration: "7d 12h"
     }, {
-        costs: 160000,
+        costs: 150000,
         upgradeDuration: "9d"
     }]
 //-------SIEGE MACHINE-------\\
@@ -3185,6 +3188,23 @@ export const home: Array<Base> = [new HomeDefense({
         costs: 0,
         upgradeDuration: "0s",
         text: "Workshop Lv. 5"
+    }, {
+        costs: 8000000,
+        upgradeDuration: "10d"
+    }, {
+        costs: 11000000,
+        upgradeDuration: "14d"
+    }, {
+        costs: 14000000,
+        upgradeDuration: "16d"
+    }]
+}), new HomeOffense({
+    name: "Flame Flinger",
+    type: "siegeMachine",
+    levels: [{
+        costs: 0,
+        upgradeDuration: "0s",
+        text: "Workshop Lv. 6"
     }, {
         costs: 8000000,
         upgradeDuration: "10d"
