@@ -1069,6 +1069,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 800000,
         upgradeDuration: "3d 8h"
+    }, {
+        costs: 1200000,
+        upgradeDuration: "6d"
     }]
 }), new HomeResource({
     name: "Gold Storage",
@@ -1162,6 +1165,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 800000,
         upgradeDuration: "3d 8h"
+    }, {
+        costs: 1200000,
+        upgradeDuration: "6d"
     }]
 }), new HomeResource({
     name: "Dark Elixir Storage",
@@ -1219,6 +1225,9 @@ export const home: Array<Base> = [new HomeDefense({
     }, {
         costs: 3000000,
         upgradeDuration: "4d"
+    }, {
+        costs: 4000000,
+        upgradeDuration: "7d"
     }]
 //-----------HERO------------\\
 }), new HomeHero({

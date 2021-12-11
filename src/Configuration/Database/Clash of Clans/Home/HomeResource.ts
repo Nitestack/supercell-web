@@ -4,7 +4,7 @@ export default class HomeResources extends Base {
     constructor(infos: ResourceInfo) {
         const easyArray: Array<Level> = [];
         for (let i = 0; i < infos.levels.length; i++) easyArray.push({
-            costType: infos.name.includes("Gold") || infos.name == "Dark Elixir Storage" ? "elixir" : "gold",
+            costType: infos.name.includes("Gold") || infos.name.includes("Dark") ? "elixir" : "gold",
             costs: infos.levels[i].costs,
             upgradeDuration: infos.levels[i].upgradeDuration
         });

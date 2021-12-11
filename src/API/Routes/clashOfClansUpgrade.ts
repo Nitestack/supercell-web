@@ -385,7 +385,7 @@ export function prepareObject(structures: object, player: Player, village: "home
 };
 
 /**
- * Updates the level when an element has finished upgrading
+ * Updates the level when something has finished upgrading
  * @param {ClashOfClansVillage} playerSchema The player of the database 
  * @param {"home" | "builder"} village The village
  */
