@@ -104,7 +104,8 @@ class CocUpgradeRouter {
                 const player: Player = JSON.parse(req.body.player);
                 res.render("Upgrade/Clash of Clans/editHomeStructures", {
                     player: player,
-                    village: "home"
+                    village: "home",
+                    new: true
                 });
             } catch (err) {
                 ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans");

@@ -177,7 +177,9 @@ html(lang='en')
                         .row.mb-3 
                             .col 
                                 p.coc-description.lead(style="font-size: 20px;") You don't need to set the number of walls, that are not built yet!
-                                p.coc-description.lead#wallDisplay(style="font-size: 20px; color: white;") 0 of #{playerTownHall.wall.amount} Walls
+                                - let wallAmount = 0;
+                                - if (playerSchema && playerSchema.builderBase && playerSchema.homeVillage.Walls) for (const wall of Object.values(playerSchema.homeVillage.Walls)) wallAmount += parseInt(wall);
+                                p.coc-description.lead#wallDisplay(style="font-size: 20px; color: white;") #{wallAmount} of #{playerTownHall.wall.amount} Walls
                                 p.coc-description.lead#wallError(style="color: red; font-size: 20px;")
                             .col 
                                 each _, i in Array(playerTownHall.wall.maxLevel)
@@ -188,8 +190,8 @@ html(lang='en')
                                                     div.coc-description.lead(align="left", style="font-size: 28px;") Lv. #{i + 1}
                                                         img.slider-image(src="/Images/Clash of Clans/Home/Defenses/Wall/" + (i + 1) + ".png")
                                                 .col-6
-                                                    input.slider(type="range", min=0, max=playerTownHall.wall.amount, id="Wall" + (i + 1), name="Wall" + (i + 1), value=0)
+                                                    input.slider(type="range", min=0, max=playerTownHall.wall.amount, id="Wall" + (i + 1), name="Wall" + (i + 1), value=(playerSchema && playerSchema.homeVillage && playerSchema.homeVillage.Walls[`${i + 1}`] ? playerSchema.homeVillage.Walls[`${i + 1}`] : 0))
                                                 .col-3
-                                                    input.coc-description.form-control(type="number", min=0, max=playerTownHall.wall.amount, id="numberWall" + (i + 1), value=0, style="font-size: 20px;")
+                                                    input.coc-description.form-control(type="number", min=0, max=playerTownHall.wall.amount, id="numberWall" + (i + 1), value=(playerSchema && playerSchema.homeVillage && playerSchema.homeVillage.Walls[`${i + 1}`] ? playerSchema.homeVillage.Walls[`${i + 1}`] : 0), style="font-size: 20px;")
                         button.btn.btn-success(type="submit", name="player", id="player", value=player) Proceed
         include ../../Includes/footer
