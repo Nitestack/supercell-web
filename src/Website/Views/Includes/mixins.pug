@@ -54,16 +54,17 @@ mixin displayAllAchievements()
         each achievementElement in achievements
             +achievement(achievementElement)
 
-mixin createSlider(name, min, max, imagePath)
+mixin createSlider(name, min, max, imagePath, staticImagePath)
+    - const minValue = playerSchema && playerSchema[(village == "home" ? "homeVillage" : "builderBase")] && playerSchema[(village == "home" ? "homeVillage" : "builderBase")][name] ? playerSchema[(village == "home" ? "homeVillage" : "builderBase")][name] : min;
     .slideGroup(id=name + "slideGroup")
         .container 
             .row
                 .col-3
-                    img.slider-image(id="photo" + name, src=imagePath)
+                    img.slider-image(id="photo" + name, src=(staticImagePath ? staticImagePath : imagePath + "/" + minValue + ".png"))
                 .col-6
-                    input.slider(type="range", min=min, max=max, id=name, name=name, value=min)
+                    input.slider(type="range", min=min, max=max, id=name, name=name, value=minValue)
                 .col-3
-                    input.coc-description.form-control(type="number", min=min, max=max, id="number" + name, value=min, style="font-size: 20px;")
+                    input.coc-description.form-control(type="number", min=min, max=max, id="number" + name, value=minValue, style="font-size: 20px;")
 
 mixin createGlobalSlider(name, max)
     .input-group.mb-3

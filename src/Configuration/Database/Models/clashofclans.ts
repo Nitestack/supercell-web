@@ -9,10 +9,10 @@ export interface ClashOfClansVillage extends Document {
     builderSeasonBoost: 0 | 10 | 15 | 20;
     researchSeasonBoost: 0 | 10 | 15 | 20;
     homeVillageBuilder: Array<Builder>;
-    builderBaseBuilder?: Array<Builder>;
-    homeLab?: Array<Laboratory>;
-    builderLab?: Array<Laboratory>;
-    petHouse?: Array<PetHouse>;
+    builderBaseBuilder: Array<Builder>;
+    homeLab: Array<Laboratory>;
+    builderLab: Array<Laboratory>;
+    petHouse: Array<PetHouse>;
     otto: {
         unlocked: boolean;
         builder: Array<Builder>;
@@ -57,15 +57,25 @@ export default model<ClashOfClansVillage>("clashofclansvillage", new Schema({
         required: true
     },
     player: {},
-    homeVillage: {},
-    builderBase: {},
+    homeVillage: {
+        type: {},
+        required: true,
+        default: {}
+    },
+    builderBase: {
+        type: {},
+        required: true,
+        default: {}
+    },
     builderSeasonBoost: {
         type: SchemaTypes.Number,
-        required: true
+        required: true,
+        default: 0
     },
     researchSeasonBoost: {
         type: SchemaTypes.Number,
-        required: true
+        required: true,
+        default: 0
     },
     homeVillageBuilder: {
         type: [{
@@ -80,16 +90,20 @@ export default model<ClashOfClansVillage>("clashofclansvillage", new Schema({
         }],
         required: true
     },
-    builderBaseBuilder: [{
-        name: requiredString,
-        id: requiredNumber,
-        start: {
-            type: SchemaTypes.Date,
-            required: true
-        },
-        durationInMilliseconds: requiredNumber,
-        currentLevel: requiredNumber
-    }],
+    builderBaseBuilder: {
+        type: [{
+            name: requiredString,
+            id: requiredNumber,
+            start: {
+                type: SchemaTypes.Date,
+                required: true
+            },
+            durationInMilliseconds: requiredNumber,
+            currentLevel: requiredNumber
+        }],
+        required: true,
+        default: []
+    },
     homeLab: [{
         name: requiredString,
         start: {
@@ -99,24 +113,32 @@ export default model<ClashOfClansVillage>("clashofclansvillage", new Schema({
         durationInMilliseconds: requiredNumber,
         currentLevel: requiredNumber
     }],
-    builderLab: [{
-        name: requiredString,
-        start: {
-            type: SchemaTypes.Date,
-            required: true
-        },
-        durationInMilliseconds: requiredNumber,
-        currentLevel: requiredNumber
-    }],
-    petHouse: [{
-        name: requiredString,
-        start: {
-            type: SchemaTypes.Date,
-            required: true
-        },
-        durationInMilliseconds: requiredNumber,
-        currentLevel: requiredNumber
-    }],
+    builderLab: {
+        type: [{
+            name: requiredString,
+            start: {
+                type: SchemaTypes.Date,
+                required: true
+            },
+            durationInMilliseconds: requiredNumber,
+            currentLevel: requiredNumber
+        }],
+        required: true,
+        default: []
+    },
+    petHouse: {
+        type: [{
+            name: requiredString,
+            start: {
+                type: SchemaTypes.Date,
+                required: true
+            },
+            durationInMilliseconds: requiredNumber,
+            currentLevel: requiredNumber
+        }],
+        required: true,
+        default: []
+    },
     otto: {
         type: {
             unlocked: {

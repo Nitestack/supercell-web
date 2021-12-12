@@ -13,7 +13,9 @@ export class ClashOfClansConstants {
     public static homeTroopsArray = ["Barbarian", "Archer", "Giant", "Goblin", "Wall Breaker", "Balloon", "Wizard", "Healer", "Dragon", "P.E.K.K.A", "Baby Dragon", "Miner", "Electro Dragon", "Yeti", "Dragon Rider"];
     public static homeDarkTroopsArray = ["Minion", "Hog Rider", "Valkyrie", "Golem", "Witch", "Lava Hound", "Bowler", "Ice Golem", "Headhunter"];
     public static homeSiegeMachinesArray = ["Wall Wrecker", "Battle Blimp", "Stone Slammer", "Siege Barracks", "Log Launcher", "Flame Flinger"];
-    public static homeSpellsArray = ["Lightning Spell", "Healing Spell", "Rage Spell", "Jump Spell", "Freeze Spell", "Clone Spell", "Invisibility Spell", "Poison Spell", "Earthquake Spell", "Haste Spell", "Skeleton Spell", "Bat Spell"];
+    public static homeNormalSpellsArray = ["Lightning Spell", "Healing Spell", "Rage Spell", "Jump Spell", "Freeze Spell", "Clone Spell", "Invisibility Spell"]
+    public static homeDarkSpellsArray = ["Poison Spell", "Earthquake Spell", "Haste Spell", "Skeleton Spell", "Bat Spell"];
+    public static homeSpellsArray = [...ClashOfClansConstants.homeNormalSpellsArray, ...ClashOfClansConstants.homeDarkSpellsArray];
     public static homeResourcesArray = ["Elixir Collector", "Elixir Storage", "Gold Mine", "Gold Storage", "Dark Elixir Drill", "Dark Elixir Storage"];
     public static homeSuperTroopsArray = ["Super Barbarian", "Super Archer", "Super Giant", "Sneaky Goblin", "Super Wall Breaker", "Rocket Balloon", "Super Wizard", "Inferno Dragon", "Super Dragon"];
     public static homeDarkSuperTroopsArray = ["Super Minion", "Super Valkyrie", "Super Witch", "Ice Hound", "Super Bowler"];

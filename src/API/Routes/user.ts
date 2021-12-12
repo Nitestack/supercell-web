@@ -80,7 +80,7 @@ class RouterName {
                                 };
                             });
                         };
-                        res.cookie("x-access-token", Authentication.generateToken({ id: user.id, username: user.username, roles: user.roles }), {
+                        res.cookie("x-access-token", Authentication.generateToken({ id: user.id, username: user.username, roles: user.roles, clashOfClansVillages: user.clashOfClansVillages }), {
                             path: "/",
                             sameSite: true,
                             httpOnly: true // The cookie only accessible by the web server
@@ -100,7 +100,7 @@ class RouterName {
                 if (!user) return res.redirect("/login?error=user");
                 const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
                 if (!passwordIsValid) return res.redirect("/login?error=password");
-                res.cookie("x-access-token", Authentication.generateToken({ id: user.id, username: user.username, roles: user.roles }), {
+                res.cookie("x-access-token", Authentication.generateToken({ id: user.id, username: user.username, roles: user.roles, clashOfClansVillages: user.clashOfClansVillages }), {
                     path: "/",
                     sameSite: true,
                     httpOnly: true // The cookie only accessible by the web server

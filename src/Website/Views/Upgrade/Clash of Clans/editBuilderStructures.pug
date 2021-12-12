@@ -1,4 +1,4 @@
-- const subTitle = player.name + " Edit Home Village Structures";
+- const subTitle = player.name + " Edit Builder Base Structures";
 - const upgradeTracker = "Clash of Clans";
 - const playerBuilderHall = builderHall[player.builderHallLevel - 1];
 - const allBuilderHalls = builderHall.slice(0, player.builderHallLevel);
@@ -39,57 +39,57 @@ html(lang='en')
                                 if playerBuilderHall.cannon
                                     p.lead Cannon
                                     +createGlobalSlider("Cannon", player.builderHallLevel)
-                                    +createSlider("Cannon1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Defenses/Cannon/1.png")
+                                    +createSlider("Cannon1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Defenses/Cannon")
                                     - let i = 2;
                                     each _ in Array(playerBuilderHall.cannon - 1)
-                                        +createSlider("Cannon" + i++, 0, player.builderHallLevel, "/Images/Clash of Clans/Builder/Defenses/Cannon/0.png")
+                                        +createSlider("Cannon" + i++, 0, player.builderHallLevel, "/Images/Clash of Clans/Builder/Defenses/Cannon")
                             .col
-                                +createMultipleSlidersBuilder("Archer Tower", "/Images/Clash of Clans/Builder/Defenses/Archer Tower/0.png")
+                                +createMultipleSlidersBuilder("Archer Tower", "/Images/Clash of Clans/Builder/Defenses/Archer Tower")
                             .col
-                                +createMultipleSlidersBuilder("Double Cannon", "/Images/Clash of Clans/Builder/Defenses/Double Cannon/0.png")
+                                +createMultipleSlidersBuilder("Double Cannon", "/Images/Clash of Clans/Builder/Defenses/Double Cannon")
                         if playerBuilderHall.hiddenTesla
                             .row.mb-3
                                 .col 
-                                    +createMultipleSlidersBuilder("Firecrackers", "/Images/Clash of Clans/Builder/Defenses/Firecrackers/0.png")
+                                    +createMultipleSlidersBuilder("Firecrackers", "/Images/Clash of Clans/Builder/Defenses/Firecrackers")
                                 .col
-                                    +createMultipleSlidersBuilder("Hidden Tesla", "/Images/Clash of Clans/Builder/Defenses/Hidden Tesla/0.png")
+                                    +createMultipleSlidersBuilder("Hidden Tesla", "/Images/Clash of Clans/Builder/Defenses/Hidden Tesla")
                                 .col
-                                    +createMultipleSlidersBuilder("Crusher", "/Images/Clash of Clans/Builder/Defenses/Crusher/0.png")
+                                    +createMultipleSlidersBuilder("Crusher", "/Images/Clash of Clans/Builder/Defenses/Crusher")
                         if playerBuilderHall.guardPost
                             .row.mb-3
                                 .col
-                                    +createMultipleSlidersBuilder("Guard Post", "/Images/Clash of Clans/Builder/Defenses/Guard Post/0.png")
+                                    +createMultipleSlidersBuilder("Guard Post", "/Images/Clash of Clans/Builder/Defenses/Guard Post")
                                 .col
-                                    +createMultipleSlidersBuilder("Air Bombs", "/Images/Clash of Clans/Builder/Defenses/Air Bombs/0.png")
+                                    +createMultipleSlidersBuilder("Air Bombs", "/Images/Clash of Clans/Builder/Defenses/Air Bombs")
                                 .col
-                                    +createMultipleSlidersBuilder("Multi Mortar", "/Images/Clash of Clans/Builder/Defenses/Multi Mortar/0.png")
+                                    +createMultipleSlidersBuilder("Multi Mortar", "/Images/Clash of Clans/Builder/Defenses/Multi Mortar")
                         if playerBuilderHall.roaster
                             .row.mb-3
                                 .col
-                                    +createMultipleSlidersBuilder("Roaster", "/Images/Clash of Clans/Builder/Defenses/Roaster/0.png")
+                                    +createMultipleSlidersBuilder("Roaster", "/Images/Clash of Clans/Builder/Defenses/Roaster")
                                 .col
-                                    +createMultipleSlidersBuilder("Giant Cannon", "/Images/Clash of Clans/Builder/Defenses/Giant Cannon/0.png")
+                                    +createMultipleSlidersBuilder("Giant Cannon", "/Images/Clash of Clans/Builder/Defenses/Giant Cannon")
                                 .col
-                                    +createMultipleSlidersBuilder("Mega Tesla", "/Images/Clash of Clans/Builder/Defenses/Mega Tesla/0.png")
+                                    +createMultipleSlidersBuilder("Mega Tesla", "/Images/Clash of Clans/Builder/Defenses/Mega Tesla")
                         if playerBuilderHall.lavaLauncher
                             .row.mb-3 
                                 .col
-                                    +createMultipleSlidersBuilder("Lava Launcher", "/Images/Clash of Clans/Builder/Defenses/Lava Launcher/0.png")
+                                    +createMultipleSlidersBuilder("Lava Launcher", "/Images/Clash of Clans/Builder/Defenses/Lava Launcher")
                                 .col 
                                 .col
                         if playerBuilderHall.pushTrap
                             h1 Traps 
                             .row.mb-3 
                                 .col
-                                    +createMultipleSlidersBuilder("Push Trap", "/Images/Clash of Clans/Builder/Traps/Push Trap/0.png")
+                                    +createMultipleSlidersBuilder("Push Trap", "/Images/Clash of Clans/Builder/Traps/Push Trap")
                                 .col 
-                                    +createMultipleSlidersBuilder("Mine", "/Images/Clash of Clans/Builder/Traps/Mine/0.png")
+                                    +createMultipleSlidersBuilder("Mine", "/Images/Clash of Clans/Builder/Traps/Mine")
                                 .col 
-                                    +createMultipleSlidersBuilder("Spring Trap", "/Images/Clash of Clans/Builder/Traps/Spring Trap/0.png")
+                                    +createMultipleSlidersBuilder("Spring Trap", "/Images/Clash of Clans/Builder/Traps/Spring Trap")
                             if playerBuilderHall.megaMine
                                 .row.mb-3 
                                     .col 
-                                        +createMultipleSlidersBuilder("Mega Mine", "/Images/Clash of Clans/Builder/Traps/Mega Mine/0.png")
+                                        +createMultipleSlidersBuilder("Mega Mine", "/Images/Clash of Clans/Builder/Traps/Mega Mine")
                                     .col 
                                     .col
                         h1 Ressources
@@ -98,43 +98,43 @@ html(lang='en')
                                 if playerBuilderHall.elixirCollector
                                     p.lead Elixir Collector 
                                     +createGlobalSlider("ElixirCollector", player.builderHallLevel)
-                                    +createSlider("ElixirCollector1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Elixir Collector/1.png")
+                                    +createSlider("ElixirCollector1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Elixir Collector")
                                     - let i = 2;
                                     each _ in Array(playerBuilderHall.elixirCollector - 1)
-                                        +createSlider("ElixirCollector" + i++, 0, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Elixir Collector/0.png")
+                                        +createSlider("ElixirCollector" + i++, 0, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Elixir Collector")
                             .col 
                                 if playerBuilderHall.goldMine
                                     p.lead Gold Mine 
                                     +createGlobalSlider("GoldMine", player.builderHallLevel)
-                                    +createSlider("GoldMine1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Gold Mine/1.png")
+                                    +createSlider("GoldMine1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Gold Mine")
                                     - let i = 2;
                                     each _ in Array(playerBuilderHall.goldMine - 1)
-                                        +createSlider("GoldMine" + i++, 0, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Gold Mine/0.png")
+                                        +createSlider("GoldMine" + i++, 0, player.builderHallLevel, "/Images/Clash of Clans/Builder/Resources/Gold Mine")
                             .col
-                                +createMultipleSlidersBuilder("Gem Mine", "/Images/Clash of Clans/Builder/Resources/Gem Mine/0.png")
+                                +createMultipleSlidersBuilder("Gem Mine", "/Images/Clash of Clans/Builder/Resources/Gem Mine")
                         if playerBuilderHall.elixirStorage
                             .row.mb-3
                                 .col
-                                    +createMultipleSlidersBuilder("Elixir Storage", "/Images/Clash of Clans/Builder/Resources/Elixir Storage/0.png")
+                                    +createMultipleSlidersBuilder("Elixir Storage", "/Images/Clash of Clans/Builder/Resources/Elixir Storage")
                                 .col 
-                                    +createMultipleSlidersBuilder("Gold Storage", "/Images/Clash of Clans/Builder/Resources/Gold Storage/0.png")
+                                    +createMultipleSlidersBuilder("Gold Storage", "/Images/Clash of Clans/Builder/Resources/Gold Storage")
                                 .col
-                                    +createMultipleSlidersBuilder("Clock Tower", "/Images/Clash of Clans/Builder/Resources/Clock Tower/0.png")
+                                    +createMultipleSlidersBuilder("Clock Tower", "/Images/Clash of Clans/Builder/Resources/Clock Tower")
                         h1 Army
                         .row.mb-3
                             .col 
                                 if playerBuilderHall.armyCamp
                                     p.lead Army Camp 
                                     +createGlobalSlider("ArmyCamp", 1)
-                                    +createSlider("ArmyCamp1", 1, 1, "/Images/Clash of Clans/Builder/Army/Army Camp/1.png")
+                                    +createSlider("ArmyCamp1", 1, 1, "/Images/Clash of Clans/Builder/Army/Army Camp")
                                     - let i = 2;
                                     each _ in Array(playerBuilderHall.armyCamp - 1)
-                                        +createSlider("ArmyCamp" + i++, 0, 1, "/Images/Clash of Clans/Builder/Army/Army Camp/0.png")
+                                        +createSlider("ArmyCamp" + i++, 0, 1, "/Images/Clash of Clans/Builder/Army/Army Camp")
                             .col 
                                 if playerBuilderHall.starLaboratory
                                     p.lead Star Laboratory 
                                     +createGlobalSlider("StarLaboratory", player.builderHallLevel)
-                                    +createSlider("StarLaboratory1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Army/Star Laboratory/1.png")
+                                    +createSlider("StarLaboratory1", 1, player.builderHallLevel, "/Images/Clash of Clans/Builder/Army/Star Laboratory")
                             .col
                         h1 Walls 
                         .row.mb-3 

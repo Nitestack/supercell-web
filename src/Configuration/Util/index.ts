@@ -10,6 +10,14 @@ import { data } from "jquery";
 
 export default class Util {
     /**
+     * Checks for an hash and adds it if it is not included
+     * @param {string} tag The player tag 
+     */
+    public static checkForHash(tag: string) {
+        tag = tag.toUpperCase();
+        return tag.includes("#") ? tag.toUpperCase() : `#${tag.toUpperCase()}`;
+    };
+    /**
      * Compiles a pug template an returns a html code
      * @param {string} path The path at the ../Views direction 
      * @param {Options?} options The compile options  

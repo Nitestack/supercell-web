@@ -9,16 +9,10 @@ import { builder } from "../../Configuration/Database/Clash of Clans/builder";
 import Util from "../../Configuration/Util";
 import Constants from "../../Configuration/Database/Constants/index";
 import Database from "../../Configuration/Database/Models/index";
+import Middleware from "../Middleware";
+import ErrorHandler from "../Error";
 
 const Coc = Constants.ClashOfClans;
-
-/**
- * Checks for an hash and adds it if it is not included
- * @param {string} tag The player tag 
- */
-function checkForHash(tag: string) {
-    return tag.includes("#") ? tag.toUpperCase() : `#${tag.toUpperCase()}`;
-};
 
 class CocUpgradeRouter {
     constructor() {
@@ -33,38 +27,32 @@ class CocUpgradeRouter {
         /**
          * Switch village
          */
-        this.router.get("/upgrade-tracker/clashofclans/:playerTag", async (req, res) => {
-            //Searches for a player in the database
-            const playerSchema = await Database.ClashOfClansVillage.findOne({
-                playerTag: checkForHash(req.params.playerTag)
-            });
-            //If the player doesn't exists
-            if (!playerSchema) return res.redirect("/upgrade-tracker/clashofclans");
-            return res.render("Upgrade/Clash of Clans/switchVillage", {
-                player: playerSchema.player
-            });
+        this.router.get("/upgrade-tracker/clashofclans/:playerTag", Middleware.UpgradeTracker.validateVillage, async (req, res) => {
+            try {
+                const { playerSchema } = res.locals;
+                res.render("Upgrade/Clash of Clans/switchVillage", {
+                    player: playerSchema.player
+                });
+            } catch {
+                return res.redirect("/upgrade-tracker/clashofclans");
+            };
         });
 
         /**
          * Home Village
          */
-        this.router.get("/upgrade-tracker/clashofclans/:playerTag/home", async (req, res) => {
+        this.router.get("/upgrade-tracker/clashofclans/:playerTag/home", Middleware.UpgradeTracker.validateVillage, async (req, res) => {
             try {
-                //Searches for a player in the database
-                const playerSchema = await Database.ClashOfClansVillage.findOne({
-                    playerTag: checkForHash(req.params.playerTag)
+                const { playerSchema } = res.locals;
+                const { player } = playerSchema;
+                if (!playerSchema.homeVillage) return res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home/update");
+                await updateLevels(playerSchema, "home");
+                res.render("Upgrade/Clash of Clans/index", {
+                    player: player,
+                    village: "home",
+                    database: playerSchema,
+                    statsTotal: getTotalCostsAndTimes(playerSchema, "home")
                 });
-                //If a player exists in the database
-                if (playerSchema) {
-                    const { player } = playerSchema;
-                    await updateLevels(playerSchema, "home");
-                    res.render("Upgrade/Clash of Clans/index", {
-                        player: player,
-                        village: "home",
-                        database: playerSchema,
-                        statsTotal: getTotalCostsAndTimes(playerSchema, "home")
-                    });
-                } else res.redirect("/upgrade-tracker/clashofclans");
             } catch (err) {
                 console.log(err);
             };
@@ -73,23 +61,53 @@ class CocUpgradeRouter {
         /**
          * Builder Base
          */
-        this.router.get("/upgrade-tracker/clashofclans/:playerTag/builder", async (req, res) => {
+        this.router.get("/upgrade-tracker/clashofclans/:playerTag/builder", Middleware.UpgradeTracker.validateVillage, async (req, res) => {
             try {
-                const playerSchema = await Database.ClashOfClansVillage.findOne({
-                    playerTag: checkForHash(req.params.playerTag)
+                const { playerSchema } = res.locals;
+                const { player } = playerSchema;
+                if (!playerSchema.builderBase) return res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/builder/update");
+                await updateLevels(playerSchema, "builder");
+                res.render("Upgrade/Clash of Clans/index", {
+                    player: player,
+                    village: "builder",
+                    database: playerSchema,
+                    statsTotal: getTotalCostsAndTimes(playerSchema, "builder")
                 });
-                if (playerSchema) {
-                    const { player } = playerSchema;
-                    await updateLevels(playerSchema, "builder");
-                    res.render("Upgrade/Clash of Clans/index", {
-                        player: player,
-                        village: "builder",
-                        database: playerSchema,
-                        statsTotal: getTotalCostsAndTimes(playerSchema, "builder")
-                    });
-                };
             } catch (err) {
                 console.log(err);
+            };
+        });
+
+        /**
+         * Edit village structures
+         */
+        this.router.get("/upgrade-tracker/clashofclans/:playerTag/:village/update", Middleware.UpgradeTracker.validateVillage, async (req, res) => {
+            const { playerTag, village } = req.params;
+            const { playerSchema } = res.locals;
+            if (!["home", "builder"].includes(village)) return res.redirect("/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/home");
+            try {
+                res.render(`Upgrade/Clash of Clans/edit${village[0].toUpperCase() + village.slice(1)}Structures`, {
+                    player: playerSchema.player,
+                    village: village,
+                    playerSchema: playerSchema
+                });
+            } catch (err) {
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/home");
+            };
+        });
+
+        /**
+         * Setting new structures
+         */
+        this.router.post("/upgrade-tracker/clashofclans/home/new", (req, res) => {
+            try {
+                const player: Player = JSON.parse(req.body.player);
+                res.render("Upgrade/Clash of Clans/editHomeStructures", {
+                    player: player,
+                    village: "home"
+                });
+            } catch (err) {
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans");
             };
         });
 
@@ -97,10 +115,14 @@ class CocUpgradeRouter {
          * Redirects to a page to choose village
          */
         this.router.post("/upgrade-tracker/clashofclans/chooseVillage", (req, res) => {
-            const player: Player = JSON.parse(req.body.player);
-            res.render("Upgrade/Clash of Clans/switchVillage", {
-                player: player
-            });
+            try {
+                const player: Player = JSON.parse(req.body.player);
+                res.render("Upgrade/Clash of Clans/switchVillage", {
+                    player: player
+                });
+            } catch (err) {
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans/")
+            };  
         });
 
         /**
@@ -122,64 +144,26 @@ class CocUpgradeRouter {
         });
 
         /**
-         * Redirects to the page to set the home village structures
-         */
-        this.router.post("/upgrade-tracker/clashofclans/home/new", async (req, res) => {
-            const player: Player = JSON.parse(req.body.player);
-            res.render("Upgrade/Clash of Clans/editHomeStructures", {
-                player: player,
-                village: "home"
-            });
-        });
-
-        /**
-         * Redirects to the page to set the builder base structures
-         */
-        this.router.post("/upgrade-tracker/clashofclans/builder/new", async (req, res) => {
-            const player: Player = JSON.parse(req.body.player);
-            res.render("Upgrade/Clash of Clans/editBuilderStructures", {
-                player: player,
-                village: "builder"
-            });
-        });
-
-        /**
          * Sets the home village structures
          */
         this.router.post("/upgrade-tracker/clashofclans/home/structures/set", async (req, res) => {
             try {
                 const player: Player = JSON.parse(req.body.player);
-                const object = prepareObject(req.body, player, "home", true);
+                const object = createVillageStructureObject(req.body, player, "home", true);
                 //@ts-ignore
-                const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: checkForHash(player.tag) });
                 await Database.ClashOfClansVillage.findOneAndUpdate({
-                    playerTag: checkForHash(player.tag)
+                    playerTag: Util.checkForHash(player.tag)
                 }, {
-                    playerTag: checkForHash(player.tag),
+                    playerTag: Util.checkForHash(player.tag),
                     player: player,
-                    homeVillage: object,
-                    builderSeasonBoost: playerSchema?.builderSeasonBoost || 0,
-                    researchSeasonBoost: playerSchema?.researchSeasonBoost || 0,
-                    homeVillageBuilder: playerSchema?.homeVillageBuilder || [],
-                    homeLab: playerSchema?.homeLab || [],
-                    petHouse: playerSchema?.petHouse || [],
-                    otto: playerSchema?.otto || {
-                        unlocked: false,
-                        builder: [],
-                        currentVillage: "builder"
-                    }
+                    homeVillage: object 
                 }, {
-                    upsert: true
+                    upsert: true,
+                    setDefaultsOnInsert: true
                 });
-                if (player.builderHallLevel && !playerSchema?.builderBase) {
-                    res.render("redirect", {
-                        action: "/upgrade-tracker/clashofclans/builder/new",
-                        name: "player",
-                        value: player
-                    });
-                } else res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home");
+                res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/home");
             } catch (err) {
-                console.log(err);
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans");
             };
         });
 
@@ -189,36 +173,22 @@ class CocUpgradeRouter {
         this.router.post("/upgrade-tracker/clashofclans/builder/structures/set", async (req, res) => {
             try {
                 const player: Player = JSON.parse(req.body.player);
-                const object = prepareObject(req.body, player, "builder", true);
+                const object = createVillageStructureObject(req.body, player, "builder", true);
                 object["Builder"] = 1;
-                const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: checkForHash(player.tag) });
                 await Database.ClashOfClansVillage.findOneAndUpdate({
-                    playerTag: checkForHash(player.tag)
+                    playerTag: Util.checkForHash(player.tag)
                 }, {
-                    playerTag: checkForHash(player.tag),
+                    playerTag: Util.checkForHash(player.tag),
                     player: player,
-                    builderBase: object,
-                    builderSeasonBoost: playerSchema?.builderSeasonBoost || 0,
-                    researchSeasonBoost: playerSchema?.researchSeasonBoost || 0,
-                    builderBaseBuilder: playerSchema?.builderBaseBuilder || [],
-                    builderLab: playerSchema?.builderLab || [],
-                    otto: playerSchema?.otto || {
-                        unlocked: false,
-                        builder: [],
-                        currentVillage: "builder"
-                    }
+                    builderBase: object
                 }, {
-                    upsert: true
+                    upsert: true,
+                    setDefaultsOnInsert: true
                 });
-                if (player.townHallLevel && !playerSchema?.homeVillage) {
-                    res.render("redirect", {
-                        action: "/upgrade-tracker/clashofclans/home/new",
-                        name: "player",
-                        value: player
-                    });
-                } else res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/builder");
+
+                res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/builder");
             } catch (err) {
-                console.log(err);
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans");
             };
         });
 
@@ -227,7 +197,12 @@ class CocUpgradeRouter {
          */
         this.router.post("/upgrade-tracker/clashofclans/redirectToOtherVillage", (req, res) => {
             const { playerTag, village } = req.body;
-            res.redirect("/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + (village == "home" ? "builder" : "home"));
+            try {
+                res.redirect("/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + (village == "home" ? "builder" : "home"));
+            } catch (err) {
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + village)
+            };
+            
         });
 
         /**
@@ -236,150 +211,138 @@ class CocUpgradeRouter {
         this.router.post("/upgrade-tracker/clashofclans/apiUpdate", async (req, res) => {
             const { playerTag, village } = req.body;
             try {
-                const player = await API.player(checkForHash(playerTag));
-                const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: checkForHash(playerTag) });
+                const player = await API.player(Util.checkForHash(playerTag));
+                const playerSchema = await Database.ClashOfClansVillage.findOne({ playerTag: Util.checkForHash(playerTag) });
                 await Database.ClashOfClansVillage.findOneAndUpdate({
-                    playerTag: checkForHash(playerTag),
+                    playerTag: Util.checkForHash(playerTag),
                 }, {
                     player: player,
-                    homeVillage: prepareObject(playerSchema?.homeVillage, player, "home"),
-                    builderBase: prepareObject(playerSchema?.builderBase, player, "builder")
+                    homeVillage: createVillageStructureObject(playerSchema?.homeVillage, player, "home"),
+                    builderBase: createVillageStructureObject(playerSchema?.builderBase, player, "builder")
                 }, {
                     upsert: false
                 });
                 res.redirect("/upgrade-tracker/clashofclans/" + player.tag.replace(/#/g, "") + "/" + village);
             } catch (err) {
-                console.log(err);
-                res.redirect("/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + village);
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + village);
             };
         });
-
         /**
          * Set's the season boost
          */
         this.router.post("/upgrade-tracker/clashofclans/seasonBoosts", async (req, res) => {
             const { builderSeasonBoost, researchSeasonBoost, info } = req.body;
             const { playerTag, village } = JSON.parse(info);
-            const builderBoost = parseInt(builderSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
-            const researchBoost = parseInt(researchSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
-            await Database.ClashOfClansVillage.findOneAndUpdate({
-                playerTag: checkForHash(playerTag)
-            }, {
-                builderSeasonBoost: builderBoost,
-                researchSeasonBoost: researchBoost
-            }, {
-                upsert: false
-            });
-            return res.redirect("/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + village);
+            try {
+                const builderBoost = parseInt(builderSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
+                const researchBoost = parseInt(researchSeasonBoost.replace(/%/g, "")) as 0 | 10 | 15 | 20;
+                await Database.ClashOfClansVillage.findOneAndUpdate({
+                    playerTag: Util.checkForHash(playerTag)
+                }, {
+                    builderSeasonBoost: builderBoost,
+                    researchSeasonBoost: researchBoost
+                }, {
+                    upsert: false
+                });
+                return res.redirect("/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + village);
+            } catch (err) {
+                ErrorHandler.handleInternalServerError(err, res, "/upgrade-tracker/clashofclans/" + playerTag.replace(/#/g, "") + "/" + village);
+            };
         });
     };
     public router: Router;
 };
 
 /**
- * Prepares an object
+ * Creates an edited village structure object
  * @param {object} structures The structures
  * @param {Player} player The player
  * @param {"home" | "builder"} village The village
- * @param {boolean?} wall If it is the first time setting structures
+ * @param {boolean?} createdFirstTime If it is the first time setting structures
  */
-export function prepareObject(structures: object, player: Player, village: "home" | "builder", wall?: boolean) {
+export function createVillageStructureObject(structures: object, player: Player, village: "home" | "builder", createdFirstTime?: boolean) {
+    //If the structure object includes an player object
     if (structures["player"]) delete structures["player"];
     if (village == "home") {
-        let spellFactoryLevel: number = 0;
+        //Regular spells are unlocked at TH5
         if (player.townHallLevel >= 5) {
-            if (player.spells) {
-                if (player.spells.find(spell => spell.name == "Invisibility Spell")) spellFactoryLevel = 6;
-                else if (player.spells.find(spell => spell.name == "Clone Spell")) spellFactoryLevel = 5;
-                else if (player.spells.find(spell => spell.name == "Jump Spell") || player.spells.find(spell => spell.name == "freeze spell")) spellFactoryLevel = 4;
-                else if (player.spells.find(spell => spell.name == "Rage Spell")) spellFactoryLevel = 3;
-                else if (player.spells.find(spell => spell.name == "Healing Spell")) spellFactoryLevel = 2;
-                else if (player.spells.find(spell => spell.name == "Lightning Spell")) spellFactoryLevel = 1;
+            if (!player.spells) return;
+            for (let i = Coc.homeNormalSpellsArray.length - 1; i >= 0; i--) {
+                if (player.spells.find(spell => spell.name.toLowerCase() == Coc.homeNormalSpellsArray[i].toLowerCase())) {
+                    structures["SpellFactory1"] = `${i + 1}`;
+                    break;
+                };
             };
-            structures["SpellFactory1"] = `${spellFactoryLevel}`;
         };
-        let darkSpellFactoryLevel: number = 0;
+        //Dark spells are unlocked at TH8
         if (player.townHallLevel >= 8) {
-            if (player.spells.find(spell => spell.name == "Bat Spell")) darkSpellFactoryLevel = 5;
-            else if (player.spells.find(spell => spell.name == "Skeleton Spell")) darkSpellFactoryLevel = 4;
-            else if (player.spells.find(spell => spell.name == "Haste Spell")) darkSpellFactoryLevel = 3;
-            else if (player.spells.find(spell => spell.name == "Earthquake Spell")) darkSpellFactoryLevel = 2;
-            else if (player.spells.find(spell => spell.name == "Poison Spell")) darkSpellFactoryLevel = 1;
-            structures["DarkSpellFactory1"] = `${darkSpellFactoryLevel}`;
+            if (!(player.spells.filter(unit => Coc.homeDarkSpellsArray.includes(unit.name)) || []).length) return;
+            for (let i = Coc.homeDarkSpellsArray.length - 1; i >= 0; i--) {
+                if (player.spells.find(spell => spell.name.toLowerCase() == Coc.homeDarkSpellsArray[i].toLowerCase())) {
+                    structures["DarkSpellFactory1"] = `${i + 1}`;
+                    break;
+                };
+            };
         };
-        let workshopLevel: number = 0;
+        //Siege Machines are unlocked at TH12
         if (player.townHallLevel >= 12) {
-            if (player.troops.find(siegeMachine => siegeMachine.name == "Log Launcher")) workshopLevel = 5;
-            else if (player.troops.find(siegeMachine => siegeMachine.name == "Siege Barracks")) workshopLevel = 4;
-            else if (player.troops.find(siegeMachine => siegeMachine.name == "Stone Slammer")) workshopLevel = 3;
-            else if (player.troops.find(siegeMachine => siegeMachine.name == "Battle Blimp")) workshopLevel = 2;
-            else if (player.troops.find(siegeMachine => siegeMachine.name == "Wall Wrecker")) workshopLevel = 1;
-            structures["Workshop1"] = `${workshopLevel}`;
+            if (!(player.troops.filter(unit => Coc.homeSiegeMachinesArray.includes(unit.name)) || []).length) return;
+            for (let i = Coc.homeSiegeMachinesArray.length - 1; i >= 0; i--) {
+                if (player.troops.find(siegeMachine => siegeMachine.name.toLowerCase() == Coc.homeSiegeMachinesArray[i].toLowerCase())) {
+                    structures["Workshop1"] = `${i + 1}`;
+                    break;
+                };
+            };
         };
-        let petHouseLevel: number = 0;
+        //Pets are unlocked at TH14
         if (player.townHallLevel >= 14) {
-            if (player.troops.find(pet => pet.name == "Unicorn")) petHouseLevel = 4;
-            else if (player.troops.find(pet => pet.name == "Electro Owl")) petHouseLevel = 3;
-            else if (player.troops.find(pet => pet.name == "Mighty Yak")) petHouseLevel = 2;
-            else if (player.troops.find(pet => pet.name == "L.A.S.S.I")) petHouseLevel = 1;
-            structures["PetHouse1"] = `${petHouseLevel}`;
+            if (!(player.troops.filter(unit => Coc.homePetsArray.includes(unit.name)) || []).length) return;
+            for (let i = Coc.homePetsArray.length - 1; i >= 0; i--) {
+                if (player.troops.find(pet => pet.name.toLowerCase() == Coc.homePetsArray[i].toLowerCase())) {
+                    structures["PetHouse1"] = `${i + 1}`;
+                    break;
+                };
+            };
         };
-        if (wall) {
-            if (structures["Builder"] < 5 && player.townHallLevel >= 14) {
+        if (player.townHallLevel >= 14) {
+            if (structures["Builder"] < 5) {
                 structures["BuildersHut5"] = "0";
                 if (structures["Builder"] < 4) {
                     structures["BuildersHut4"] = "0";
-                    if (structures["Builder"] < 3) {
-                        structures["BuildersHut3"] = "0";
-                    };
+                    if (structures["Builder"] < 3) structures["BuildersHut3"] = "0";
                 };
             };
-            const wallObject: {} = {};
-            for (const wallKey of Object.keys(structures)) {
-                if (!wallKey.includes("Wall")) continue;
-                else if (structures[wallKey] == "0" && parseInt(wallKey) != townHall[player.townHallLevel - 1].wall.maxLevel) {
-                    delete structures[wallKey]
-                    continue;
-                };
-                wallObject[wallKey.replace(/Wall/g, "")] = structures[wallKey];
-                delete structures[wallKey];
-            };
-            let wallPieces: number = 0;
-            for (const val of Object.values(wallObject)) wallPieces += parseInt(val as string);
-            if (wallPieces < townHall[player.townHallLevel - 1].wall.amount) wallObject["0"] = `${townHall[player.townHallLevel - 1].wall.amount - wallPieces}`;
-            structures["Walls"] = wallObject;
+            if (structures["BuildersHut1"] == "0") structures["BuildersHut1"] = "1";
+            if (structures["BuildersHut2"] == "0") structures["BuildersHut2"] = "1";
         };
     } else {
-        let builderBarracksLevel: number = 1;
-        if (player.troops.find(troop => troop.name == "Hog Glider")) builderBarracksLevel = 11;
-        else if (player.troops.find(troop => troop.name == "Super P.E.K.K.A")) builderBarracksLevel = 10;
-        else if (player.troops.find(troop => troop.name == "Drop Ship")) builderBarracksLevel = 9;
-        else if (player.troops.find(troop => troop.name == "Night Witch")) builderBarracksLevel = 8;
-        else if (player.troops.find(troop => troop.name == "Cannon Cart")) builderBarracksLevel = 7;
-        else if (player.troops.find(troop => troop.name == "Baby Dragon" && troop.village == "builderBase")) builderBarracksLevel = 6;
-        else if (player.troops.find(troop => troop.name == "Bomber")) builderBarracksLevel = 5;
-        else if (player.troops.find(troop => troop.name == "Beta Minion")) builderBarracksLevel = 4;
-        else if (player.troops.find(troop => troop.name == "Boxer Giant")) builderBarracksLevel = 3;
-        else if (player.troops.find(troop => troop.name == "Sneaky Archer")) builderBarracksLevel = 2;
-        structures["BuilderBarracks1"] = `${builderBarracksLevel}`;
-        if (wall) {
-            const wallObject: {} = {};
-            for (const wallKey of Object.keys(structures)) {
-                if (!wallKey.includes("Wall")) continue;
-                //@ts-ignore
-                else if (structures[wallKey] == "0" && parseInt(wallKey) != builderHall[player.builderHallLevel - 1].wall.maxLevel ? builderHall[player.builderHallLevel - 1].wall.maxLevel : player.builderHallLevel) {
-                    delete structures[wallKey]
-                    continue;
-                };
-                wallObject[wallKey.replace(/Wall/g, "")] = structures[wallKey];
-                delete structures[wallKey];
+        //Troops are unlocked at BH1
+        for (let i = Coc.builderTroopsArray.length - 1; i >= 0; i--) {
+            if (player.troops.find(troop => troop.name.toLowerCase() == Coc.builderTroopsArray[i].toLowerCase() && troop.village == "builderBase")) {
+                structures["BuilderBarracks1"] = `${i + 1}`;
+                break;
             };
-            let wallPieces: number = 0;
-            for (const val of Object.values(wallObject)) wallPieces += parseInt(val as string);
-            //@ts-ignore
-            if (wallPieces < builderHall[player.builderHallLevel - 1].wall) wallObject["0"] = `${builderHall[player.builderHallLevel - 1].wall.amount ? builderHall[player.builderHallLevel - 1].wall.amount : builderHall[player.builderHallLevel - 1].wall - wallPieces}`;
-            structures["Walls"] = wallObject;
         };
+    };
+    if (createdFirstTime) {
+        const wallObject = {};
+        for (const structureKey of Object.keys(structures)) {
+            //If it isn't a Wall level
+            if (!structureKey.includes("Wall")) continue;
+            //@ts-ignore
+            else if (structures[structureKey] == "0") {
+                delete structures[structureKey]
+                continue;
+            };
+            wallObject[structureKey.replace(/Wall/g, "")] = structures[structureKey];
+            delete structures[structureKey];
+        };
+        let wallPieces = 0;
+        for (const amount of Object.values(wallObject)) wallPieces += parseInt(amount as string);
+        //@ts-ignore
+        const totalPossibleWallAmount: number = village == home ? townHall[player.townHallLevel - 1].wall.amount : (builderHall[player.builderHallLevel - 1].wall.amount ? builderHall[player.builderHallLevel - 1] : builderHall[player.builderHallLevel - 1].wall);
+        if (wallPieces < totalPossibleWallAmount) wallObject["0"] = `${totalPossibleWallAmount - wallPieces}`;
+        structures["Walls"] = wallObject;
     };
     return structures;
 };
@@ -394,21 +357,27 @@ export async function updateLevels(playerSchema: ClashOfClansVillage, village: "
     const { player } = playerSchema;
     //Check if an builder has finished
     const builder = playerSchema[village == "home" ? "homeVillageBuilder" : "builderBaseBuilder"];
+    //Check if otto is unlocked and if otto's current location matches the village and checks if otto is working
     if (playerSchema.otto.unlocked && playerSchema.otto.currentVillage == village && playerSchema.otto.builder[0]) {
         const building = playerSchema.otto.builder[0];
-        if (Date.now() >= building.start.getTime() + building.durationInMilliseconds) {
-            if ([...Coc.homeHeroesArray, "Battle Machine"].includes(building.name)) {
-                const hero = player.heroes.find(unit => unit.name.toLowerCase() == building.name.toLowerCase());
-                if (hero) player.heroes.splice(player.heroes.indexOf(hero), 1, {
-                    ...hero,
-                    level: building.currentLevel + 1
-                });
-            } else playerSchema.homeVillage[Util.convertToDatabaseName(building.name) + building.id] = `${building.currentLevel + 1}`;
-            playerSchema.otto.builder = [];
-            updateDatabase = true;
-        };
+        //If the building hasn't finished upgrading
+        if (Date.now() < building.start.getTime() + building.durationInMilliseconds) return;
+        //If the building is a hero
+        if ([...Coc.homeHeroesArray, "Battle Machine"].includes(building.name)) {
+            const hero = player.heroes.find(unit => unit.name.toLowerCase() == building.name.toLowerCase());
+
+            if (hero) player.heroes.splice(player.heroes.indexOf(hero), 1, {
+                ...hero,
+                level: building.currentLevel + 1
+            });
+        } else playerSchema.homeVillage[Util.convertToDatabaseName(building.name) + building.id] = `${building.currentLevel + 1}`;
+        playerSchema.otto.builder = [];
+        updateDatabase = true;
     };
-    for (const building of builder) if (Date.now() >= building.start.getTime() + building.durationInMilliseconds) {
+    for (const building of builder) {
+        //If the building hasn't finished upgrading
+        if (Date.now() < building.start.getTime() + building.durationInMilliseconds) return;
+        //If the building is a hero
         if ([...Coc.homeHeroesArray, "Battle Machine"].includes(building.name)) {
             const hero = player.heroes.find(unit => unit.name.toLowerCase() == building.name.toLowerCase());
             if (hero) player.heroes.splice(player.heroes.indexOf(hero), 1, {
@@ -419,10 +388,12 @@ export async function updateLevels(playerSchema: ClashOfClansVillage, village: "
         playerSchema[village == "home" ? "homeVillageBuilder" : "builderBaseBuilder"].splice(playerSchema[village == "home" ? "homeVillageBuilder" : "builderBaseBuilder"].indexOf(building), 1);
         updateDatabase = true;
     };
-    //Check if the lab has finished
+    //Check if a unit has finished upgrading
     const lab = playerSchema[(village + "Lab")][0];
+    //Checks if the lab exists and if the unit has finished upgrading
     if (lab && Date.now() >= lab.start.getTime() + lab.durationInMilliseconds) {
         const isSpell = player.spells.find(spell => spell.name.toLowerCase() == lab.name.toLowerCase());
+        //If it is a spell
         if (isSpell) player.spells.splice(player.spells.indexOf(isSpell), 1, {
             ...isSpell,
             level: lab.currentLevel + 1
@@ -437,7 +408,7 @@ export async function updateLevels(playerSchema: ClashOfClansVillage, village: "
         playerSchema[(village + "Lab")] = [];
         updateDatabase = true;
     };
-    //Check if pet house has finished
+    //Check if a pet has finished upgrading
     const petHouse = playerSchema.petHouse[0];
     if (petHouse && Date.now() >= petHouse.start.getTime() + petHouse.durationInMilliseconds) {
         const pet = player.troops.find(unit => unit.name.toLowerCase() == petHouse.name.toLowerCase());
@@ -448,40 +419,50 @@ export async function updateLevels(playerSchema: ClashOfClansVillage, village: "
         playerSchema.petHouse = [];
         updateDatabase = true;
     };
-    if (updateDatabase && village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
-        playerTag: checkForHash(player.tag)
-    }, {
-        homeVillage: playerSchema.homeVillage,
-        homeVillageBuilder: playerSchema.homeVillageBuilder,
-        homeLab: playerSchema.homeLab,
-        player: player,
-        otto: playerSchema.otto
-    }, {
-        upsert: false
-    });
-    else if (updateDatabase && village == "builder") await Database.ClashOfClansVillage.findOneAndUpdate({
-        playerTag: checkForHash(player.tag)
-    }, {
-        builderBase: playerSchema.builderBase,
-        builderBaseBuilder: playerSchema.builderBaseBuilder,
-        builderLab: playerSchema.builderLab,
-        player: player,
-        otto: playerSchema.otto
-    }, {
-        upsert: false
-    })
+    if (updateDatabase) {
+        if (village == "home") await Database.ClashOfClansVillage.findOneAndUpdate({
+            playerTag: Util.checkForHash(player.tag)
+        }, {
+            homeVillage: playerSchema.homeVillage,
+            homeVillageBuilder: playerSchema.homeVillageBuilder,
+            homeLab: playerSchema.homeLab,
+            player: player,
+            otto: playerSchema.otto
+        }, {
+            upsert: false
+        });
+        else if (village == "builder") await Database.ClashOfClansVillage.findOneAndUpdate({
+            playerTag: Util.checkForHash(player.tag)
+        }, {
+            builderBase: playerSchema.builderBase,
+            builderBaseBuilder: playerSchema.builderBaseBuilder,
+            builderLab: playerSchema.builderLab,
+            player: player,
+            otto: playerSchema.otto
+        }, {
+            upsert: false
+        });
+    };
     return updateDatabase;
 };
 
 /**
- * Gets the total costs and the total time and split them in categories
+ * Gets the total costs and the total time and split them into categories
  * @param {ClashOfClansVillage} playerSchema The player of the database 
  * @param {"home" | "builder"} village The village
  */
 export function getTotalCostsAndTimes(playerSchema: ClashOfClansVillage, village: "home" | "builder") {
     const structures = village == "home" ? [...Coc.homeDefensesArray, ...Coc.homeTrapsArray, ...Coc.homeArmyArray, ...Coc.homeResourcesArray] : [...Coc.builderDefensesArray, ...Coc.builderTrapsArray, ...Coc.builderArmyArray, ...Coc.builderResourcesArray];
     const base = playerSchema[village == "home" ? "homeVillage" : "builderBase"];
+    /**
+     * The total costs sections
+     * Object is categorized in cost types
+     */
     const totalCosts = {};
+    /**
+     * The costs for `structures`, `laboratory`, `pet house`, `heroes`
+     * Object is categorized in cost types
+     */
     const sectionCosts = {};
     /**
      * The time for `structures`, `laboratory`, `pet house`, `heroes`
@@ -489,11 +470,12 @@ export function getTotalCostsAndTimes(playerSchema: ClashOfClansVillage, village
      */
     const timeForSections = {};
     /**
-     * The total time sections: `builder`, `laboratory`
+     * The total time sections: `builder`, `laboratory`, `pet house`
      * Time is given in seconds
      */
     const totalTimeSections = {};
     sectionCosts["totalStructuresCosts"] = {};
+    //Buildings
     for (const buildingName of structures) {
         const hallItem = Util.getHallItem(buildingName, village == "home" ? playerSchema?.player.townHallLevel : playerSchema?.player.builderHallLevel, village);
         if (!hallItem) continue;
@@ -605,7 +587,7 @@ export function getTotalCostsAndTimes(playerSchema: ClashOfClansVillage, village
             };
         };
     };
-    //HEROES
+    //Heroes
     if ((village == "home" && playerSchema?.player.townHallLevel >= 7) || (village == "builder" && playerSchema?.player.builderHallLevel >= 5)) {
         const heroes = village == "home" ? Coc.homeHeroesArray : ["Battle Machine"];
         sectionCosts["totalHeroCosts"] = {};
@@ -640,7 +622,7 @@ export function getTotalCostsAndTimes(playerSchema: ClashOfClansVillage, village
             };
         };
     };
-    //PETS
+    //Pets
     if (village == "home" && playerSchema?.player.townHallLevel >= 14) {
         sectionCosts["totalPetsCosts"] = {};
         const pets = Coc.homePetsArray;
@@ -669,7 +651,7 @@ export function getTotalCostsAndTimes(playerSchema: ClashOfClansVillage, village
             };
         };
     };
-    //WALLS
+    //Walls
     sectionCosts["totalWallCosts"] = {};
     for (const levelOfWall of Object.keys(base["Walls"])) {
         //@ts-ignore

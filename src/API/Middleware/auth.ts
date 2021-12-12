@@ -18,7 +18,7 @@ export default class AuthMiddleware {
                             json: true,
                             complete: true
                         })?.payload;
-                        res.cookie("x-access-token", Authentication.generateToken({ id: newDecoded.id, username: newDecoded.username, roles: newDecoded.roles }), {
+                        res.cookie("x-access-token", Authentication.generateToken({ id: newDecoded.id, username: newDecoded.username, roles: newDecoded.roles, clashOfClansVillages: newDecoded.clashOfClansVillages }), {
                             path: "/",
                             sameSite: true,
                             httpOnly: true //The cookie only accessible by the web server
@@ -26,7 +26,8 @@ export default class AuthMiddleware {
                         res.locals.user = {
                             id: newDecoded.id,
                             username: newDecoded.username,
-                            roles: newDecoded.roles
+                            roles: newDecoded.roles,
+                            clashOfClansVillages: newDecoded.clashOfClansVillages
                         };
                     } else {
                         console.log(err);
@@ -35,7 +36,8 @@ export default class AuthMiddleware {
                     res.locals.user = {
                         id: decoded.id,
                         username: decoded.username,
-                        roles: decoded.roles
+                        roles: decoded.roles,
+                        clashOfClansVillages: decoded.clashOfClansVillages
                     };
                 };
             });
