@@ -25,6 +25,7 @@ config();
 //MongoDB Connection
 connection.on("open", () => {
     console.log("MongoDB connection established!");
+    //Create web application roles
     Database.Role.countDocuments({}, (error, count) => {
         if (!error && count == 0) {
             Database.Role.create({
