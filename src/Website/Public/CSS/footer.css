@@ -1,0 +1,18 @@
+#footer {
+  overflow: hidden;
+  transition: 0.4s;
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 99;
+  display: inline-flex;
+}
+
+.footer {
+  background-color: #24262b;
+  padding: 30px;
+  color: white;
+}
+#footer footer.footer .container .row .col ul li a {
+  text-decoration: none;
+}

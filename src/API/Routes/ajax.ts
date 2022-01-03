@@ -7,10 +7,6 @@ import { builder } from "../../Configuration/Database/Clash of Clans/builder";
 import { townHall } from "../../Configuration/Database/Clash of Clans/Home/townHall";
 import { builderHall } from "../../Configuration/Database/Clash of Clans/Builder/builderHall";
 import { getTotalCostsAndTimes, updateLevels } from "./clashOfClansUpgrade";
-import { Token, ClashRoyale } from "supercell-apis";
-import { CRProfile, CRCard } from "../../API/Interfaces/clashRoyale";
-import ClashRoyaleElixir from "../../Configuration/Database/Clash Royale/elixirCost";
-import { createDeckLink } from "../../Configuration/Database/Clash Royale/links";
 import Database from "../../Configuration/Database/Models/index";
 
 class AjaxRouter {
@@ -24,66 +20,7 @@ class AjaxRouter {
             };
         });
         //--------------------------------------------------------
-
-        //CLASH ROYALE
-
-        function getLeague(trophies: number) {
-            let leagueName: string;
-            if (trophies >= 8000) leagueName = "Ultimate Champion";
-            else if (trophies >= 7600) leagueName = "Royal Champion";
-            else if (trophies >= 7300) leagueName = "Grand Champion";
-            else if (trophies >= 7000) leagueName = "Champion";
-            else if (trophies >= 6600) leagueName = "Master III";
-            else if (trophies >= 6300) leagueName = "Master II";
-            else if (trophies >= 6000) leagueName = "Master I";
-            else if (trophies >= 5600) leagueName = "Challenger III";
-            else if (trophies >= 5300) leagueName = "Challenger II";
-            else if (trophies >= 5000) leagueName = "Challenger I";
-            else leagueName = "No League";
-            return leagueName;
-        };
-
-        function getAverageElixirCost(deck: Array<CRCard>) {
-            let totalCosts: number = 0;
-            for (const card of deck) totalCosts += ClashRoyaleElixir.getElixirCosts(card.name);
-            return Util.round(totalCosts / deck.length, 1);
-        };
-
-        this.router.post("/stats-tracker/clashroyale/searchForPlayer", async (req, res) => {
-            try {
-                const token = await new Token("clashroyale", "night.clash.tracker@gmail.com", process.env.PASSWORD).init();
-                const client = new ClashRoyale(token);
-                const { playerTag } = req.body;
-                const player: CRProfile = await client.player(playerTag);
-                if (player) {
-                    if (player.leagueStatistics) {
-                        player.leagueStatistics.currentSeason.name = getLeague(player.leagueStatistics.currentSeason.trophies);
-                        player.leagueStatistics.currentSeason.bestName = getLeague(player.leagueStatistics.currentSeason.bestTrophies);
-                        player.leagueStatistics.bestSeason.name = getLeague(player.leagueStatistics.bestSeason.trophies);
-                        player.leagueStatistics.previousSeason.name = getLeague(player.leagueStatistics.previousSeason.bestTrophies);
-                    };
-                    player.currentDeckAverageElixirCost = getAverageElixirCost(player.currentDeck);
-                    const cardIDsArray: Array<number> = [];
-                    for (const card of player.currentDeck) cardIDsArray.push(card.id);
-                    player.currentDeckLink = createDeckLink(cardIDsArray);
-                    player.currentDeckMobileLink = createDeckLink(cardIDsArray, true);
-
-                    res.send({
-                        player: player,
-                        htmlCode: Util.compilePUGFile("Includes/crProfile.pug", {}, {
-                            player: player,
-                            chests: (await client.playersUpcomingChests(playerTag)).items
-                        })
-                    });
-                };
-            } catch (error) {
-                res.status(400).send("Invalid player tag! Please try again!");
-                console.log(error);
-            };
-        });
-
         //CLASH OF CLANS
-
         /**
          * Sorts the buildings in the builder array by their start
          * @param {Builder} a Compare a 
@@ -92,9 +29,6 @@ class AjaxRouter {
         function sortBuilder(a: Builder, b: Builder) {
             return (new Date(a.start.getTime() + a.durationInMilliseconds).getTime() - Date.now()) - (new Date(b.start.getTime() + b.durationInMilliseconds).getTime() - Date.now());
         };
-
-        
-
         /**
          * Gets an array of the builders for the builder potion
          */

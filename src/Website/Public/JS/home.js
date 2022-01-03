@@ -22,7 +22,7 @@ $("div[data-end-time]").each(function () {
 });
 let megaCrabEnd;
 let megaCrabBegin;
-for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bsLeagueReset", "bsSeasonEnd", "powerLeague", "crLeagueReset", "crSeasonEnd", "megaCrab", "tribeBoost", "bbSeasonEnd", "intelReset", "forcePointsDecrease"]) {
+for (const element of ["cwl", "clanGames", "cocSeasonEnd", "cocLeagueReset", "bsLeagueReset", "bsSeasonEnd", "powerLeague", "crLeagueReset", "crSeasonEnd", "megaCrab", "tribeBoost", "bbSeasonEnd", "intelReset", "forcePointsDecrease"]) {
     let date = new Date();
     date.setUTCMinutes(0);
     date.setUTCSeconds(0);
@@ -38,9 +38,9 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
             date.setUTCDate(10);
         }
         else {
-            if (date.getUTCMonth() == 12)
+            if (date.getUTCMonth() == 11)
                 date.setUTCFullYear(date.getUTCFullYear() + 1);
-            date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
+            date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
             date.setUTCDate(1);
         }
         ;
@@ -48,96 +48,109 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
     }
     else if (element == "cocSeasonEnd") {
         active = true;
-        if (date.getUTCMonth() == 12)
-            date.setUTCFullYear(date.getUTCFullYear() + 1);
-        date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
-        date.setUTCDate(1);
-        date.setUTCHours(8);
+        const thisMonthSeasonBegin = date;
+        thisMonthSeasonBegin.setUTCDate(1);
+        thisMonthSeasonBegin.setUTCHours(8);
+        if (Date.now() > thisMonthSeasonBegin.getTime()) {
+            if (date.getUTCMonth() == 11)
+                date.setUTCFullYear(date.getUTCFullYear() + 1);
+            date.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
+        }
+        else
+            date = thisMonthSeasonBegin;
     }
     else if (element == "cocLeagueReset") {
         active = true;
         const thisMonthLastMonday = getLastMonday(date.getUTCMonth(), date.getUTCFullYear());
-        if (Date.now() > thisMonthLastMonday.getTime()) {
-            date.setUTCDate(getLastMonday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0)).getUTCDate());
-            date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
-            if (date.getUTCMonth() == 12)
-                date.setUTCFullYear(date.getUTCFullYear() + 1);
-        }
+        if (Date.now() > thisMonthLastMonday.getTime())
+            date = getLastMonday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCMonth() == 11 ? date.getUTCFullYear() + 1 : date.getUTCFullYear());
         else
-            date.setUTCDate(thisMonthLastMonday.getUTCDate());
-        date.setUTCHours(5);
+            date = thisMonthLastMonday;
     }
     else if (element == "clanGames") {
-        const activeDays = [23, 24, 25, 26, 27];
-        //Active Clan Games
-        if (activeDays.includes(date.getUTCDate()) || (date.getUTCDate() == 22 && date.getUTCDate() > 8 || (date.getUTCDate() == 28 && date.getUTCHours() < 8))) {
-            active = true;
-            date.setUTCDate(28);
-        }
-        else {
-            if (date.getUTCDate() >= 28) {
-                if (date.getUTCMonth() == 12)
-                    date.setUTCFullYear(date.getUTCFullYear() + 1);
-                date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
+        const newDate = new Date();
+        newDate.setUTCHours(8);
+        newDate.setUTCMinutes(0);
+        newDate.setUTCSeconds(0);
+        newDate.setUTCMilliseconds(0);
+        active = false;
+        const thisMonthCGBegin = newDate;
+        thisMonthCGBegin.setUTCDate(22);
+        const thisMonthCGEnd = newDate;
+        thisMonthCGEnd.setUTCDate(28);
+        const nextMonthCGBegin = newDate;
+        nextMonthCGBegin.setUTCDate(22);
+        nextMonthCGBegin.setUTCMonth(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1);
+        if (date.getUTCMonth() == 11)
+            nextMonthCGBegin.setUTCFullYear(date.getUTCFullYear() + 1);
+        //Active clan games in this month or next month next clan games
+        if (Date.now() > thisMonthCGBegin.getTime()) {
+            //Next month next clan games
+            if (Date.now() > thisMonthCGEnd.getTime()) {
+                active = false;
+                date = nextMonthCGBegin;
+            }
+            else {
+                active = true;
+                date = thisMonthCGEnd;
             }
             ;
-            date.setUTCDate(22);
         }
-        ;
-        date.setUTCHours(8);
+        else
+            date = thisMonthCGBegin;
     }
     //Brawl Stars
     else if (element == "bsLeagueReset") {
         active = true;
-        let nextLeagueReset = new Date();
-        nextLeagueReset.setUTCFullYear(2021);
-        nextLeagueReset.setMonth(7);
-        nextLeagueReset.setUTCDate(23);
-        nextLeagueReset.setUTCHours(8);
-        nextLeagueReset.setUTCMinutes(0);
-        nextLeagueReset.setUTCSeconds(0);
-        nextLeagueReset.setUTCMilliseconds(0);
-        while (Date.now() > nextLeagueReset.getTime()) {
-            nextLeagueReset = new Date(nextLeagueReset.getTime() + 2419200000);
+        let leagueResetStart = new Date();
+        leagueResetStart.setUTCFullYear(2021);
+        leagueResetStart.setMonth(7);
+        leagueResetStart.setUTCDate(23);
+        leagueResetStart.setUTCHours(8);
+        leagueResetStart.setUTCMinutes(0);
+        leagueResetStart.setUTCSeconds(0);
+        leagueResetStart.setUTCMilliseconds(0);
+        while (Date.now() > leagueResetStart.getTime()) {
+            leagueResetStart = new Date(leagueResetStart.getTime() + 2419200000);
         }
         ;
         date.setUTCHours(8);
-        date = nextLeagueReset;
+        date = leagueResetStart;
     }
     else if (element == "bsSeasonEnd") {
         active = true;
-        let nextSeasonEnd = new Date();
-        nextSeasonEnd.setUTCFullYear(2021);
-        nextSeasonEnd.setMonth(7);
-        nextSeasonEnd.setUTCDate(30);
-        nextSeasonEnd.setUTCHours(9);
-        nextSeasonEnd.setUTCMinutes(0);
-        nextSeasonEnd.setUTCSeconds(0);
-        nextSeasonEnd.setUTCMilliseconds(0);
-        while (Date.now() > nextSeasonEnd.getTime()) {
-            nextSeasonEnd = new Date(nextSeasonEnd.getTime() + 6048000000);
+        let seasonStart = new Date();
+        seasonStart.setUTCFullYear(2021);
+        seasonStart.setMonth(7);
+        seasonStart.setUTCDate(30);
+        seasonStart.setUTCHours(9);
+        seasonStart.setUTCMinutes(0);
+        seasonStart.setUTCSeconds(0);
+        seasonStart.setUTCMilliseconds(0);
+        while (Date.now() > seasonStart.getTime()) {
+            seasonStart = new Date(seasonStart.getTime() + 6048000000);
         }
         ;
         date.setUTCHours(9);
-        date = nextSeasonEnd;
+        date = seasonStart;
     }
     else if (element == "powerLeague") {
-        let nextPowerLeagueEnd = new Date();
-        nextPowerLeagueEnd.setUTCFullYear(2021);
-        nextPowerLeagueEnd.setMonth(7);
-        nextPowerLeagueEnd.setUTCDate(30);
-        nextPowerLeagueEnd.setUTCHours(9);
-        nextPowerLeagueEnd.setUTCMinutes(0);
-        nextPowerLeagueEnd.setUTCSeconds(0);
-        nextPowerLeagueEnd.setUTCMilliseconds(0);
-        while (Date.now() > nextPowerLeagueEnd.getTime()) {
-            nextPowerLeagueEnd = new Date(nextPowerLeagueEnd.getTime() + 6048000000);
+        let seasonStart = new Date();
+        seasonStart.setUTCFullYear(2021);
+        seasonStart.setMonth(7);
+        seasonStart.setUTCDate(30);
+        seasonStart.setUTCHours(9);
+        seasonStart.setUTCMinutes(0);
+        seasonStart.setUTCSeconds(0);
+        seasonStart.setUTCMilliseconds(0);
+        while (Date.now() > seasonStart.getTime()) {
+            seasonStart = new Date(seasonStart.getTime() + 6048000000);
         }
         ;
         date.setUTCHours(9);
-        date = nextPowerLeagueEnd;
+        date = seasonStart;
         //Active Power League
-        if (nextPowerLeagueEnd.getTime() - Date.now() > 345600000) {
+        if (seasonStart.getTime() - Date.now() > 345600000) {
             active = true;
             date = new Date(date.getTime() - 345600000);
         }
@@ -151,21 +164,22 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
     //Boom Beach
     else if (element == "tribeBoost") {
         active = true;
-        let nextTribeBoostReset = new Date();
-        nextTribeBoostReset.setUTCFullYear(2021);
-        nextTribeBoostReset.setMonth(7);
-        nextTribeBoostReset.setUTCDate(16);
-        nextTribeBoostReset.setUTCHours(0);
-        nextTribeBoostReset.setUTCMinutes(0);
-        nextTribeBoostReset.setUTCSeconds(0);
-        nextTribeBoostReset.setUTCMilliseconds(0);
-        while (Date.now() > nextTribeBoostReset.getTime()) {
-            nextTribeBoostReset = new Date(nextTribeBoostReset.getTime() + 1209600000);
+        let tribeBoostReset = new Date();
+        tribeBoostReset.setUTCFullYear(2022);
+        tribeBoostReset.setUTCMonth(0);
+        tribeBoostReset.setUTCDate(3);
+        tribeBoostReset.setUTCHours(0);
+        tribeBoostReset.setUTCMinutes(0);
+        tribeBoostReset.setUTCSeconds(0);
+        tribeBoostReset.setUTCMilliseconds(0);
+        while (Date.now() > tribeBoostReset.getTime()) {
+            tribeBoostReset = new Date(tribeBoostReset.getTime() + 1109600000);
         }
         ;
-        date = nextTribeBoostReset;
+        date = tribeBoostReset;
         date.setUTCHours(0);
-        if (nextTribeBoostReset.getTime() > megaCrabBegin.getTime() && megaCrabEnd.getTime() > nextTribeBoostReset.getTime())
+        //If the tribe boost is gone during Mega Crab, it will be to the Mega Crab End
+        if (tribeBoostReset.getTime() > megaCrabBegin.getTime() && megaCrabEnd.getTime() > tribeBoostReset.getTime())
             date = megaCrabEnd;
     }
     else if (element == "bbSeasonEnd") {
@@ -193,12 +207,12 @@ for (const element of ["cwl", "clanGames", "cocLeagueReset", "cocSeasonEnd", "bs
                 date = new Date(thisMonthMegaCrabSunday.getTime() - 172800000);
             }
             else {
-                date = getLastSunday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0));
+                date = getLastSunday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0));
             }
             ;
         }
         ;
-        megaCrabBegin = Date.now() < thisMonthMegaCrabSunday.getTime() - 172800000 ? new Date(thisMonthMegaCrabSunday.getTime() - 172800000) : getLastSunday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0));
+        megaCrabBegin = Date.now() < thisMonthMegaCrabSunday.getTime() - 172800000 ? new Date(thisMonthMegaCrabSunday.getTime() - 172800000) : getLastSunday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 11 ? 1 : 0));
         megaCrabEnd = new Date(thisMonthMegaCrabSunday.getTime() + 86400000);
         date.setUTCHours(8);
     }
@@ -231,10 +245,12 @@ function getLastMonday(month, year) {
     date.setUTCMinutes(0);
     //Clash of Clans UTC League Reset Hours
     date.setUTCHours(5);
-    if (month == 12)
+    date.setUTCFullYear(year);
+    if (month == 11)
         date.setUTCFullYear(date.getUTCFullYear() + 1);
     date.setUTCDate(1); // Roll to the first day of ...
-    date.setUTCMonth(month == 12 ? 0 : month + 1); // ... the next month.
+    date.setUTCMonth(month == 11 ? 0 : month + 1); // ... the next month.
+    date.setUTCFullYear(year);
     do { // Roll the days backwards until Monday.
         date.setUTCDate(date.getUTCDate() - 1);
     } while (date.getUTCDay() !== 1);
@@ -248,11 +264,12 @@ function getLastSunday(month, year) {
     date.setUTCMinutes(0);
     //Boom Beach Mega Crab End
     date.setUTCHours(8);
-    if (month == 12)
+    date.setUTCFullYear(year);
+    if (month == 11)
         date.setUTCFullYear(date.getUTCFullYear() + 1);
     date.setUTCDate(1); // Roll to the first day of ...
-    date.setUTCMonth(month == 12 ? 0 : month + 1); // ... the next month.
-    do { // Roll the days backwards until Monday.
+    date.setUTCMonth(month == 11 ? 0 : month + 1); // ... the next month.
+    do { // Roll the days backwards until Sunday.
         date.setUTCDate(date.getUTCDate() - 1);
     } while (date.getUTCDay() != 0);
     return date;

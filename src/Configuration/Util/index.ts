@@ -6,9 +6,20 @@ import { builderHall } from "../Database/Clash of Clans/Builder/builderHall";
 import { compileFile, LocalsObject, Options } from "pug";
 import { app } from "../../index";
 import { join } from "path";
-import { data } from "jquery";
+import { CRCard } from "../../API/Interfaces/clashRoyale";
+import { ClashRoyaleConstants } from "../Database/Constants/clashRoyale";
 
 export default class Util {
+    /**
+     * Returns the rarity of a Clash Royale card
+     * @param {CRCard} card The card
+     */
+    public static getRarityOfClashRoyaleCard(card: CRCard) {
+        return card.maxLevel == ClashRoyaleConstants.maxLevel ? "common" : (card.maxLevel == ClashRoyaleConstants.maxLevel - 2 ? "rare" : (card.maxLevel == ClashRoyaleConstants.maxLevel - 5 ? "epic" : "legendary"));
+    };
+    public static getLevelOfClashRoyaleCard(card: CRCard) {
+        return card.level + (ClashRoyaleConstants.maxLevel - card.maxLevel);
+    };
     /**
      * Checks for an hash and adds it if it is not included
      * @param {string} tag The player tag 

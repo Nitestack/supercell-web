@@ -1,16 +1,24 @@
-mixin navbarItems() 
+- const adminRoleID = "615878086d275732c0fe02b1";
+
+mixin navbarItems()
     a.coc-description.nav-link.navbar-link-custom(type="button", href='/upgrade-tracker') #[i.fas.fa-code] Upgrade Tracker
     a.coc-description.nav-link.navbar-link-custom(type="button", href='/stats-tracker') #[i.fas.fa-code] Stats Tracker
     a.coc-description.nav-link.navbar-link-custom(type="button", href="/tools") #[i.fas.fa-tools] Tools
     if user
-        .navbar-dropdown
-            a.dropbtn.coc-description.nav-link.navbar-link-custom #{user.username}
-                i.fa.fa-caret-down
-            .navbar-dropdown-content 
-                a.coc-description.nav-link.navbar-link-custom(type="button", href='/account') #[i.fas.fa-user-circle] My Account
-                if user.roles.includes("615878086d275732c0fe02b1")
-                    a.coc-description.nav-link.navbar-link-custom(type="button", href='/admin') #[i.fas.fa-cogs.text-muted] Admin
-                a.coc-description.nav-link.navbar-link-custom(type="button", href='/logout') #[i.fas.fa-user-slash.text-muted] Logout
+        .ui.compact.menu.bg-transparent
+            .ui.simple.dropdown.item
+                .text
+                    if user.roles.includes(adminRoleID)
+                        img.ui.avatar.image(src="/Images/admin.png")
+                    else 
+                        img.ui.avatar.image(src="/Images/user.png")
+                    | #{user.username}
+                i.dropdown.icon
+                .menu
+                    a.item(href="/account") #[i.fas.fa-user-circle] My Account
+                    if user.roles.includes(adminRoleID)
+                        a.item(href="/admin") #[i.fas.fa-cogs.text-muted] Admin
+                    a.item(href="/logout") #[i.fas.fa-user-slash.text-muted] Logout
     else 
         a.coc-description.nav-link.navbar-link-custom(type="button", href='/login') #[i.fas.fa-code] Login
     button.btn.btn-success.cookie-button#sound(type="button", style="height: 50px; width: 50px;", data-sound="false")
@@ -23,8 +31,7 @@ mixin navbarItems()
     .header-right#desktopScreen 
         +navbarItems()
     .header-right#mobileScreen
-        button.navbar-toggler.bg-dark(type="button", data-bs-toggle="offcanvas", data-bs-target="#offcanvasNavbar", aria-controls="offcanvasNavbar")
-            span.navbar-toggler-icon
+        button.navbar-toggler(type="button", data-bs-toggle="offcanvas", data-bs-target="#offcanvasNavbar", aria-controls="offcanvasNavbar") #[i.content.icon]
         .offcanvas.offcanvas-end#offcanvasNavbar(tabindex="-1", aria-labelledby="offcanvasNavbarLabel", style="background-color: #5E5451; width: unset;")
             .offcanvas-header
                 h5#offcanvasNavbarLabel.offcanvas-title(align="center") #{websiteName}

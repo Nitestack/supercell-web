@@ -2,6 +2,15 @@ if (getCookie('sound') == 'false')
     $('#sound').css('display', 'none');
 else
     $('#noSound').css('display', 'none');
+if (isMobile()) {
+    $("#mobileScreen").show();
+    $("#desktopScreen").hide();
+}
+else {
+    $("#desktopScreen").show();
+    $("#mobileScreen").hide();
+}
+;
 const loadingScreen = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
 function setCookie(name, value, durationInDays, path) {
     const date = new Date();
@@ -142,7 +151,7 @@ function isMobile() {
 function addModuleEventListener(dontEditHash) {
     $('li.nav-item.categories a').on('click', function () {
         $('li.nav-item.categories a').removeClass('active');
-        setModule($(this).attr('id'));
+        setModule($(this).attr('id'), dontEditHash);
     });
 }
 ;
@@ -193,21 +202,14 @@ function createCountdown(element, countDownDate, active, noTitle) {
 }
 ;
 function getClashRoyaleSeasonEnd() {
-    let date = new Date();
-    date.setUTCMinutes(0);
-    date.setUTCSeconds(0);
-    date.setUTCMilliseconds(0);
-    const thisMonthLastMonday = getFirstMonday(date.getUTCMonth(), date.getUTCFullYear());
-    if (Date.now() > thisMonthLastMonday.getTime()) {
-        date.setUTCDate(getFirstMonday(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1, date.getUTCFullYear() + (date.getUTCMonth() == 12 ? 1 : 0)).getUTCDate());
-        date.setUTCMonth(date.getUTCMonth() == 12 ? 0 : date.getUTCMonth() + 1);
-        if (date.getUTCMonth() == 12)
-            date.setUTCFullYear(date.getUTCFullYear() + 1);
+    const date = new Date();
+    const thisMonthFirstMonday = getFirstMonday(date.getUTCMonth(), date.getUTCFullYear());
+    if (Date.now() > thisMonthFirstMonday.getTime()) {
+        const nextMonthFirstMonday = getFirstMonday(date.getUTCMonth() == 11 ? 0 : date.getUTCMonth() + 1, date.getUTCMonth() == 11 ? date.getUTCFullYear() + 1 : date.getUTCFullYear());
+        return nextMonthFirstMonday;
     }
     else
-        date.setUTCDate(thisMonthLastMonday.getUTCDate());
-    date.setUTCHours(8);
-    return date;
+        return thisMonthFirstMonday;
 }
 ;
 function getFirstMonday(month, year) {

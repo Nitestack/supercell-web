@@ -1,4 +1,8 @@
 export interface CRProfile {
+    //Added by function
+    profileLink: string,
+    //Added by function
+    profileMobileLink: string,
     tag: string,
     name: string,
     expLevel: number,
@@ -20,6 +24,10 @@ export interface CRProfile {
     warDayWins: number,
     clanCardsCollected: number,
     clan: { tag: string, name: string, badgeId: number },
+    //Added by function
+    clanLink: string,
+    //Added by function
+    clanMobileLink: string,
     arena: { id: number, name: string },
     leagueStatistics?: {
         //Added by function ("name" of each season)

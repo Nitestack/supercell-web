@@ -7,8 +7,6 @@
     <input id="imageMax" type="number"> Insert ending
     <button id="submitButton"> Submit </button>
 
-    <button id="lol"> SEES SAAS</button>
-
 
     <script>
         document.getElementById("submitButton").onclick = function () {
@@ -24,24 +22,6 @@
                         document.body.removeChild(link)
                     });
                 }).catch(err => console.error("Fetch Failed!", err));
-            };
-        };
-
-        document.getElementById("lol").onclick = function() {
-            const cardArray = ["Skeletons", "Ice Spirit", "Fire Spirit", "Electro Spirit", "Heal Spirit", "Mirror", "Goblins", "Bomber", "Spear Goblins", "Ice Golem", "Bats", "Wall Breakers", "Rage", "Zap", "The Log", "Barbarian Barrel", "Giant Snowball", "Knight", "Archers", "Minions", "Skeleton Army", "Ice Wizard", "Guards", "Princess", "Miner", "Mega Minion", "Dart Goblin", "Goblin Gang", "Bandit", "Royal Ghost", "Skeleton Barrel", "Fisherman", "Firecracker", "Elixir Golem", "Cannon", "Tombstone", "Arrows", "Goblin Barrel", "Tornado", "Clone", "Earthquake", "Royal Delivery", "Valkyrie", "Musketeer", "Baby Dragon", "Mini P.E.K.K.A", "Hog Rider", "Dark Prince", "Lumberjack", "Battle Ram", "Inferno Dragon", "Hunter", "Night Witch", "Mother Witch", "Zappies", "Flying Machine", "Magic Archer", "Battle Healer", "Skeleton Dragons", "Mortar", "Bomb Tower", "Tesla", "Furnace", "Goblin Cage", "Goblin Drill", "Fireball", "Freeze", "Poison", "Skeleton King", "Golden Knight", "Giant", "Balloon", "Witch", "Barbarians", "Prince", "Wizard", "Minion Horde", "Bowler", "Executioner", "Ram Rider", "Rascals", "Cannon Cart", "Royal Hogs", "Electro Dragon", "Goblin Hut", "Inferno Tower", "Graveyard", "Giant Skeleton", "Royal Giant", "Archer Queen", "Sparky", "Elite Barbarians", "Goblin Giant", "Elixir Collector", "X-Bow", "Rocket", "Lightning", "P.E.K.K.A", "Lava Hound", "Royal Recruits", "Mega Knight", "Barbarian Hut", "Golem", "Electro Giant", "Three Musketeers"];
-            for (const cardUnresolved of cardArray) {
-                const resolvedCard = cardUnresolved.toLowerCase().replace(/\./g, "").replace(/ /g, "_");
-                fetch("https://cdn.statsroyale.com/images/cards/full/" + resolvedCard + ".png").then(image => {
-                    image.blob().then(imageBlob => {
-                        const imageURL = URL.createObjectURL(imageBlob);
-                        const link = document.createElement('a');
-                        link.href = imageURL;
-                        link.download = `${cardUnresolved}.png`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    });
-                }).catch(err => console.error("Fetch Failed!", err, "Card: " + cardUnresolved, "https://cdn.statsroyale.com/images/cards/full/" + resolvedCard + ".png"));
             };
         };
     </script>
