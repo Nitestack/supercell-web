@@ -1,0 +1,16 @@
+:root {
+    /*Brawl Stars Map Colors*/
+    --bs-basket-brawl: #238bfe;
+    --bs-super-city-rampage: #db19a0;
+    --bs-boss-robo-big: #dc2422;
+    --bs-gem-grab: #9b3df3;
+    --bs-brawl-ball: #8ca0df;
+    --bs-heist: #d55cd3;
+    --bs-hot-zone: #e33c50;
+    --bs-siege: #f04f32;
+    --bs-bounty: #01cfff;
+    --bs-knockout: #f7831c;
+    --bs-showdown-plus: linear-gradient(#f2cc2a, #e29312);
+    --bs-showdown: #81d621;
+    --bs-duels: linear-gradient(to left, #37abff 50%, #ff1e0a 51%);
+}

@@ -1,5 +1,5 @@
-div#footer
-    footer.footer
+.footer
+    //
         .container
             .row 
                 .col
@@ -26,6 +26,6 @@ div#footer
         p.price-item.coc-description For more information about Supercell, please visit their website 
             a(href="https://supercell.com/", target="_blank") here
             |.
-        p(style="color: white;")
-            | &copy; 2021 NightClash. All rights reserved.
+    p(style="color: white; font-weight: bold;")
+        | &copy; #{new Date().getUTCFullYear()} NightClash. All rights reserved.
 div#footerBar(style="display: none; line-height: 40px; font-size: 14px; background: linear-gradient(to bottom, rgba(138,217,58,1) 0%,rgba(144,215,55,1) 49%,rgba(66,170,4,1) 50%,rgba(56,169,1,1) 50%,rgba(56,169,1,1) 100%); position: fixed; left: 0; bottom: 0; width: 100%; color: white; text-align: center;") 

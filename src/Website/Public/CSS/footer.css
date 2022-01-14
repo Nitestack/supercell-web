@@ -1,18 +1,15 @@
-#footer {
-  overflow: hidden;
-  transition: 0.4s;
-  position: sticky;
-  width: 100%;
-  top: 0;
-  z-index: 99;
-  display: inline-flex;
-}
-
 .footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
   background-color: #24262b;
   padding: 30px;
-  color: white;
+  z-index: 99;
+  margin-top: 25px;
 }
-#footer footer.footer .container .row .col ul li a {
+.footer .container .row .col ul li a {
   text-decoration: none;
 }

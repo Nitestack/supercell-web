@@ -1,0 +1,47 @@
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+pre {
+  max-height: 450px;
+  max-width: 850px;
+}
+
+code {
+  -webkit-text-stroke: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}

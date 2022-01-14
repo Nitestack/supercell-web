@@ -1,20 +1,20 @@
 #navbar {
   background-color: #5e5451;
-  height: 130px;
+  height: 95px;
   transition: 0.4s;
   position: sticky;
   width: 100%;
   top: 0;
   z-index: 99;
   display: inline-flex;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 #navbar #logo {
   font-size: 35px;
   font-weight: bold;
   transition: 0.4s;
-  padding: 50px;
+  padding: 22px;
   color: black;
   text-decoration: none;
 }

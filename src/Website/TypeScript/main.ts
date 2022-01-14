@@ -105,15 +105,25 @@ function showFooterBar(text: string, timeInSeconds?: number) {
     }, timeInSeconds ? timeInSeconds * 1000 : 3000);
 };
 
+//Navbar
 window.onscroll = function () {
     if ($(document).scrollTop() > 0) {
         document.getElementById("navbar").style.height = "70px";
         document.getElementById("logo").style.fontSize = "25px";
-        document.getElementById("logo").style.padding = "22px";
+        document.getElementById("logo").style.padding = "18px";
     } else {
-        document.getElementById("navbar").style.height = "130px";
+        document.getElementById("navbar").style.height = "95px";
         document.getElementById("logo").style.fontSize = "35px";
-        document.getElementById("logo").style.padding = "50px";
+        document.getElementById("logo").style.padding = "22px";
+    };
+};
+
+//Footer
+window.onscroll = function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        // you're at the bottom of the page
+    } else {
+        
     };
 };
 
